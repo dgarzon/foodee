@@ -12,9 +12,7 @@ class CreateIdentities < ActiveRecord::Migration
       t.string :first_name
       t.string :last_name
 
-      t.references :user
-
-      t.timestamps
+      t.references :user, index: true
     end
   end
 end

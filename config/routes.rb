@@ -6,6 +6,10 @@ Foodee::Application.routes.draw do
     omniauth_callbacks: "users/omniauth_callbacks"
   }
 
+  resources :users do
+      resources :addresses
+  end
+
   get "welcome/index"
   get "home/index"
   # The priority is based upon order of creation: first created -> highest priority.
