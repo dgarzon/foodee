@@ -67,6 +67,9 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'koala'
 
+# Friendly ID: Better URLs
+gem 'friendly_id', '~> 5.0.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
