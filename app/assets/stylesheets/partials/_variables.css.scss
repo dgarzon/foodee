@@ -1,0 +1,34 @@
+@import "colors";
+
+//
+// Font Family
+//
+$font-family-sans-serif:  "Open Sans", Helvetica, Arial, sans-serif;
+$font-family-serif:       Georgia, "Times New Roman", Times, serif;
+$font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
+$font-family-base:        $font-family-sans-serif;
+
+//
+// Headings
+//
+$headings-font-family:    "Dosis";
+$headings-font-weight:    500;
+
+//
+// Scaffolds
+//
+$body-bg: $gray-lighter;
+
+//
+// Navbar
+//
+$navbar-border-radius:             0px;
+$navbar-default-color:             $clouds;
+$navbar-default-bg:                $brand-primary;
+
+$navbar-default-link-color:                $clouds;
+$navbar-default-link-hover-color:          darken($clouds, 10%);
+$navbar-default-link-hover-bg:             transparent;
+$navbar-default-link-active-color:         darken($clouds, 5%);
+$navbar-default-link-active-bg:            darken($navbar-default-bg, 6.5%);
+

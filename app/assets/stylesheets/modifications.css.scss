@@ -1,0 +1,37 @@
+@import "partials/colors";
+
+//
+// Navigation
+//
+.navbar-brand {
+  font-family: "Dosis";
+  font-weight: 600;
+  font-size: 2em;
+}
+
+//
+// Buttons
+//
+.btn-facebook {
+  background-color: $facebook-blue;
+  color: $clouds;
+  height: 3em;
+
+  i:before {
+    margin-right: 0.5em;
+    font-size: 1.2em;
+  }
+
+  .fa {
+    line-height: 28px;
+  }
+
+  .facebook-label {
+    font-size: 1.2em;
+  }
+
+  &:hover {
+    background-color: darken($facebook-blue, 10%);
+    color: darken($clouds, 10%);
+  }
+}
