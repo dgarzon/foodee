@@ -70,6 +70,16 @@ gem 'koala'
 # Friendly ID: Better URLs
 gem 'friendly_id', '~> 5.0.0'
 
+# Better Errors
+gem 'better_errors'
+
+# Display Tables in Console
+group :development do
+  gem "wirble"
+  gem "hirb"
+  gem "awesome_print"
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
