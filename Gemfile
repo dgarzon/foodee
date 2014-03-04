@@ -91,3 +91,6 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+# yelpster
+gem 'yelpster'

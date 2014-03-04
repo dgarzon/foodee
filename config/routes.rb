@@ -1,5 +1,7 @@
 Foodee::Application.routes.draw do
 
+  resources :restaurants
+
   devise_for :users, :controllers => {
     registrations: "users/registrations",
     passwords: "users/passwords",
