@@ -14,23 +14,19 @@
 ActiveRecord::Schema.define(version: 20140303222023) do
 
   create_table "addresses", force: true do |t|
+    t.string   "full_address"
     t.string   "street"
-    t.string   "zip"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.float    "latitude"
+    t.float    "longitude"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "addresses", ["user_id"], name: "index_addresses_on_user_id"
-
-  create_table "cities", force: true do |t|
-    t.string  "name"
-    t.integer "state_id"
-    t.integer "address_id"
-  end
-
-  add_index "cities", ["address_id"], name: "index_cities_on_address_id"
-  add_index "cities", ["state_id"], name: "index_cities_on_state_id"
 
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
@@ -60,13 +56,6 @@ ActiveRecord::Schema.define(version: 20140303222023) do
   end
 
   add_index "identities", ["user_id"], name: "index_identities_on_user_id"
-
-  create_table "states", force: true do |t|
-    t.string  "name"
-    t.integer "address_id"
-  end
-
-  add_index "states", ["address_id"], name: "index_states_on_address_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

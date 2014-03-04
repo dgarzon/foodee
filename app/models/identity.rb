@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: identities
+#
+#  id         :integer          not null, primary key
+#  uid        :string(255)
+#  provider   :string(255)
+#  token      :string(255)
+#  secret     :string(255)
+#  expires_at :datetime
+#  email      :string(255)
+#  image      :string(255)
+#  nickname   :string(255)
+#  first_name :string(255)
+#  last_name  :string(255)
+#  user_id    :integer
+#
+
 class Identity < ActiveRecord::Base
   belongs_to :user
 

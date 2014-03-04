@@ -1,15 +1,24 @@
 %p#notice= notice
 
 %p
+  %b Full:
+  = @address.full_address
+%p
   %b Street:
   = @address.street
 %p
-  %b Zip:
-  = @address.zip
+  %b City:
+  = @address.city
 %p
-  %b User:
-  = @address.user
+  %b State:
+  = @address.state
+%p
+  %b Latitude:
+  = @address.latitude
+%p
+  %b Longitude:
+  = @address.longitude
 
-= link_to 'Edit', edit_address_path(@address)
+= link_to 'Edit', edit_user_address_path(current_user, @address)
 \|
-= link_to 'Back', addresses_path
+= link_to 'Back', user_addresses_path(current_user)
