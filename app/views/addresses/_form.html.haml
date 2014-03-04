@@ -1,16 +1,7 @@
-- title 'Add Address'
-
 .well.well-registration{"align" => "center"}
   %h2 Add a new address
   %hr
   = simple_form_for [current_user, @address] do |f|
-    - if @address.errors.any?
-      #error_explanation
-        %h2= "#{pluralize(@address.errors.count, "error")} prohibited this address from being saved:"
-        %ul
-          - @address.errors.full_messages.each do |msg|
-            %li= msg
-
     .input-group.input-group-lg
       %span.input-group-addon
         %i.fa.fa-location-arrow

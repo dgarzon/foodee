@@ -5,7 +5,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = identity.find_or_create_user(current_user)
 
     if user.valid?
-      flash[:success] = "Welcome back, #{user.first_name}!"
+      user.sign_in_count <= 1 ? flash[:success] = "Welcome to Foodee, #{user.first_name}!" : flash[:notice] = "Welcome back, #{user.first_name}!"
       sign_in_and_redirect user
     else
       sign_in user
