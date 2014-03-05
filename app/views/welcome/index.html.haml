@@ -85,7 +85,7 @@
         = image_tag("nyc.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Pranav Bhala" )
         %h4.person-name Pranav Bhala
         %span.person-skills Developer / UI & UX Design
-        %p.person-description Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+        %p.person-description= Forgery(:lorem_ipsum).words(15)
         %ul.list-links-social
           %li
             %a{href: "#"}
@@ -105,7 +105,7 @@
         = image_tag("nyc.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Daniel Garzon" )
         %h4.person-name Daniel Garzon
         %span.person-skills Developer / UI & UX Design
-        %p.person-description Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+        %p.person-description= Forgery(:lorem_ipsum).words(15)
         %ul.list-links-social
           %li
             %a{href: "#"}
@@ -126,7 +126,7 @@
         = image_tag("nyc.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Shehzad Khan" )
         %h4.person-name Shehzad Khan
         %span.person-skills CEO
-        %p.person-description Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+        %p.person-description= Forgery(:lorem_ipsum).words(15)
         %ul.list-links-social
           %li
             %a{href: "#"}
@@ -147,7 +147,7 @@
   .container
     .head-section
       %h2 Contact Us
-      %p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.
+      %p= Forgery(:lorem_ipsum).words(25)
     / /.head-section
     #links-contact
       %a.twitter{href: "#", title: ""}
