@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140304070825) do
+ActiveRecord::Schema.define(version: 20140305083425) do
 
   create_table "addresses", force: true do |t|
     t.string   "street"
@@ -60,6 +60,18 @@ ActiveRecord::Schema.define(version: 20140304070825) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "recommendations", force: true do |t|
+    t.boolean  "like"
+    t.string   "description"
+    t.integer  "user_id"
+    t.integer  "restaurant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "recommendations", ["restaurant_id"], name: "index_recommendations_on_restaurant_id"
+  add_index "recommendations", ["user_id"], name: "index_recommendations_on_user_id"
 
   create_table "restaurants", force: true do |t|
     t.string   "name"

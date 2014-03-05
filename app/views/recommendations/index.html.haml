@@ -1,0 +1,25 @@
+%h1 Listing recommendations
+
+%table
+  %tr
+    %th Like
+    %th Description
+    %th User
+    %th Restaurant
+    %th
+    %th
+    %th
+
+  - @recommendations.each do |recommendation|
+    %tr
+      %td= recommendation.like
+      %td= recommendation.description
+      %td= recommendation.user
+      %td= recommendation.restaurant
+      %td= link_to 'Show', recommendation
+      %td= link_to 'Edit', edit_recommendation_path(recommendation)
+      %td= link_to 'Destroy', recommendation, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Recommendation', new_recommendation_path

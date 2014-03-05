@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  # added for recommendations
+  has_many :recommendation, dependent: :destroy
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

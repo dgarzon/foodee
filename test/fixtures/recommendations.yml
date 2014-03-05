@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  like: false
+  description: MyString
+  user_id: 
+  restaurant_id: 
+
+two:
+  like: false
+  description: MyString
+  user_id: 
+  restaurant_id: 

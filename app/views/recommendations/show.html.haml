@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Like:
+  = @recommendation.like
+%p
+  %b Description:
+  = @recommendation.description
+%p
+  %b User:
+  = @recommendation.user
+%p
+  %b Restaurant:
+  = @recommendation.restaurant
+
+= link_to 'Edit', edit_recommendation_path(@recommendation)
+\|
+= link_to 'Back', recommendations_path

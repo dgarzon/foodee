@@ -5,6 +5,9 @@ include Yelp::V2::Search::Request
 require 'json'
 
 class Restaurant < ActiveRecord::Base
+	# added for reecommendations
+	has_many :recommendation, dependent: :destroy
+	
 	def Restaurant.get_restaurant_by_address
 		client = Yelp::Client.new(
 			:debug => true)

@@ -1,3 +1,6 @@
+/ .recModalPlaceholder 
+/   = render :partial => "make_rec"
+%div#recModalPlaceholder
 %h1 Listing restaurants
 
 %table
@@ -6,9 +9,9 @@
     %th Location
     %th Review Count
     %th Rating
-    %th
-    %th
-    %th
+    %th Recommend
+    / %th
+    / %th
 
   - @restaurants['businesses'].each do |restaurant|
     %tr
@@ -16,9 +19,10 @@
       %td= restaurant['location']['address']
       %td= restaurant['review_count']
       %td= restaurant['rating']
-      %td= link_to 'Show', restaurant
-      %td= link_to 'Edit', edit_restaurant_path(restaurant)
-      %td= link_to 'Destroy', restaurant, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      / %td= link_to 'Make a recommendation', "#recModal", "data-toggle" => "modal"
+      %td= link_to 'Make a recommendation', new_recommendation_path, remote: true, "data-toggle" => "modal"
+      / %td= link_to 'Edit', edit_restaurant_path(restaurant)
+      / %td= link_to 'Destroy', restaurant, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
