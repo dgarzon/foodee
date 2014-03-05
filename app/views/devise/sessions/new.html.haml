@@ -1,16 +1,16 @@
 - title "Log In"
-.container
-  = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-    .well.well-registration{"align" => "center"}
-      %h2 Log in to your account
-      %hr
-      .social-buttons
-        = link_to user_omniauth_authorize_path(:facebook), class: "btn btn-facebook btn-lg" do
-          %i.fa.fa-facebook-square
-            %span.facebook-label Log in with Facebook
-      %p.disclosure We won't ever post updates without your permission.
-      %hr
-      .other-links
-        %p.note
-          Need an account?
-          %a= link_to "Sign Up", new_user_registration_path
+
+= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+  .well.well-registration{"align" => "center"}
+    %h2 Log in to your account
+    %hr
+    .social-buttons
+      = link_to user_omniauth_authorize_path(:facebook), class: "btn btn-facebook btn-lg" do
+        %i.fa.fa-facebook-square
+          %span.facebook-label Log in with Facebook
+    %p.disclosure We won't ever post updates without your permission.
+    %hr
+    .other-links
+      %p.note
+        Need an account?
+        %a= link_to "Sign Up", new_user_registration_path
