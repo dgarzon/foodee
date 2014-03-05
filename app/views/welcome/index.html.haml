@@ -1,3 +1,157 @@
 - title "Welcome"
-%h1 Welcome#index
-%p Find me in app/views/welcome/index.html.erb
+
+#welcome-carousel.carousel.slide
+  / Indicators
+  %ol.carousel-indicators
+    %li.active{"data-slide-to" => "0", "data-target" => "#welcome-carousel"}
+    %li{"data-slide-to" => "1", "data-target" => "#welcome-carousel"}
+    %li{"data-slide-to" => "2", "data-target" => "#welcome-carousel"}
+  .carousel-inner
+    / Carousel Slide 1
+    #slide-1.item.active
+      .container
+        .col-md-6.carousel-banner
+          %h2= Forgery(:lorem_ipsum).words(10)
+          %p= Forgery(:lorem_ipsum).words(60)
+        .col-md-6
+
+    / Carousel Slide 2
+    #slide-2.item
+      .container
+        .col-md-7.carousel-banner
+          %h2= Forgery(:lorem_ipsum).words(10)
+          %p= Forgery(:lorem_ipsum).words(60)
+        .col-md-5
+
+    / Carousel Slide 3
+    #slide-3.item
+      .container
+        .col-md-7.carousel-banner
+          %h2= Forgery(:lorem_ipsum).words(10)
+          %p= Forgery(:lorem_ipsum).words(60)
+        .col-md-5
+  / /.carousel-inner
+  %a.left.carousel-control.visible-md.visible-lg{"data-slide" => "prev", href: "#welcome-carousel"}
+    %span.glyphicon.glyphicon-chevron-left
+  %a.right.carousel-control.visible-md.visible-lg{"data-slide" => "next", href: "#welcome-carousel"}
+    %span.glyphicon.glyphicon-chevron-right
+
+/ Section Tagline
+%section#section-tagline.section-page
+  .container
+    %h2= Forgery(:lorem_ipsum).words(10)
+    %p= Forgery(:lorem_ipsum).words(30)
+/ Section Services
+%section#section-services.section-page
+  .container
+    .head-section
+      %h1 Services
+      %p= Forgery(:lorem_ipsum).words(15)
+    / /.head-section
+    %br/
+    %br/
+    .row
+      %article.col-md-4.services-box
+        .services-icon
+          .center-icon
+            %i.fa.fa-cutlery.fa-7x
+        %h4= Forgery(:lorem_ipsum).words(3)
+        %p= Forgery(:lorem_ipsum).words(40)
+      / /#service_1
+      %article.col-md-4.services-box
+        .services-icon
+          .center-icon
+            %i.fa.fa-globe.fa-7x
+        %h4= Forgery(:lorem_ipsum).words(3)
+        %p= Forgery(:lorem_ipsum).words(40)
+      / /#service_2
+      %article.col-md-4.services-box
+        .services-icon
+          .center-icon
+            %i.fa.fa-group.fa-7x
+        %h4= Forgery(:lorem_ipsum).words(3)
+        %p= Forgery(:lorem_ipsum).words(40)
+
+/ Section Team
+%section#section-team.section-page
+  .container
+    .head-section
+      %h2 Our Team
+      %p= Forgery(:lorem_ipsum).words(20)
+    / /.head-section
+    %br/
+    .row
+      .person.col-md-4
+        = image_tag("nyc.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Pranav Bhala" )
+        %h4.person-name Pranav Bhala
+        %span.person-skills Developer / UI & UX Design
+        %p.person-description Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+        %ul.list-links-social
+          %li
+            %a{href: "#"}
+              %i.fa.fa-twitter
+          %li
+            %a{href: "#"}
+              %i.fa.fa-facebook
+          %li
+            %a{href: "#"}
+              %i.fa.fa-linkedin
+          %li
+            %a{href: "#"}
+              %i.fa.fa-github
+        / /#list-links-social
+      / /#person_1
+      .person.col-md-4
+        = image_tag("nyc.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Daniel Garzon" )
+        %h4.person-name Daniel Garzon
+        %span.person-skills Developer / UI & UX Design
+        %p.person-description Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+        %ul.list-links-social
+          %li
+            %a{href: "#"}
+              %i.fa.fa-twitter
+          %li
+            %a{href: "#"}
+              %i.fa.fa-facebook
+          %li
+            %a{href: "#"}
+              %i.fa.fa-linkedin
+          %li
+            %a{href: "#"}
+              %i.fa.fa-github
+
+        / /#list-links-social
+      / /#person_2
+      .person.col-md-4
+        = image_tag("nyc.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Shehzad Khan" )
+        %h4.person-name Shehzad Khan
+        %span.person-skills CEO
+        %p.person-description Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+        %ul.list-links-social
+          %li
+            %a{href: "#"}
+              %i.fa.fa-twitter
+          %li
+            %a{href: "#"}
+              %i.fa.fa-facebook
+          %li
+            %a{href: "#"}
+              %i.fa.fa-linkedin
+          %li
+            %a{href: "#"}
+              %i.fa.fa-github
+        / /#list-links-social
+      / /#person_3
+
+%section#section-contact.section-page
+  .container
+    .head-section
+      %h2 Contact Us
+      %p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.
+    / /.head-section
+    #links-contact
+      %a.twitter{href: "#", title: ""}
+      %a.facebook{href: "#", title: ""}
+      %a.linkedin{href: "#", title: ""}
+      %a.google-plus{href: "#", title: ""}
+      %a.github{href: "#", title: ""}

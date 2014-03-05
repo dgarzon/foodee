@@ -86,6 +86,9 @@ gem 'annotate', ">=2.6.0"
 # Geocoder
 gem 'geocoder'
 
+# Fake Data
+gem 'forgery', '0.5.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

@@ -1,5 +1,9 @@
 @import "partials/colors";
 
+body {
+  background: #e6e6e6;
+}
+
 //
 // Navigation
 //
@@ -35,4 +39,11 @@
     background-color: darken($facebook-blue, 10%);
     color: darken($clouds, 10%);
   }
+}
+
+//
+// Icons
+//
+.fa-7x {
+  font-size: 7em;
 }

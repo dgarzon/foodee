@@ -1,16 +1,18 @@
 - title "Sign Up"
-= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
-  = devise_error_messages!
-  .well.well-registration{"align" => "center"}
-    %h2 Create your free account
-    %hr
-    .social-buttons
-      = link_to user_omniauth_authorize_path(:facebook), class: "btn btn-facebook btn-lg", method: "post" do
-        %i.fa.fa-facebook-square
-          %span.facebook-label Sign up with Facebook
-    %p.disclosure We won't ever post updates without your permission.
-    %hr
-    .other-links
-      %p.note
-        Already have an account?
-        %a= link_to "Sign In", new_user_session_path
+
+.container
+  = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+    = devise_error_messages!
+    .well.well-registration{"align" => "center"}
+      %h2 Create your free account
+      %hr
+      .social-buttons
+        = link_to user_omniauth_authorize_path(:facebook), class: "btn btn-facebook btn-lg", method: "post" do
+          %i.fa.fa-facebook-square
+            %span.facebook-label Sign up with Facebook
+      %p.disclosure We won't ever post updates without your permission.
+      %hr
+      .other-links
+        %p.note
+          Already have an account?
+          %a= link_to "Sign In", new_user_session_path
