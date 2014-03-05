@@ -21,8 +21,10 @@
 #
 
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+  extend FriendlyId
+
+  friendly_id :username, use: [:slugged, :finders]
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
@@ -32,8 +34,23 @@ class User < ActiveRecord::Base
 
   validates_presence_of :email, :first_name, :last_name
 
+  before_create :ensure_username_uniqueness
+
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def ensure_username_uniqueness
+    if self.username.blank?
+      username = self.first_name[0].downcase + self.last_name.downcase
+      count = User.where(username: username).count
+
+      if count == 0
+        write_attribute(:username, username)
+      else
+        write_attribute(:username, "#{username}#{count}")
+      end
+    end
   end
 
 end

@@ -72,4 +72,5 @@ class Identity < ActiveRecord::Base
       return self.user
     end
   end
+
 end
