@@ -20,7 +20,7 @@
       %td= restaurant['review_count']
       %td= restaurant['rating']
       / %td= link_to 'Make a recommendation', "#recModal", "data-toggle" => "modal"
-      %td= link_to 'Make a recommendation', new_recommendation_path, remote: true, "data-toggle" => "modal"
+      %td= link_to 'Make a recommendation', new_recommendation_path(:restaurant_id => restaurant['id']) , remote: true, "data-toggle" => "modal"
       / %td= link_to 'Edit', edit_restaurant_path(restaurant)
       / %td= link_to 'Destroy', restaurant, :method => :delete, :data => { :confirm => 'Are you sure?' }
 

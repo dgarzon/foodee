@@ -15,6 +15,10 @@ class RecommendationsController < ApplicationController
   # GET /recommendations/new
   def new
     @recommendation = Recommendation.new
+    @recommendation[:restaurant_id] = params[:restaurant_id]
+    @recommendation[:user_id] = current_user[:id]
+    # logger.debug "request : #{current_user.inspect}"
+
     respond_to do |format|
       format.html
       format.js
@@ -28,10 +32,21 @@ class RecommendationsController < ApplicationController
   # POST /recommendations
   # POST /recommendations.json
   def create
+    # first add the restaurant
+    @restaurant = Restaurant.new
+    @restaurant[:yelp_restaurant_id] = recommendation_params[:restaurant_id]
+
+    if @restaurant.save
+      @restaurantSaved = true
+    end
+
     @recommendation = Recommendation.new(recommendation_params)
+    @recommendation[:restaurant_id] = @restaurant[:id]
+    logger.debug "rec : #{@recommendation.inspect}"
+    logger.debug "res : #{@restaurant.inspect}"
 
     respond_to do |format|
-      if @recommendation.save
+      if @restaurantSaved && @recommendation.save
         format.html { redirect_to @recommendation, notice: 'Recommendation was successfully created.' }
         format.json { render action: 'show', status: :created, location: @recommendation }
       else

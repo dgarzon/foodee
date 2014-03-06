@@ -11,11 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140305083425) do
+ActiveRecord::Schema.define(version: 20140306083849) do
 
   create_table "addresses", force: true do |t|
+    t.string   "full_address"
     t.string   "street"
-    t.string   "zip"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.float    "latitude"
+    t.float    "longitude"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -57,9 +62,9 @@ ActiveRecord::Schema.define(version: 20140305083425) do
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
+
+  add_index "identities", ["user_id"], name: "index_identities_on_user_id"
 
   create_table "recommendations", force: true do |t|
     t.boolean  "like"
@@ -78,6 +83,7 @@ ActiveRecord::Schema.define(version: 20140305083425) do
     t.string   "location"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "yelp_restaurant_id"
   end
 
   create_table "states", force: true do |t|
@@ -100,7 +106,9 @@ ActiveRecord::Schema.define(version: 20140305083425) do
     t.string   "last_sign_in_ip"
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "username"
     t.string   "image"
+    t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
