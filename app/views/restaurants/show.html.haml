@@ -2,10 +2,20 @@
 
 %p
   %b Name:
-  = @restaurant.name
+  = @restaurant['name']
+
+%p
+  %img{:src => @restaurant['rating_img_url_large']}
+
+%p
+  %img{:src => @restaurant['image_url']}
+
 %p
   %b Location:
-  = @restaurant.location
+  = @restaurant['location']
+%p
+  %b yelp_restaurant_id
+  = @restaurant['id']
 
 = link_to 'Edit', edit_restaurant_path(@restaurant)
 \|

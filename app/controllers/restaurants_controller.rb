@@ -1,5 +1,5 @@
 class RestaurantsController < ApplicationController
-  before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
+  before_action :set_restaurant, only: [:edit, :update, :destroy]
 
   # GET /restaurants
   # GET /restaurants.json
@@ -12,6 +12,8 @@ class RestaurantsController < ApplicationController
   # GET /restaurants/1
   # GET /restaurants/1.json
   def show
+    dbRestaurant = Restaurant.find(params[:id])
+    @restaurant = Restaurant.get_restaurant_by_yelp_id dbRestaurant.yelp_restaurant_id
   end
 
   # GET /restaurants/new

@@ -4,7 +4,12 @@ class RecommendationsController < ApplicationController
   # GET /recommendations
   # GET /recommendations.json
   def index
-    @recommendations = Recommendation.all
+    # improe to query to join eagerly using include
+    # @recommendations = Recommendation.includes(:restaurant).limit(20)
+    @recommendations = Recommendation.find :all, :joins => :restaurant
+    # @restaurant = @recommendations.first.restaurant
+    logger.debug "client : #{@recommendations.inspect}"
+    # @recommendations = Recommendation.all
   end
 
   # GET /recommendations/1
@@ -16,7 +21,14 @@ class RecommendationsController < ApplicationController
   def new
     @recommendation = Recommendation.new
     @recommendation[:restaurant_id] = params[:restaurant_id]
+
+    # setup a temp restaurant
+    @temp_restaurant = Restaurant.new
+    @temp_restaurant[:name] = params[:restaurant_name]
+
     @recommendation[:user_id] = current_user[:id]
+    # like by defaule
+    @recommendation[:like] = true
     # logger.debug "request : #{current_user.inspect}"
 
     respond_to do |format|
@@ -32,15 +44,34 @@ class RecommendationsController < ApplicationController
   # POST /recommendations
   # POST /recommendations.json
   def create
-    # first add the restaurant
-    @restaurant = Restaurant.new
-    @restaurant[:yelp_restaurant_id] = recommendation_params[:restaurant_id]
+    # logger.debug "client : #{params.inspect}"
+    # logger.debug "client : #{params[:restaurant_name].inspect}"
+    
 
-    if @restaurant.save
+    # first add the restaurant, if it doesnt exist
+    @restaurant = Restaurant.find(:first, 
+      :conditions => ["yelp_restaurant_id = ? ", recommendation_params[:restaurant_id]])
+
+    if(@restaurant == nil)
+      # new restaurant
+      @restaurant = Restaurant.new
+      @restaurant[:yelp_restaurant_id] = recommendation_params[:restaurant_id]
+      @restaurant[:name] = recommendation_params[:restaurant_name]
+
+      if @restaurant.save
+        @restaurantSaved = true
+      end
+    else
+      # old restaurant, already saved
       @restaurantSaved = true
     end
 
-    @recommendation = Recommendation.new(recommendation_params)
+    # @recommendation = Recommendation.new(recommendation_params)
+    @recommendation = Recommendation.new
+    @recommendation[:like] = recommendation_params[:like]
+    @recommendation[:description] = recommendation_params[:description]
+    @recommendation[:user_id] = recommendation_params[:user_id]
+
     @recommendation[:restaurant_id] = @restaurant[:id]
     logger.debug "rec : #{@recommendation.inspect}"
     logger.debug "res : #{@restaurant.inspect}"
@@ -88,6 +119,6 @@ class RecommendationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def recommendation_params
-      params.require(:recommendation).permit(:like, :description, :user_id, :restaurant_id)
+      params.require(:recommendation).permit(:like, :description, :user_id, :restaurant_id, :restaurant_name)
     end
-end
+  end

@@ -1,4 +1,5 @@
 %h1 Listing recommendations
+%div#recModalPlaceholder
 
 %table
   %tr
@@ -6,20 +7,22 @@
     %th Description
     %th User
     %th Restaurant
-    %th
-    %th
-    %th
+    %th Make your own recommendation
+    / %th
+    / %th
+    / %th
 
   - @recommendations.each do |recommendation|
     %tr
       %td= recommendation.like
       %td= recommendation.description
       %td= recommendation.user
-      %td= recommendation.restaurant
-      %td= link_to 'Show', recommendation
-      %td= link_to 'Edit', edit_recommendation_path(recommendation)
-      %td= link_to 'Destroy', recommendation, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      %td= link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
+      %td= link_to 'Make a recommendation', new_recommendation_path(:restaurant_id => recommendation.restaurant) , remote: true, "data-toggle" => "modal"
+      / %td= link_to 'Show', recommendation
+      / %td= link_to 'Edit', edit_recommendation_path(recommendation)
+      / %td= link_to 'Destroy', recommendation, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-= link_to 'New Recommendation', new_recommendation_path
+/ = link_to 'New Recommendation', new_recommendation_path
