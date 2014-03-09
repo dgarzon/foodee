@@ -26,6 +26,9 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     addressable (2.3.5)
+    annotate (2.6.2)
+      activerecord (>= 2.3.0)
+      rake (>= 0.8.7)
     arel (4.0.2)
     atomic (1.1.15)
     awesome_print (1.2.0)
@@ -82,8 +85,10 @@ GEM
       multipart-post (>= 1.2, < 3)
     font-awesome-rails (4.0.3.1)
       railties (>= 3.2, < 5.0)
+    forgery (0.5.0)
     friendly_id (5.0.3)
       activerecord (>= 4.0.0)
+    geocoder (1.1.9)
     gherkin (2.12.2)
       multi_json (~> 1.3)
     google-webfonts (0.1.2)
@@ -227,6 +232,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate (>= 2.6.0)
   awesome_print
   better_errors
   bootstrap-sass (~> 3.1.1)
@@ -236,7 +242,9 @@ DEPENDENCIES
   devise
   erb2haml
   font-awesome-rails
+  forgery (= 0.5.0)
   friendly_id (~> 5.0.0)
+  geocoder
   google-webfonts
   haml-rails
   hirb

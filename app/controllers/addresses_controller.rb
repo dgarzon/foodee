@@ -1,10 +1,11 @@
 class AddressesController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_address, only: [:show, :edit, :update, :destroy]
 
   # GET /addresses
   # GET /addresses.json
   def index
-    @addresses = Address.all
+    @addresses = current_user.addresses.all
   end
 
   # GET /addresses/1
@@ -14,7 +15,7 @@ class AddressesController < ApplicationController
 
   # GET /addresses/new
   def new
-    @address = Address.new
+    @address = current_user.addresses.new
   end
 
   # GET /addresses/1/edit
@@ -24,12 +25,12 @@ class AddressesController < ApplicationController
   # POST /addresses
   # POST /addresses.json
   def create
-    @address = Address.new(address_params)
+    @address = current_user.addresses.new(address_params)
 
     respond_to do |format|
       if @address.save
-        format.html { redirect_to @address, notice: 'Address was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @address }
+        format.html { redirect_to [current_user, @address], notice: 'Address was successfully created.' }
+        format.json { render action: 'show', status: :created, location: [current_user, @address] }
       else
         format.html { render action: 'new' }
         format.json { render json: @address.errors, status: :unprocessable_entity }
@@ -42,7 +43,7 @@ class AddressesController < ApplicationController
   def update
     respond_to do |format|
       if @address.update(address_params)
-        format.html { redirect_to @address, notice: 'Address was successfully updated.' }
+        format.html { redirect_to  [current_user, @address], notice: 'Address was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -56,7 +57,7 @@ class AddressesController < ApplicationController
   def destroy
     @address.destroy
     respond_to do |format|
-      format.html { redirect_to addresses_url }
+      format.html { redirect_to user_addresses_url(current_user) }
       format.json { head :no_content }
     end
   end
@@ -64,11 +65,11 @@ class AddressesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_address
-      @address = Address.find(params[:id])
+      @address = current_user.addresses.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def address_params
-      params.require(:address).permit(:street, :zip, :user_id)
+      params.require(:address).permit(:full_address)
     end
 end

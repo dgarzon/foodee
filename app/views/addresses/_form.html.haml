@@ -1,19 +1,12 @@
-= form_for @address do |f|
-  - if @address.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@address.errors.count, "error")} prohibited this address from being saved:"
-      %ul
-        - @address.errors.full_messages.each do |msg|
-          %li= msg
+.well.well-registration{"align" => "center"}
+  %h2 Add a new address
+  %hr
+  = simple_form_for [current_user, @address] do |f|
+    .input-group.input-group-lg
+      %span.input-group-addon
+        %i.fa.fa-location-arrow
+      = f.input :full_address, :label => false, :placeholder => "Enter a location", :input_html => { :id => 'address-input', :class => 'form-control input-lg' }
 
-  .field
-    = f.label :street
-    = f.text_field :street
-  .field
-    = f.label :zip
-    = f.text_field :zip
-  .field
-    = f.label :user
-    = f.text_field :user
-  .actions
-    = f.submit 'Save'
+    %hr
+    .actions
+      = f.submit 'Continue', :class => 'btn btn-primary btn-lg'

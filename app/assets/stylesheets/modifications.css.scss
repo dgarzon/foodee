@@ -1,5 +1,9 @@
 @import "partials/colors";
 
+body {
+  background: #e6e6e6;
+}
+
 //
 // Navigation
 //
@@ -15,23 +19,31 @@
 .btn-facebook {
   background-color: $facebook-blue;
   color: $clouds;
-  height: 3em;
 
   i:before {
     margin-right: 0.5em;
     font-size: 1.2em;
-  }
-
-  .fa {
-    line-height: 28px;
+    vertical-align: middle;
   }
 
   .facebook-label {
-    font-size: 1.2em;
+    vertical-align: middle;
+    font-size: 1.1em;
+  }
+
+  &:visited {
+    color: $clouds;
   }
 
   &:hover {
     background-color: darken($facebook-blue, 10%);
     color: darken($clouds, 10%);
   }
+}
+
+//
+// Icons
+//
+.fa-7x {
+  font-size: 7em;
 }

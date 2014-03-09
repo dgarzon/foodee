@@ -1,5 +1,4 @@
 Foodee::Application.routes.draw do
-
   resources :recommendations
 
   resources :restaurants

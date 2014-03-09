@@ -1,3 +1,20 @@
 // Place all the styles related to the addresses controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.pac-container {
+  font-family: "Open Sans";
+  &:after {
+    display: none;
+  }
+  .pac-item {
+    height: 4em;
+    padding-top: 0.5em;
+  }
+
+  .pac-icon.pac-icon-marker {
+    background-image: none;
+    width: 0px;
+    height: 0px;
+  }
+}

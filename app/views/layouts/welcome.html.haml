@@ -1,0 +1,20 @@
+!!!
+%html
+  %head
+    %title Foodee - #{yield(:title)}
+    %script{src: "http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"}
+    = google_webfonts_link_tag :dosis => [500, 600]
+    = google_webfonts_link_tag :open_sans => [400]
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+  %body
+    %header
+
+    %nav
+      = render 'layouts/nav'
+    %div#main
+      = render 'layouts/notice'
+      = yield
+    %footer
+      = render 'layouts/footer'

@@ -28,15 +28,6 @@ ActiveRecord::Schema.define(version: 20140306083849) do
 
   add_index "addresses", ["user_id"], name: "index_addresses_on_user_id"
 
-  create_table "cities", force: true do |t|
-    t.string  "name"
-    t.integer "state_id"
-    t.integer "address_id"
-  end
-
-  add_index "cities", ["address_id"], name: "index_cities_on_address_id"
-  add_index "cities", ["state_id"], name: "index_cities_on_state_id"
-
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
     t.integer  "sluggable_id",              null: false
@@ -85,13 +76,6 @@ ActiveRecord::Schema.define(version: 20140306083849) do
     t.datetime "updated_at"
     t.string   "yelp_restaurant_id"
   end
-
-  create_table "states", force: true do |t|
-    t.string  "name"
-    t.integer "address_id"
-  end
-
-  add_index "states", ["address_id"], name: "index_states_on_address_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
