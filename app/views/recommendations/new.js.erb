@@ -1,2 +1,6 @@
-$("#recModalPlaceholder").html("<%= escape_javascript(render 'form') %>")
-$("#recModal").modal("show")
+<% if current_user %>
+	$("#recModalPlaceholder").html("<%= escape_javascript(render 'form') %>")
+	$("#recModal").modal("show")
+<% else %>
+	window.location.href = "<%= new_user_session_path %>"
+<% end %>

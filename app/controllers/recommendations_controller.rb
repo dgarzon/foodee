@@ -1,4 +1,5 @@
 class RecommendationsController < ApplicationController
+  # before_filter :authenticate_user!
   before_action :set_recommendation, only: [:show, :edit, :update, :destroy]
 
   # GET /recommendations
@@ -19,21 +20,28 @@ class RecommendationsController < ApplicationController
 
   # GET /recommendations/new
   def new
-    @recommendation = Recommendation.new
-    @recommendation[:restaurant_id] = params[:restaurant_id]
 
-    # setup a temp restaurant
-    @temp_restaurant = Restaurant.new
-    @temp_restaurant[:name] = params[:restaurant_name]
-
-    @recommendation[:user_id] = current_user[:id]
-    # like by defaule
-    @recommendation[:like] = true
     # logger.debug "request : #{current_user.inspect}"
-
     respond_to do |format|
-      format.html
-      format.js
+      # user not signed in
+      if current_user
+        @recommendation = Recommendation.new
+        @recommendation[:restaurant_id] = params[:restaurant_id]
+
+        # setup a temp restaurant
+        @temp_restaurant = Restaurant.new
+        @temp_restaurant[:name] = params[:restaurant_name]
+
+        @recommendation[:user_id] = current_user[:id]
+        # like by default
+        @recommendation[:like] = true
+
+        format.html
+        format.js
+      else
+        format.html
+        format.js
+      end
     end
   end
 

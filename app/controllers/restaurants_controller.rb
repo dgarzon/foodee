@@ -1,11 +1,12 @@
 class RestaurantsController < ApplicationController
-  before_action :set_restaurant, only: [:edit, :update, :destroy]
+  # before_action :set_restaurant, only: [:edit, :update, :destroy]
 
   # GET /restaurants
   # GET /restaurants.json
   def index
     # @restaurants = Restaurant.all
     # supposed to have an address in the params
+    logger.debug "request : #{params[:address].inspect}"
     @restaurants = Restaurant.get_restaurant_by_address
   end
 

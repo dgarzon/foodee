@@ -13,6 +13,10 @@ Foodee::Application.routes.draw do
       resources :addresses
   end
 
+  resources :home do
+      post :searchAtAddress, on: :collection, as: :search
+  end
+
   get "welcome/index"
   get "home/index"
   # The priority is based upon order of creation: first created -> highest priority.

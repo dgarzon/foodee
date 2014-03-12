@@ -2,3 +2,15 @@
 .container
   %h1 Home#index
   %p Find me in app/views/home/index.html.haml
+
+  .well.well-registration{"align" => "center"}
+    %h2 Discover
+    / = form_for @search, :url => search_home_index_path, :html => { :method => :post 	} do |f|
+    = form_for @search, :url => restaurants_path, :html => { :method => :get } do |f|
+    
+      .field
+        = f.label :address
+        = f.text_field :full_address
+      %hr
+      .actions
+        = f.submit 'Search', :class => 'btn btn-primary btn-lg'
