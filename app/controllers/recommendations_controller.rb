@@ -16,6 +16,10 @@ class RecommendationsController < ApplicationController
   # GET /recommendations/1
   # GET /recommendations/1.json
   def show
+    # show friends recommendation
+    # @temp_restaurant = Restaurant.new
+    # @temp_restaurant[:name] = params[:restaurant_id]
+    @friendRecommendation = Recommendation.get_recommedation_by_restaurant(params[:restaurant_id], session[:friends])
   end
 
   # GET /recommendations/new

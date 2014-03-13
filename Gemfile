@@ -74,6 +74,8 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'koala'
+# for larger session store
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 
 # Friendly ID: Better URLs
 gem 'friendly_id', '~> 5.0.0'

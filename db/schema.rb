@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140306083849) do
+ActiveRecord::Schema.define(version: 20140313080133) do
 
   create_table "addresses", force: true do |t|
     t.string   "full_address"
@@ -77,6 +77,16 @@ ActiveRecord::Schema.define(version: 20140306083849) do
     t.string   "yelp_restaurant_id"
   end
 
+  create_table "sessions", force: true do |t|
+    t.string   "session_id", null: false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at"
+
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -95,6 +105,7 @@ ActiveRecord::Schema.define(version: 20140306083849) do
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "fb_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

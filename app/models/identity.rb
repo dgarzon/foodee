@@ -51,6 +51,8 @@ class Identity < ActiveRecord::Base
       self.user.image       ||= self.image
       self.user.first_name  ||= self.first_name
       self.user.last_name   ||= self.last_name
+      self.user.fb_id   ||= self.uid
+
       self.user.skip_reconfirmation!
       self.user.save!
       self.save!
@@ -65,7 +67,8 @@ class Identity < ActiveRecord::Base
         email: self.email,
         image: self.image,
         first_name: self.first_name,
-        last_name: self.last_name
+        last_name: self.last_name,
+        fb_id:  self.uid
       )
       self.user.save!(validate: false)
       self.save!
