@@ -11,24 +11,26 @@
     #slide-1.item.active
       .container
         .col-md-6.carousel-banner
-          %h2= Forgery(:lorem_ipsum).words(10)
-          %p= Forgery(:lorem_ipsum).words(60)
+          / %h2= Forgery(:lorem_ipsum).words(10)
+          %h2 Welcome to Foodee... We help you find good eats and order em online
+          %p Sign Up with us, start searching restaruants, order online and make recommendations that your friends could use.
         .col-md-6
 
     / Carousel Slide 2
     #slide-2.item
       .container
         .col-md-7.carousel-banner
-          %h2= Forgery(:lorem_ipsum).words(10)
-          %p= Forgery(:lorem_ipsum).words(60)
+          %h2 Too many useless reviews ??
+          %p  No need to sift through hundreds of random reviews, you'll get only what your friends have recommended. And you can be even more specific by starring the "foodees" in your circle.
         .col-md-5
 
     / Carousel Slide 3
     #slide-3.item
       .container
         .col-md-7.carousel-banner
-          %h2= Forgery(:lorem_ipsum).words(10)
-          %p= Forgery(:lorem_ipsum).words(60)
+          %h2 Found a place you like ??
+          %p Order delivery, takeout or you could just go there (go figure).....
+          It's much better while hot
         .col-md-5
   / /.carousel-inner
   %a.left.carousel-control.visible-md.visible-lg{"data-slide" => "prev", href: "#welcome-carousel"}
@@ -46,7 +48,7 @@
   .container
     .head-section
       %h1 Services
-      %p= Forgery(:lorem_ipsum).words(15)
+      / %p= Forgery(:lorem_ipsum).words(15)
     / /.head-section
     %br/
     %br/
@@ -55,34 +57,34 @@
         .services-icon
           .center-icon
             %i.fa.fa-cutlery.fa-7x
-        %h4= Forgery(:lorem_ipsum).words(3)
-        %p= Forgery(:lorem_ipsum).words(40)
+        %h4 Order Online
+        %p Find a place you like, enter your address, make your order. No more haggling over the phone
       / /#service_1
       %article.col-md-4.services-box
         .services-icon
           .center-icon
             %i.fa.fa-globe.fa-7x
-        %h4= Forgery(:lorem_ipsum).words(3)
-        %p= Forgery(:lorem_ipsum).words(40)
+        %h4 We're gonna be global
+        %p Starting out with Columbia uni just now.... :)
       / /#service_2
       %article.col-md-4.services-box
         .services-icon
           .center-icon
             %i.fa.fa-group.fa-7x
-        %h4= Forgery(:lorem_ipsum).words(3)
-        %p= Forgery(:lorem_ipsum).words(40)
+        %h4 Places reviewed by friends
+        %p Nobody knows your taste better than your friends, except your Mom maybe, find places they've reviewed and make your suggestions as well
 
 / Section Team
 %section#section-team.section-page
   .container
     .head-section
       %h2 Our Team
-      %p= Forgery(:lorem_ipsum).words(20)
+      %p Foodee's through and through
     / /.head-section
     %br/
     .row
       .person.col-md-4
-        = image_tag("nyc.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Pranav Bhala" )
+        = image_tag("nyc.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Pranav Bhalla" )
         %h4.person-name Pranav Bhala
         %span.person-skills Developer / UI & UX Design
         %p.person-description= Forgery(:lorem_ipsum).words(15)
