@@ -1,5 +1,5 @@
 class RecommendationsController < ApplicationController
-  # before_filter :authenticate_user!
+  before_filter :authenticate_user!
   before_action :set_recommendation, only: [:edit, :update, :destroy]
 
   # GET /recommendations
@@ -102,7 +102,8 @@ class RecommendationsController < ApplicationController
 
     respond_to do |format|
       if @restaurantSaved && @recommendation.save
-        format.html { redirect_to @recommendation, notice: 'Recommendation was successfully created.' }
+        # format.html { redirect_to @recommendation, notice: 'Recommendation was successfully created.' }
+        format.html { redirect_to action: "index", notice: 'Recommendation was successfully created.' }
         format.json { render action: 'show', status: :created, location: @recommendation }
       else
         format.html { render action: 'new' }

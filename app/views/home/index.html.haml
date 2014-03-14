@@ -1,5 +1,6 @@
 - title "Home"
 .container
+<<<<<<< HEAD
   .well.well-registration{"align" => "center"}
     %h1 Discover
     %hr
@@ -8,9 +9,29 @@
         %span.input-group-addon
           %i.fa.fa-cutlery
         = f.input :term, :label => false, :placeholder => "What are you in the mood for?", :input_html => { :id => 'address-input', :class => 'form-control input-lg' }
+=======
+
+  .well.well-registration{"align" => "center"}
+    %h2 Discover good eats
+    / = form_for @search, :url => search_home_index_path, :html => { :method => :post 	} do |f|
+    = simple_form_for @address, :url => restaurants_path, :html => { :method => :get } do |f|
+      .input-group.input-group-lg
+        %span.input-group-addon
+          %i.fa.fa-location-arrow
+        = f.input :full_address, :label => false, :placeholder => "Enter a location", :input_html => { :id => 'address-input', :class => 'form-control input-lg' }
+>>>>>>> b35f71d0b2768edaac1597d6dfaa40f33df8dbec
       %hr
-      .actions
-        = f.submit 'Search', :class => 'btn btn-primary btn-lg'
+        .actions
+          = f.submit 'Search', :class => 'btn btn-primary btn-lg'
+
+    / = form_for @address, :url => restaurants_path, :html => { :method => :get } do |f|
+    
+    /   .field
+    /     = f.label :address
+    /     = f.text_field :full_address
+    /   %hr
+    /     .actions
+    /       = f.submit 'Search', :class => 'btn btn-primary btn-lg'
 
   .well.well-registration{"align" => "center"}
     %h1 News Feed
@@ -29,7 +50,8 @@
         %b Rated by:
         / = recommendation.user
         = @friendsFound[@friendsFoundIds[i]]["name"]
-        = link_to 'Profile', @friendsFound[@friendsFoundIds[i]]["link"]
+        = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+          
       %p
         %b Restaurant:
         = recommendation.restaurant.name

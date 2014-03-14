@@ -17,9 +17,18 @@ class HomeController < ApplicationController
     @graph = Koala::Facebook::GraphAPI.new
     @friendsFound = @graph.get_objects(@friendsFoundIds)
 
+    # used for restaurant search
+    @address = Address.new
+
     respond_to do |format|
       format.html
       format.js
     end
+  end
+
+  def searchAtAddress
+    # send along the address received as parameter
+    @geoCodedAddress = Address.new(@address)
+    redirect_to restaurants_path(:address => @geoCodedAddress)
   end
 end
