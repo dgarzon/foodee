@@ -57,4 +57,8 @@ class User < ActiveRecord::Base
     end
   end
 
+  def User.getFBId(id)
+    User.where(id: id)
+  end
+
 end

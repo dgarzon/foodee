@@ -1,25 +1,37 @@
 class RecommendationsController < ApplicationController
   # before_filter :authenticate_user!
-  before_action :set_recommendation, only: [:show, :edit, :update, :destroy]
+  before_action :set_recommendation, only: [:edit, :update, :destroy]
 
   # GET /recommendations
   # GET /recommendations.json
   def index
-    # improe to query to join eagerly using include
-    # @recommendations = Recommendation.includes(:restaurant).limit(20)
-    @recommendations = Recommendation.find :all, :joins => :restaurant
-    # @restaurant = @recommendations.first.restaurant
-    logger.debug "client : #{@recommendations.inspect}"
-    # @recommendations = Recommendation.all
+    # improve to query to join eagerly using include
+    # @recommendations = Recommendation.find :all, :joins => :restaurant
+    @recommendations = Recommendation.get_my_recommedation(current_user.id)
+    # logger.debug "client : #{@recommendations.inspect}"
   end
 
   # GET /recommendations/1
   # GET /recommendations/1.json
   def show
     # show friends recommendation
-    # @temp_restaurant = Restaurant.new
-    # @temp_restaurant[:name] = params[:restaurant_id]
-    @friendRecommendation = Recommendation.get_recommedation_by_restaurant(params[:restaurant_id], session[:friends])
+    @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:id], session[:friends])
+    # get details on friend
+    @friendsFoundIds = []
+    @recommendations.each do |recommendation|
+
+      fb_id = User.find(recommendation.user_id).fb_id
+      @friendsFoundIds << fb_id
+    end
+    # get their details
+    # @graph = Koala::Facebook::API.new(identity.token)
+    @graph = Koala::Facebook::GraphAPI.new
+    @friendsFound = @graph.get_objects(@friendsFoundIds)
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /recommendations/new

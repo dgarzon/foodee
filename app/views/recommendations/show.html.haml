@@ -1,17 +1,6 @@
-%p#notice= notice
-
 %p
-  %b Like:
-  = @recommendation.like
-%p
-  %b Description:
-  = @recommendation.description
-%p
-  %b User:
-  = @recommendation.user
-%p
-  %b Restaurant:
-  = @recommendation.restaurant
+  %b Full:
+  = @recommendation.full_address
 
 = link_to 'Edit', edit_recommendation_path(@recommendation)
 \|
