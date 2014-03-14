@@ -7,10 +7,6 @@
         %span.icon-bar
       = link_to "Foodee", passthrough_index_path, :class => "navbar-brand"
     #main-navbar.collapse.navbar-collapse
-      %ul.nav.navbar-nav
-        / - if user_signed_in?
-        %li= link_to "Home", home_index_path, method: :get
-        %li= link_to "My Recommendations", recommendations_path, method: :get
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           %li.divider-vertical

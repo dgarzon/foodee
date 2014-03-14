@@ -1,7 +1,5 @@
 Foodee::Application.routes.draw do
-  get "passthrough/index"
   resources :recommendations
-
   resources :restaurants
 
   devise_for :users, :controllers => {
@@ -16,6 +14,7 @@ Foodee::Application.routes.draw do
 
   resources :home
 
+  get "passthrough/index"
   get "welcome/index"
   get "home/index"
   # The priority is based upon order of creation: first created -> highest priority.
