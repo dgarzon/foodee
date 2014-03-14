@@ -8,6 +8,10 @@
       %a.navbar-brand{href: "/"}
         Foodee
     #main-navbar.collapse.navbar-collapse
+      %ul.nav.navbar-nav
+        / - if user_signed_in?
+        %li= link_to "Home", home_index_path, method: :get
+        %li= link_to "My Recommendations", recommendations_path, method: :get
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           %li= link_to "Logout", destroy_user_session_path, method: :delete

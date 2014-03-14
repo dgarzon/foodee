@@ -2,7 +2,6 @@ class HomeController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-  	@search = Address.new
 
   	# show friends recommendation
     @recommendations = Recommendation.get_friend_recommedation(session[:friends])
@@ -20,6 +19,9 @@ class HomeController < ApplicationController
     @graph = Koala::Facebook::GraphAPI.new
     @friendsFound = @graph.get_objects(@friendsFoundIds)
 
+    # used for restaurant search
+    @address = Address.new
+
     respond_to do |format|
       format.html
       format.js
@@ -28,6 +30,7 @@ class HomeController < ApplicationController
 
   def searchAtAddress
     # send along the address received as parameter
-    redirect_to restaurants_path(:address => @search)
+    @geoCodedAddress = Address.new(@address)
+    redirect_to restaurants_path(:address => @geoCodedAddress)
   end
 end

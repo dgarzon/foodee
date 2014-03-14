@@ -7,7 +7,7 @@ class RestaurantsController < ApplicationController
     # @restaurants = Restaurant.all
     # supposed to have an address in the params
     logger.debug "request : #{params[:address].inspect}"
-    @restaurants = Restaurant.get_restaurant_by_address
+    @restaurants = Restaurant.get_restaurant_by_address(params[:address][:full_address])
   end
 
   # GET /restaurants/1
