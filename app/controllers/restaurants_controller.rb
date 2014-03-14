@@ -6,13 +6,7 @@ class RestaurantsController < ApplicationController
   def index
     # @restaurants = Restaurant.all
     # supposed to have an address in the params
-<<<<<<< HEAD
-    logger.debug params[:search][:term]
     @restaurants = Restaurant.get_restaurant_by_address(current_user.addresses.first, params[:search][:term])
-=======
-    logger.debug "request : #{params[:address].inspect}"
-    @restaurants = Restaurant.get_restaurant_by_address(params[:address][:full_address])
->>>>>>> b35f71d0b2768edaac1597d6dfaa40f33df8dbec
   end
 
   # GET /restaurants/1
