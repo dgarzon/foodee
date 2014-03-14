@@ -7,19 +7,10 @@
       .input-group.input-group-lg
         %span.input-group-addon
           %i.fa.fa-cutlery
-        = f.input :term, :label => false, :placeholder => "What are you in the mood for?", :input_html => { :id => 'address-input', :class => 'form-control input-lg' }
+        = f.input :term, :label => false, :placeholder => "What are you in the mood for?", :input_html => { :id => 'restaurant-input', :class => 'form-control input-lg' }
       %hr
         .actions
           = f.submit 'Search', :class => 'btn btn-primary btn-lg'
-
-    / = form_for @address, :url => restaurants_path, :html => { :method => :get } do |f|
-
-    /   .field
-    /     = f.label :address
-    /     = f.text_field :full_address
-    /   %hr
-    /     .actions
-    /       = f.submit 'Search', :class => 'btn btn-primary btn-lg'
 
   .well.well-registration{"align" => "center"}
     %h1 News Feed
