@@ -1,23 +1,19 @@
 - title "Home"
 .container
-  %h1 
-    = link_to 'My recommendations', recommendations_path
-  %p Find me in app/views/home/index.html.haml
-
   .well.well-registration{"align" => "center"}
-    %h2 Discover good eats
-    / = form_for @search, :url => search_home_index_path, :html => { :method => :post 	} do |f|
-    = form_for @search, :url => restaurants_path, :html => { :method => :get } do |f|
-    
-      .field
-        = f.label :address
-        = f.text_field :full_address
+    %h1 Discover
+    %hr
+    = simple_form_for :search, :url => restaurants_path, :html => { :method => :get} do |f|
+      .input-group.input-group-lg
+        %span.input-group-addon
+          %i.fa.fa-cutlery
+        = f.input :term, :label => false, :placeholder => "What are you in the mood for?", :input_html => { :id => 'address-input', :class => 'form-control input-lg' }
       %hr
       .actions
         = f.submit 'Search', :class => 'btn btn-primary btn-lg'
 
   .well.well-registration{"align" => "center"}
-    %h2 News Feed
+    %h1 News Feed
     - i = 0
     - @recommendations.each do |recommendation|
       %p
@@ -38,4 +34,3 @@
         %b Restaurant:
         = recommendation.restaurant.name
         -i = i + 1
-    

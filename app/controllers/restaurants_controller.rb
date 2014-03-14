@@ -6,8 +6,8 @@ class RestaurantsController < ApplicationController
   def index
     # @restaurants = Restaurant.all
     # supposed to have an address in the params
-    logger.debug "request : #{params[:address].inspect}"
-    @restaurants = Restaurant.get_restaurant_by_address
+    logger.debug params[:search][:term]
+    @restaurants = Restaurant.get_restaurant_by_address(current_user.addresses.first, params[:search][:term])
   end
 
   # GET /restaurants/1
@@ -74,6 +74,6 @@ class RestaurantsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def restaurant_params
-      params.require(:restaurant).permit(:name, :location)
+      params.permit(:restaurant, :name, :location, :term)
     end
 end

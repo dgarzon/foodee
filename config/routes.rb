@@ -1,4 +1,5 @@
 Foodee::Application.routes.draw do
+  get "passthrough/index"
   resources :recommendations
 
   resources :restaurants
@@ -10,12 +11,10 @@ Foodee::Application.routes.draw do
   }
 
   resources :users do
-      resources :addresses
+    resources :addresses
   end
 
-  resources :home do
-      post :searchAtAddress, on: :collection, as: :search
-  end
+  resources :home
 
   get "welcome/index"
   get "home/index"

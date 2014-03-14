@@ -29,8 +29,8 @@ class AddressesController < ApplicationController
 
     respond_to do |format|
       if @address.save
-        format.html { redirect_to [current_user, @address], notice: 'Address was successfully created.' }
-        format.json { render action: 'show', status: :created, location: [current_user, @address] }
+        format.html { redirect_to home_index_path, notice: 'Address was successfully created.' }
+        format.json { render action: 'show', status: :created, location: home_index_path}
       else
         format.html { render action: 'new' }
         format.json { render json: @address.errors, status: :unprocessable_entity }
