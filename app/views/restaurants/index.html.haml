@@ -4,7 +4,7 @@
 %div#friendRecModalPlaceholder
 %h1 Listing restaurants
 
-%table
+%table{:style=>"border: 1px; width: 100%"}
   %tr
     %th
     %th Name
@@ -25,7 +25,7 @@
       %td
         %img{:src => restaurant['rating_img_url_small']}
       / %td= link_to 'Make a recommendation', "#recModal", "data-toggle" => "modal"
-      %td= link_to 'Make a recommendation', new_recommendation_path(:restaurant_id => restaurant['id'], :restaurant_name => restaurant['name']) , remote: true, "data-toggle" => "modal"
+      %td= link_to 'Make a recommendation  ', new_recommendation_path(:restaurant_id => restaurant['id'], :restaurant_name => restaurant['name']) , remote: true, "data-toggle" => "modal"
       %td= link_to 'View friend ratings', recommendation_path(:id => restaurant['id']) , remote: true, "data-toggle" => "modal"
       / %td= link_to 'Edit', edit_restaurant_path(restaurant)
       / %td= link_to 'Destroy', restaurant, :method => :delete, :data => { :confirm => 'Are you sure?' }

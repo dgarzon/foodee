@@ -36,6 +36,7 @@ class Restaurant < ActiveRecord::Base
 			# :token_secret    => 'ZKU9o91pBJ45kbFSwcClx0wlxxQ')
  		request = Location.new(
 			:address => address,
+			:term => "food",
 			:yws_id          => 'Aa2e8aMm9ZdHOiiI164WSw',
 			:consumer_key    => 'kDDqnlb0xWWYy0FDZseYtQ',
 			:consumer_secret => '2sxOlWVTLU-w0y5am2PwBYJgYfg',
