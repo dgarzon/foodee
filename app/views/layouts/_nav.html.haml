@@ -10,6 +10,8 @@
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           %li.divider-vertical
+          %li= link_to "Home", home_index_path, method: :get
+          %li.divider-vertical
           %li= link_to "My Recommendations", recommendations_path
           %li.divider-vertical
           %li= link_to "Logout", destroy_user_session_path, method: :delete
