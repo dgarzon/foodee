@@ -4,8 +4,7 @@ class RestaurantsController < ApplicationController
   # GET /restaurants
   # GET /restaurants.json
   def index
-    # @restaurants = Restaurant.all
-    # supposed to have an address in the params
+    logger.debug params[:search][:term]
     @restaurants = Restaurant.get_restaurant_by_address(current_user.addresses.first, params[:search][:term])
   end
 

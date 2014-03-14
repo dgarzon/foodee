@@ -6,9 +6,7 @@ include Yelp::V2::Business::Request
 require 'json'
 
 class Restaurant < ActiveRecord::Base
-	# added for reecommendations
 	has_many :recommendation, dependent: :destroy
-<<<<<<< HEAD
 
 	def self.get_restaurant_by_address (address, term)
 		client = Yelp::Client.new(:debug => true)
