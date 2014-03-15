@@ -10,9 +10,22 @@
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           %li.divider-vertical
+          %li= link_to "Dashboard", home_index_path
+          %li.divider-vertical
           %li= link_to "My Recommendations", recommendations_path
           %li.divider-vertical
-          %li= link_to "Logout", destroy_user_session_path, method: :delete
+          .hidden-sm.hidden-md.hidden-lg
+            %li= link_to "Add Address", new_user_address_path(current_user)
+            %li= link_to "Logout", destroy_user_session_path, method: :delete
+          %li.dropdown.visible-sm.visible-md.visible-lg
+            %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+              %i.fa.fa-cog
+              %b.caret
+            %ul.dropdown-menu
+              %li.dropdown-header Settings
+              %li.divider
+              %li= link_to "Add Address", new_user_address_path(current_user)
+              %li= link_to "Logout", destroy_user_session_path, method: :delete
           %li.divider-vertical
         - else
           %li.divider-vertical

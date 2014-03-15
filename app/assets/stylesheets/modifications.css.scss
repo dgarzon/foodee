@@ -7,6 +7,10 @@ body {
 //
 // Navigation
 //
+
+.dropdown-header {
+  font-size: 1.1em;
+}
 .navbar-brand {
   font-family: "Dosis";
   font-weight: 600;
@@ -15,7 +19,6 @@ body {
 
 .navbar .divider-vertical {
   height: 50px;
-  margin: 0 9px;
   border-right: 1px solid lighten($brand-primary, 10%);
   border-left: 1px solid lighten($brand-primary, 10%);
 }
