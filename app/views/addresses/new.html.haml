@@ -2,4 +2,7 @@
 
 = render 'form'
 
-= javascript_include_tag params[:controller]
+:coffee
+  jQuery ->
+    $("#address-input").geocomplete
+      country: "us"
