@@ -14,9 +14,8 @@
           %li.divider-vertical
           %li= link_to "My Recommendations", recommendations_path
           %li.divider-vertical
-          .hidden-sm.hidden-md.hidden-lg
-            %li= link_to "Add Address", new_user_address_path(current_user)
-            %li= link_to "Logout", destroy_user_session_path, method: :delete
+          %li.hidden-sm.hidden-md.hidden-lg= link_to "Add Address", new_user_address_path(current_user)
+          %li.hidden-sm.hidden-md.hidden-lg= link_to "Logout", destroy_user_session_path, method: :delete
           %li.dropdown.visible-sm.visible-md.visible-lg
             %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
               %i.fa.fa-cog
