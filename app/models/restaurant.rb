@@ -10,13 +10,10 @@ class Restaurant < ActiveRecord::Base
 
 	def self.get_restaurant_by_address (address, term)
 		client = Yelp::Client.new(:debug => true)
-	  # request = GeoPoint.new(
-			# 				             :term => "food",
-			# 				             :latitude => address.latitude,
-			# 				             :longitude => address.longitude)
-	  request = Location.new(
-			:address => term,
-			:term => "food")
+	  request = GeoPoint.new(
+							             :term => term,
+							             :latitude => address.latitude,
+							             :longitude => address.longitude)
 		response = client.search(request)
 		response
 	end
