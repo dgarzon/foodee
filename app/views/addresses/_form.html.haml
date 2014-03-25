@@ -10,3 +10,8 @@
     %hr
     .actions
       = f.submit 'Continue', :class => 'btn btn-primary btn-lg'
+
+:coffee
+  jQuery ->
+    $("#address-input").geocomplete
+      country: "us"
