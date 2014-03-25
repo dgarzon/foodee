@@ -1,4 +1,4 @@
-/ .recModalPlaceholder 
+/ .recModalPlaceholder
 /   = render :partial => "make_rec"
 %div#recModalPlaceholder
 %div#friendRecModalPlaceholder
@@ -15,10 +15,10 @@
     / %th
     / %th
 
-  - @restaurants['businesses'].each do |restaurant|
+  - @restaurant['businesses'].each do |restaurant|
     %tr
       %td
-        %img{:src => restaurant['image_url']}
+        %img{:src => restaurant['businesses']['image_url']}
       %td= restaurant['name']
       %td= restaurant['location']['address']
       %td= restaurant['review_count']
