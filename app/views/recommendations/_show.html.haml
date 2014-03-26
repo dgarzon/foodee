@@ -4,34 +4,35 @@
   .modal-dialog
     .modal-content
       .modal-header
-        %button{ :type => "button", :class => "close",  :"data-dismiss"=> "modal" }&times;
+        %button{ :type => "button", :class => "close",  :"data-dismiss"=> "modal" } &times;
           
         %h4.modal-title#myModalLabel Friends Recommendation
       -i = 0
       .modal-body
       
         - @recommendations.each do |recommendation|
-          %p
-            %b Like:
-            / %input{:type => "checkbox", :checked}
-            %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
-            / :selected => recommendation.like,
-            / = recommendation.like ? "Liked" : "Didn't like"
-          %p
-            %b Description:
-            = recommendation.description
-          %p
-            %b Rated by:
-            / = recommendation.user
-            = @friendsFound[@friendsFoundIds[i]]["name"]
-            = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
-          %p
-            %b Restaurant:
-            = recommendation.restaurant.name
-
-          - if recommendation.pics.file?
+          .well.recs
             %p
-              = image_tag recommendation.pics.url
+              %b Like:
+              / %input{:type => "checkbox", :checked}
+              %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
+              / :selected => recommendation.like,
+              / = recommendation.like ? "Liked" : "Didn't like"
+            %p
+              %b Description:
+              = recommendation.description
+            %p
+              %b Rated by:
+              / = recommendation.user
+              = @friendsFound[@friendsFoundIds[i]]["name"]
+              = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+            %p
+              %b Restaurant:
+              = recommendation.restaurant.name
+
+            - if recommendation.pics.file?
+              %p
+                = image_tag recommendation.pics.url
 
           -i = i + 1
         %hr
