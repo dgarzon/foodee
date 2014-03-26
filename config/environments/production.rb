@@ -77,4 +77,14 @@ Foodee::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # for managing images
+  config.paperclip_defaults = {
+  :storage => :s3,
+  :bucket => ENV['AWS_BUCKET'],
+  :s3_credentials => {
+    :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+  }
+}
 end

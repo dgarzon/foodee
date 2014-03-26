@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140313080133) do
+ActiveRecord::Schema.define(version: 20140325230631) do
 
   create_table "addresses", force: true do |t|
     t.string   "full_address"
@@ -64,6 +64,10 @@ ActiveRecord::Schema.define(version: 20140313080133) do
     t.integer  "restaurant_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "pics_file_name"
+    t.string   "pics_content_type"
+    t.integer  "pics_file_size"
+    t.datetime "pics_updated_at"
   end
 
   add_index "recommendations", ["restaurant_id"], name: "index_recommendations_on_restaurant_id"

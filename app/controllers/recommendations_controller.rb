@@ -95,6 +95,8 @@ class RecommendationsController < ApplicationController
     @recommendation[:like] = recommendation_params[:like]
     @recommendation[:description] = recommendation_params[:description]
     @recommendation[:user_id] = recommendation_params[:user_id]
+    # added for images
+    @recommendation.pics = recommendation_params[:pics]
 
     @recommendation[:restaurant_id] = @restaurant[:id]
     logger.debug "rec : #{@recommendation.inspect}"
@@ -144,6 +146,6 @@ class RecommendationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def recommendation_params
-      params.require(:recommendation).permit(:like, :description, :user_id, :restaurant_id, :restaurant_name)
+      params.require(:recommendation).permit(:like, :description, :user_id, :restaurant_id, :restaurant_name, :pics)
     end
   end

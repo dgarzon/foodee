@@ -28,9 +28,11 @@
           .field
             = f.label :restaurant
             = f.text_field :restaurant_id
+          .field
+            = f.label :pics
+            = f.file_field :pics
 
           = f.hidden_field :restaurant_name, value: @temp_restaurant.name
-
           / %hidden_field_tag{ :name => 'restaurant_name', :value => @temp_restaurant.name}
           / .actions
           /   = f.submit 'Save'

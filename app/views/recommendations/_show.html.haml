@@ -28,7 +28,12 @@
           %p
             %b Restaurant:
             = recommendation.restaurant.name
-            -i = i + 1
+
+          - if recommendation.pics.file?
+            %p
+              = image_tag recommendation.pics.url
+
+          -i = i + 1
         %hr
           %button{ :type => "button", :class => "btn btn-default", :"data-dismiss" => "modal" } Close
           %button{ :type => "button", :class => "btn btn-primary" } Save changes
