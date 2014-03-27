@@ -99,6 +99,10 @@ gem 'geocoder'
 # Fake Data
 gem 'forgery', '0.5.0'
 
+# For managing images
+gem 'paperclip'
+gem 'aws-sdk'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

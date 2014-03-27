@@ -2,18 +2,23 @@
 %div#recModalPlaceholder
 
 - @recommendations.each do |recommendation|
-  %p
-    %b Like:
-    / %input{:type => "checkbox", :checked}
-    %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
-    / :selected => recommendation.like,
-    / = recommendation.like ? "Liked" : "Didn't like"
-  %p
-    %b Description:
-    = recommendation.description
-  %p
-    %b Restaurant:
-    = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
+  .well.recs{"align" => "center"}
+    %p
+      %b Like:
+      / %input{:type => "checkbox", :checked}
+      %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
+      / :selected => recommendation.like,
+      / = recommendation.like ? "Liked" : "Didn't like"
+    %p
+      %b Description:
+      = recommendation.description
+    %p
+      %b Restaurant:
+      = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
+
+    - if recommendation.pics.file?
+      %p
+        = image_tag recommendation.pics.url(:medium)
 
 / %td= link_to 'Show', recommendation
 / %td= link_to 'Edit', edit_recommendation_path(recommendation)
