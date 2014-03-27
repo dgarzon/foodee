@@ -44,6 +44,10 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
+  def primary_address
+    self.addresses.where(:default => true).first
+  end
+
   def ensure_username_uniqueness
     if self.username.blank?
       username = self.first_name[0].downcase + self.last_name.downcase

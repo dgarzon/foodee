@@ -7,6 +7,8 @@ class CreateAddresses < ActiveRecord::Migration
       t.string :state
       t.string :country
 
+      t.boolean :default
+
       t.float :latitude
       t.float :longitude
 

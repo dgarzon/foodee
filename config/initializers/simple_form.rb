@@ -45,6 +45,17 @@ SimpleForm.setup do |config|
     b.use :error, wrap_with: { tag: :span, class: :error }
   end
 
+  config.wrappers :bootstrap_switch, tag: 'div', class: "input-group", error_class: 'error', boolean_style: :inline do |b|
+    b.use :html5
+    b.use :placeholder
+    b.use :label
+    b.wrapper "switch", tag: 'div', class: 'switch' do |s|
+      s.use :input
+    end
+    b.use :error, wrap_with: { tag: 'span', class: 'help-inline' }
+    b.use :hint,  wrap_with: { tag: 'p', class: 'help-block' }
+  end
+
   # The default wrapper to be used by the FormBuilder.
   config.default_wrapper = :default
 

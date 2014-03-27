@@ -18,3 +18,22 @@
     height: 0px;
   }
 }
+
+#addresses-list {
+  list-style-type: none;
+  padding: 0px;
+
+  li:first-child {
+    border-top: 1px dashed #666;
+  }
+
+  li {
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    border-bottom: 1px dashed #666;
+  }
+}
+
+.addresses-header {
+  margin-bottom: 1em;
+}

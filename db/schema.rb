@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20140313080133) do
     t.string   "city"
     t.string   "state"
     t.string   "country"
+    t.boolean  "default"
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "user_id"

@@ -25,7 +25,14 @@ class AddressesController < ApplicationController
   # POST /addresses
   # POST /addresses.json
   def create
+    flag = false
+
+    if !current_user.addresses.any?
+      flag = true
+    end
+
     @address = current_user.addresses.new(address_params)
+    @address.default = flag
 
     respond_to do |format|
       if @address.save
@@ -70,6 +77,6 @@ class AddressesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def address_params
-      params.require(:address).permit(:full_address)
+      params.require(:address).permit(:full_address, :default)
     end
 end
