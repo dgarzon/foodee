@@ -5,7 +5,8 @@ class RestaurantsController < ApplicationController
   # GET /restaurants.json
   def index
     query = params[:search][:term].split(",")
-    @restaurant = Restaurant.get_restaurant_by_query(query)
+    result = Restaurant.get_restaurant_by_query(query)
+    @restaurant = result['businesses'].first
   end
 
   # GET /restaurants/1

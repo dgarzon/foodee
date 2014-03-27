@@ -15,18 +15,20 @@ class Restaurant < ActiveRecord::Base
 		latitude = geo.first.data['geometry']['location']['lat']
 		longitude = geo.first.data['geometry']['location']['lng']
 
-		client = Yelp::Client.new(:debug => true)
-	  request = GeoPoint.new(
+		client = Yelp::Client.new(:debug => false)
+	  request = Location.new(
 							             :term => term,
+							             :address => address,
 							             :latitude => latitude,
-							             :longitude => longitude)
+							             :longitude => longitude,
+							             :limit => 1)
 		response = client.search(request)
 		response
 	end
 
 	# http://api.yelp.com/v2/business/yelp-san-francisco
 	def self.get_restaurant_by_yelp_id (yelp_restaurant_id)
-		client = Yelp::Client.new(:debug => true)
+		client = Yelp::Client.new(:debug => false)
 		request = Id.new(:yelp_business_id => yelp_restaurant_id)
 		response = client.search(request)
  		response
