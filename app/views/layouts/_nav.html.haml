@@ -23,7 +23,8 @@
             %ul.dropdown-menu
               %li.dropdown-header Settings
               %li.divider
-              %li= link_to "Add Address", new_user_address_path(current_user)
+              %li= link_to "Account", edit_user_registration_path
+              %li= link_to "Addresses", user_addresses_path(current_user)
               %li= link_to "Logout", destroy_user_session_path, method: :delete
           %li.divider-vertical
         - else

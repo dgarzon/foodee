@@ -1,19 +1,21 @@
-%h1 Listing addresses
+.well.addresses-well
+  %h2.addresses-header{"align" => "center"} Listing Addresses
+  %ul#addresses-list
+    - @addresses.each do |address|
+      %li.row
+        .col-md-6
+          %p= address.full_address
+        .col-md-6
+          = simple_form_for [current_user, address], :html => { class: 'pull-right' }  do |f|
+            = f.input :default, as: :boolean, :label => false, :wrapper => :bootstrap_switch, :input_html => {:class => 'switcher pull-right', :data => {"on-color" => "success", "off-color" => "default", "on-text" => "YES", "off-text" => "NO"}}
 
-%table
-  %tr
-    %th Full Address
-    %th
-    %th
-    %th
-
-  - @addresses.each do |address|
-    %tr
-      %td= address.full_address
-      %td= link_to 'Show', [current_user, address]
-      %td= link_to 'Edit', edit_user_address_path(current_user, address)
-      %td= link_to 'Destroy', [current_user, address], :method => :delete, :data => { :confirm => 'Are you sure?' }
+      / %td= link_to 'Show', [current_user, address]
+      / %td= link_to 'Edit', edit_user_address_path(current_user, address)
+      / %td= link_to 'Destroy', [current_user, address], :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
 = link_to 'New Address', new_user_address_path
+
+:coffee
+  $(".switcher").bootstrapSwitch();

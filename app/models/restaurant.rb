@@ -8,19 +8,27 @@ require 'json'
 class Restaurant < ActiveRecord::Base
 	has_many :recommendation, dependent: :destroy
 
-	def self.get_restaurant_by_address (address, term)
-		client = Yelp::Client.new(:debug => true)
-	  request = GeoPoint.new(
+	def self.get_restaurant_by_query (query)
+		term = query[0]
+		address = query[1..-1].join(", ")
+		geo = Geocoder.search(address)
+		latitude = geo.first.data['geometry']['location']['lat']
+		longitude = geo.first.data['geometry']['location']['lng']
+
+		client = Yelp::Client.new(:debug => false)
+	  request = Location.new(
 							             :term => term,
-							             :latitude => address.latitude,
-							             :longitude => address.longitude)
+							             :address => address,
+							             :latitude => latitude,
+							             :longitude => longitude,
+							             :limit => 1)
 		response = client.search(request)
 		response
 	end
 
 	# http://api.yelp.com/v2/business/yelp-san-francisco
 	def self.get_restaurant_by_yelp_id (yelp_restaurant_id)
-		client = Yelp::Client.new(:debug => true)
+		client = Yelp::Client.new(:debug => false)
 		request = Id.new(:yelp_business_id => yelp_restaurant_id)
 		response = client.search(request)
  		response

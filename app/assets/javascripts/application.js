@@ -14,5 +14,6 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
+//= require bootstrap-switch
 //= require jquery.geocomplete.js
 //= require_tree .
