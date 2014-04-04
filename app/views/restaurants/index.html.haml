@@ -18,5 +18,6 @@
     %td= @restaurant['review_count']
     %td
       %img{:src => @restaurant['rating_img_url_small']}
-    %td= link_to 'Make a recommendation', new_recommendation_path(:restaurant_id => @restaurant['id'], :restaurant_name => @restaurant['name']) , remote: true, "data-toggle" => "modal"
-    %td= link_to 'View friend ratings', recommendation_path(:id => @restaurant['id']) , remote: true, "data-toggle" => "modal"
+    %td= link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => @restaurant['id'], :restaurant_name => @restaurant['name']) , remote: true, "data-toggle" => "modal"
+    - if !@recommendations.empty?
+      %td= link_to 'View friend ratings', recommendation_path(:id => @restaurant['id']) , remote: true, "data-toggle" => "modal"

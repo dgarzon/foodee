@@ -7,6 +7,10 @@ class RestaurantsController < ApplicationController
     query = params[:search][:term].split(",")
     result = Restaurant.get_restaurant_by_query(query)
     @restaurant = result['businesses'].first
+
+    # to hide the link, right now limited since we show top 1 result
+    @recommendations = Recommendation.get_friend_recommedation_by_restaurant(@restaurant["id"], session[:friends])
+    end
   end
 
   # GET /restaurants/1
