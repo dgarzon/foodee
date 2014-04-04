@@ -10,7 +10,6 @@ class RestaurantsController < ApplicationController
 
     # to hide the link, right now limited since we show top 1 result
     @recommendations = Recommendation.get_friend_recommedation_by_restaurant(@restaurant["id"], session[:friends])
-    end
   end
 
   # GET /restaurants/1

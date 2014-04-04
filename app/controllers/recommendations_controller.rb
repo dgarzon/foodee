@@ -28,6 +28,11 @@ class RecommendationsController < ApplicationController
     @graph = Koala::Facebook::GraphAPI.new
     @friendsFound = @graph.get_objects(@friendsFoundIds)
 
+    # adding yelp reviews
+    @restaurant = Restaurant.get_restaurant_by_yelp_id params[:id]
+    @yelpReviews = @restaurant["reviews"]
+    logger.debug "client : #{@yelpReviews.inspect}"
+
     respond_to do |format|
       format.html
       format.js

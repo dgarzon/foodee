@@ -24,8 +24,7 @@
             %p
               %b Rated by:
               / = recommendation.user
-              = @friendsFound[@friendsFoundIds[i]]["name"]
-              = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+              = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
             %p
               %b Restaurant:
               = recommendation.restaurant.name
@@ -35,6 +34,23 @@
                 = image_tag recommendation.pics.url
 
           -i = i + 1
+
+
+        / adding yelp reviews
+        - @yelpReviews.each do |review|
+          .well.recs
+            %p
+              = link_to '<img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/3049d7633b6e/developers/reviewsFromYelpRED.gif"/>'.html_safe, @restaurant["url"]
+            %p
+              %b Description:
+              =review["excerpt"]
+            %p
+              %img{:src => review["rating_image_small_url"]}
+            %p
+              %b Rated by:
+              =link_to review["user"]["name"], "http://www.yelp.com/user_details?userid=#{review["user"]["id"]}"
+
+
         %hr
           %button{ :type => "button", :class => "btn btn-default", :"data-dismiss" => "modal" } Close
           %button{ :type => "button", :class => "btn btn-primary" } Save changes
