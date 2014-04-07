@@ -4,7 +4,8 @@
     - @addresses.each do |address|
       %li.row
         .col-md-6
-          %p= address.full_address
+          %i.fa.fa-map-marker.fa-2x.pull-left
+          %p.address-info= address.full_address
         .col-md-6
           = simple_form_for [current_user, address], :html => { class: 'pull-right' }  do |f|
             = f.input :default, as: :boolean, :label => false, :wrapper => :bootstrap_switch, :input_html => {:class => 'switcher pull-right', :data => {"on-color" => "success", "off-color" => "default", "on-text" => "YES", "off-text" => "NO"}}
