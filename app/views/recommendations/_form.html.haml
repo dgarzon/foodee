@@ -3,7 +3,7 @@
   .modal-dialog
     .modal-content
       .modal-header
-        %button{ :type => "button", :class => "close",  :"data-dismiss"=> "modal" }&times;
+        %button{ :type => "button", :class => "close",  :"data-dismiss"=> "modal" } &times;
           
         %h4.modal-title#myModalLabel Make a recommedation
       
@@ -18,19 +18,19 @@
 
           .field
             = f.label :like
-            = f.check_box :like
+            = f.check_box :like, :disabled => true
           .field
-            = f.label :description
+            = f.label :description, "Comments(optional)"
             = f.text_field :description
           .field
-            = f.label :user
-            = f.text_field :user_id
-          .field
-            = f.label :restaurant
-            = f.text_field :restaurant_id
+            = f.label :pics
+            = f.file_field :pics
+
+          = f.hidden_field :user_id, value: @recommendation.user_id
+
+          = f.hidden_field :restaurant_id, value: @recommendation.restaurant_id
 
           = f.hidden_field :restaurant_name, value: @temp_restaurant.name
-
           / %hidden_field_tag{ :name => 'restaurant_name', :value => @temp_restaurant.name}
           / .actions
           /   = f.submit 'Save'

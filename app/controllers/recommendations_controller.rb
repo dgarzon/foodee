@@ -28,6 +28,11 @@ class RecommendationsController < ApplicationController
     @graph = Koala::Facebook::GraphAPI.new
     @friendsFound = @graph.get_objects(@friendsFoundIds)
 
+    # adding yelp reviews
+    @restaurant = Restaurant.get_restaurant_by_yelp_id params[:id]
+    @yelpReviews = @restaurant["reviews"]
+    logger.debug "client : #{@yelpReviews.inspect}"
+
     respond_to do |format|
       format.html
       format.js
@@ -95,6 +100,8 @@ class RecommendationsController < ApplicationController
     @recommendation[:like] = recommendation_params[:like]
     @recommendation[:description] = recommendation_params[:description]
     @recommendation[:user_id] = recommendation_params[:user_id]
+    # added for images
+    @recommendation.pics = recommendation_params[:pics]
 
     @recommendation[:restaurant_id] = @restaurant[:id]
     logger.debug "rec : #{@recommendation.inspect}"
@@ -144,6 +151,6 @@ class RecommendationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def recommendation_params
-      params.require(:recommendation).permit(:like, :description, :user_id, :restaurant_id, :restaurant_name)
+      params.require(:recommendation).permit(:like, :description, :user_id, :restaurant_id, :restaurant_name, :pics)
     end
   end
