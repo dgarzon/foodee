@@ -38,12 +38,11 @@
     - if recommendation.pics.file?
       %p
         = image_tag recommendation.pics.url
-      
+
       -i = i + 1
 
 :coffee
   $("#search-input").geocomplete
     types: ["establishment"]
-    lat: "#{current_user.addresses.first.latitude}"
-    lng: "#{current_user.addresses.first.longitude}"
+    formatted_address: "#{current_user.addresses.first.full_address}"
 

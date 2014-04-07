@@ -5,11 +5,10 @@ class RestaurantsController < ApplicationController
   # GET /restaurants.json
   def index
     query = params[:search][:term].split(",")
-    result = Restaurant.get_restaurant_by_query(query)
-    @restaurant = result['businesses'].first
+    result = Restaurant.get_restaurant_by_query(query, current_user)
 
-    # to hide the link, right now limited since we show top 1 result
-    @recommendations = Recommendation.get_friend_recommedation_by_restaurant(@restaurant["id"], session[:friends])
+    @restaurants = result['businesses']
+
   end
 
   # GET /restaurants/1
@@ -26,6 +25,10 @@ class RestaurantsController < ApplicationController
 
   # GET /restaurants/1/edit
   def edit
+  end
+
+  def recommendations
+    @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], session[:friends])
   end
 
   # POST /restaurants

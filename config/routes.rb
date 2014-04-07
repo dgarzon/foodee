@@ -1,6 +1,9 @@
 Foodee::Application.routes.draw do
   resources :recommendations
-  resources :restaurants
+
+  resources :restaurants do
+    get "recommendations"
+  end
 
   devise_for :users, :controllers => {
     registrations: "users/registrations",
