@@ -25,7 +25,10 @@
       %td
         - if @recsFoundIds[i]
           =link_to 'View friend ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id']) , remote: true, "data-toggle" => "modal"
-          %br
+        - else
+          0 friends rated so far
+
+        %br
 
         =link_to 'View external ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id'], :external => true) , remote: true, "data-toggle" => "modal"
         -i = i + 1
