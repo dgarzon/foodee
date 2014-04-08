@@ -2,7 +2,7 @@
 %div#friendRecModalPlaceholder
 %h1 Listing restaurants
 
-%table{:style=>"border: 1px; width: 100%"}
+%table{:style=>"border: 1px; width: 100%; margin-bottom: 30px"}
   %tr
     %th
     %th Name
@@ -10,6 +10,8 @@
     %th Review Count
     %th Yelp Rating
     %th Recommend
+    %th Ratings
+  - i = 0
   - @restaurants.each do |restaurant|
     %tr
       %td
@@ -20,4 +22,10 @@
       %td
         %img{:src => restaurant['rating_img_url_small']}
       %td= link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => restaurant['id'], :restaurant_name => restaurant['name']) , remote: true, "data-toggle" => "modal"
-      %td= link_to 'View friend ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id']) , remote: true, "data-toggle" => "modal"
+      %td
+        - if @recsFoundIds[i]
+          =link_to 'View friend ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id']) , remote: true, "data-toggle" => "modal"
+          %br
+
+        =link_to 'View external ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id'], :external => true) , remote: true, "data-toggle" => "modal"
+        -i = i + 1
