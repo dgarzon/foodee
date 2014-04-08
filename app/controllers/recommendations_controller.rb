@@ -42,20 +42,21 @@ class RecommendationsController < ApplicationController
   # GET /recommendations/new
   def new
 
-    # logger.debug "request : #{current_user.inspect}"
+    logger.debug "params : #{params[:restaurant_id].inspect}"
     respond_to do |format|
       # user not signed in
       if current_user
-        @recommendation = Recommendation.new
-        @recommendation[:restaurant_id] = params[:restaurant_id]
-
         # setup a temp restaurant
         @temp_restaurant = Restaurant.new
         @temp_restaurant[:name] = params[:restaurant_name]
 
+        @recommendation = Recommendation.new
+        #@recommendation[:restaurant_id] = params[:restaurant_id]
+        @temp_restaurant[:yelp_restaurant_id] = params[:restaurant_id]
         @recommendation[:user_id] = current_user[:id]
         # like by default
         @recommendation[:like] = true
+        logger.debug "request : #{@recommendation.inspect}"
 
         format.html
         format.js
@@ -73,7 +74,7 @@ class RecommendationsController < ApplicationController
   # POST /recommendations
   # POST /recommendations.json
   def create
-    # logger.debug "client : #{params.inspect}"
+    logger.debug "client : #{params.inspect}"
     # logger.debug "client : #{params[:restaurant_name].inspect}"
     
 
@@ -97,16 +98,18 @@ class RecommendationsController < ApplicationController
 
     # @recommendation = Recommendation.new(recommendation_params)
     @recommendation = Recommendation.new
-    @recommendation[:like] = recommendation_params[:like]
+    # @recommendation[:like] = recommendation_params[:like]
+    @recommendation[:like] = true
     @recommendation[:description] = recommendation_params[:description]
     @recommendation[:user_id] = recommendation_params[:user_id]
     # added for images
     @recommendation.pics = recommendation_params[:pics]
 
     @recommendation[:restaurant_id] = @restaurant[:id]
-    logger.debug "rec : #{@recommendation.inspect}"
-    logger.debug "res : #{@restaurant.inspect}"
-
+    # logger.debug "rec : #{@recommendation.inspect}"
+    # logger.debug "res : #{@restaurant.inspect}"
+    logger.debug "res : #{ENV['AWS_ACCESS_KEY_ID'].inspect}"
+    
     respond_to do |format|
       if @restaurantSaved && @recommendation.save
         # format.html { redirect_to @recommendation, notice: 'Recommendation was successfully created.' }

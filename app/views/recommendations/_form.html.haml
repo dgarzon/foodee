@@ -28,7 +28,8 @@
 
           = f.hidden_field :user_id, value: @recommendation.user_id
 
-          = f.hidden_field :restaurant_id, value: @recommendation.restaurant_id
+          / = f.hidden_field :restaurant_id, value: @recommendation.restaurant_id
+          = f.hidden_field :restaurant_id, value: @temp_restaurant.yelp_restaurant_id
 
           = f.hidden_field :restaurant_name, value: @temp_restaurant.name
           / %hidden_field_tag{ :name => 'restaurant_name', :value => @temp_restaurant.name}

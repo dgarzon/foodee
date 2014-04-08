@@ -29,7 +29,8 @@
       %b Rated by:
       / = recommendation.user
       = @friendsFound[@friendsFoundIds[i]]["name"]
-      = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+      / = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+      = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
 
     %p
       %b Restaurant:
