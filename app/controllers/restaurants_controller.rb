@@ -8,7 +8,7 @@ class RestaurantsController < ApplicationController
     result = Restaurant.get_restaurant_by_query(query, current_user)
 
     @restaurants = result['businesses']
-
+    # @recommendations = recommendations
   end
 
   # GET /restaurants/1
@@ -28,7 +28,28 @@ class RestaurantsController < ApplicationController
   end
 
   def recommendations
+    # show friends recommendation
     @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], session[:friends])
+    # get details on friend
+    @friendsFoundIds = []
+    @recommendations.each do |recommendation|
+
+      fb_id = User.find(recommendation.user_id).fb_id
+      @friendsFoundIds << fb_id
+    end
+    # get their details
+    # @graph = Koala::Facebook::API.new(identity.token)
+    @graph = Koala::Facebook::GraphAPI.new
+    @friendsFound = @graph.get_objects(@friendsFoundIds)
+
+    # adding yelp reviews
+    @restaurant = Restaurant.get_restaurant_by_yelp_id params[:restaurant_id]
+    @yelpReviews = @restaurant["reviews"]
+    logger.debug "client : #{@yelpReviews.inspect}"
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   # POST /restaurants
