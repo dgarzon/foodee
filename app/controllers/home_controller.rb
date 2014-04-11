@@ -2,7 +2,6 @@ class HomeController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-
   	# show friends recommendation
     @recommendations = Recommendation.get_friend_recommedation(session[:friends])
     # get ids of friend, restaurant
@@ -17,6 +16,8 @@ class HomeController < ApplicationController
     @graph = Koala::Facebook::GraphAPI.new
     @friendsFound = @graph.get_objects(@friendsFoundIds)
 
+    # address to show on top
+    @defaultAddress = current_user.primary_address()
     # used for restaurant search
     @address = Address.new
 

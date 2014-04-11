@@ -6,7 +6,12 @@
       .modal-header
         %button{ :type => "button", :class => "close",  :"data-dismiss"=> "modal" } &times;
           
-        %h4.modal-title#myModalLabel Friends Recommendation
+        %h4.modal-title#myModalLabel 
+          - if @recommendations
+            Friends Recommendation
+          - else
+            External Reviews
+
       -i = 0
       .modal-body
         - if @recommendations

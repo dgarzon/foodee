@@ -9,8 +9,14 @@ class Restaurant < ActiveRecord::Base
 	has_many :recommendation, dependent: :destroy
 
 	def self.get_restaurant_by_query (query, user)
-		term = query[0]
-		address = query[1..-1].join(", ")
+		if query.empty?
+			term = "restaurants"
+			address = ""
+		else
+			term = query[0]	
+			address = query[1..-1].join(", ")
+		end
+		
 		geo = Geocoder.search(address)
 		client = Yelp::Client.new(:debug => false)
 

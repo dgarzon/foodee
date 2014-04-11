@@ -1,12 +1,21 @@
+%div#recModalPlaceholder
 - title "Home"
+
 .well.well-registration{"align" => "center"}
+  .alert.alert-info.alert-dismissable
+    %button.close{"data-dismiss" => "alert"}
+      &times;
+    ="Current address: "
+    %strong
+      =@defaultAddress.street + " " + @defaultAddress.city + " " + @defaultAddress.state
+
   %h1 Discover
   %hr
   = simple_form_for :search, :url => restaurants_path, :html => { :method => :get} do |f|
     .input-group.input-group-lg
       %span.input-group-addon
         %i.fa.fa-cutlery
-      = f.input :term, :label => false, :placeholder => "What are you in the mood for?", :input_html => { :id => 'search-input', :class => 'form-control input-lg' }
+      = f.input :term, :label => false, :placeholder => "Cuisine, restaurant or leave empty to search around you", :input_html => { :id => 'search-input', :class => 'form-control input-lg' }
     %hr
       .actions
         = f.submit 'Search', :class => 'btn btn-primary btn-lg'
@@ -16,31 +25,33 @@
   %hr
   - i = 0
   - @recommendations.each do |recommendation|
-    %p
-      %b Like:
-      / %input{:type => "checkbox", :checked}
-      %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
-      / :selected => recommendation.like,
-      / = recommendation.like ? "Liked" : "Didn't like"
-    %p
-      %b Description:
-      = recommendation.description
-    %p
-      %b Rated by:
-      / = recommendation.user
-      = @friendsFound[@friendsFoundIds[i]]["name"]
-      / = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
-      = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
-
-    %p
-      %b Restaurant:
-      = recommendation.restaurant.name
-
-    - if recommendation.pics.file?
+    .well.recs
       %p
-        = image_tag recommendation.pics.url
+        / %b Like:
+        / %input{:type => "checkbox", :checked}
+        / %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
+        / :selected => recommendation.like,
+        / = recommendation.like ? "Liked" : "Didn't like"
+      %p
+        %b Restaurant:
+        = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
 
-      -i = i + 1
+      - if recommendation.pics.file?
+        %p
+          = image_tag recommendation.pics.url
+
+      %p
+        %b Rated by:
+        / = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+        = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+      %p
+        %b Description:
+        = recommendation.description
+
+      %p
+        =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary" 
+
+        -i = i + 1
 
 :coffee
   $("#search-input").geocomplete
