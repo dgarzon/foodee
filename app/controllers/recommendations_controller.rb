@@ -56,7 +56,8 @@ class RecommendationsController < ApplicationController
         @recommendation[:user_id] = current_user[:id]
         # like by default
         @recommendation[:like] = true
-        logger.debug "request : #{@recommendation.inspect}"
+
+        @existingRecs = Recommendation.get_my_recommedation_by_restaurant(current_user.id, params[:restaurant_id])
 
         format.html
         format.js

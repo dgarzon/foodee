@@ -11,7 +11,7 @@ class RestaurantsController < ApplicationController
     # so that we render the links only when we have recommendations from friends
     @recsFoundIds = []
     @restaurants.each do |restaurant|
-      logger.debug "rest : #{restaurant["id"].inspect}"
+      # logger.debug "rest : #{restaurant["location"]["address"].inspect}"
         recommendations = Recommendation.get_friend_recommedation_by_restaurant(restaurant["id"], session[:friends])
         if recommendations.empty?
           @recsFoundIds << false

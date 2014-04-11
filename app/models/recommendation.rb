@@ -40,4 +40,8 @@ class Recommendation < ActiveRecord::Base
   def Recommendation.get_my_recommedation(id)
     Recommendation.where(user_id: id)
   end
+
+  def Recommendation.get_my_recommedation_by_restaurant(id, yelp_restaurant_id)
+    Recommendation.where(user_id: id, restaurant_id: Restaurant.select("id").where(yelp_restaurant_id: yelp_restaurant_id))
+  end
 end

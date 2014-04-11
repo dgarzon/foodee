@@ -7,13 +7,17 @@ class HomeController < ApplicationController
     # get ids of friend, restaurant
     @friendsFoundIds = []
     @yelpRestaurantNames = []
+    @profilePicUrls = []
+    @graph = Koala::Facebook::GraphAPI.new
+    
     @recommendations.each do |recommendation|
       fb_id = User.find(recommendation.user_id).fb_id
       @friendsFoundIds << fb_id
+      # also get the picture
+      @profilePicUrls << @graph.get_picture(fb_id)
 
       @yelpRestaurantNames << Restaurant.find(recommendation.restaurant_id).name
     end
-    @graph = Koala::Facebook::GraphAPI.new
     @friendsFound = @graph.get_objects(@friendsFoundIds)
 
     # address to show on top

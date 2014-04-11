@@ -8,6 +8,22 @@
         %h4.modal-title#myModalLabel Make a recommedation
       
       .modal-body
+        %h4 Previous reviews
+        - @existingRecs.each do |recommendation|
+          .well.recs
+            %p
+              %b Restaurant:
+              = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
+
+            - if recommendation.pics.file?
+              %p
+                = image_tag recommendation.pics.url
+            %p
+              %b Description:
+              = recommendation.description
+
+        %hr
+        %h4 New Review
         = form_for @recommendation do |f|
           - if @recommendation.errors.any?
             #error_explanation

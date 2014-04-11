@@ -7,7 +7,7 @@
     %th
     %th Name
     %th Location
-    %th Review Count
+    %th Yelp Review Count
     %th Yelp Rating
     %th Recommend
     %th Ratings
@@ -17,7 +17,7 @@
       %td
         %img{:src => restaurant['image_url']}
       %td= restaurant['name']
-      %td= restaurant['location']['address']
+      %td= restaurant['location']['address'][0]
       %td= restaurant['review_count']
       %td
         %img{:src => restaurant['rating_img_url_small']}

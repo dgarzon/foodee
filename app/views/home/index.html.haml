@@ -33,6 +33,8 @@
         / :selected => recommendation.like,
         / = recommendation.like ? "Liked" : "Didn't like"
       %p
+        = image_tag @profilePicUrls[i]
+      %p
         %b Restaurant:
         = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
 
@@ -50,7 +52,6 @@
 
       %p
         =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary" 
-
         -i = i + 1
 
 :coffee
