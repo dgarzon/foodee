@@ -8,7 +8,8 @@
         %h4.modal-title#myModalLabel Make a recommedation
       
       .modal-body
-        %h4 Previous reviews
+        - if !@existingRecs.empty?
+          %h4 Previous reviews
         - @existingRecs.each do |recommendation|
           .well.recs
             %p

@@ -18,26 +18,31 @@
           - @recommendations.each do |recommendation|
             .well.recs
               %p
-                %b Like:
-                / %input{:type => "checkbox", :checked}
-                %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
-                / :selected => recommendation.like,
-                / = recommendation.like ? "Liked" : "Didn't like"
+                = image_tag @profilePicUrls[i]
+
               %p
-                %b Description:
-                = recommendation.description
+                %b Restaurant:
+                = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
+
+              - if recommendation.pics.file?
+                %p
+                = image_tag recommendation.pics.url
+
               %p
                 %b Rated by:
                 / = recommendation.user
                 = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+
               %p
-                %b Restaurant:
-                = recommendation.restaurant.name
+                %b Description:
+                = recommendation.description
 
-              - if recommendation.pics.file?
-                %p
-                  = image_tag recommendation.pics.url
-
+              / %p
+              /   %b Like:
+              /   %input{:type => "checkbox", :checked}
+              /   %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
+              /   :selected => recommendation.like,
+              /   = recommendation.like ? "Liked" : "Didn't like"
             -i = i + 1
 
 

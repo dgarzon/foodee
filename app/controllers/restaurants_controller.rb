@@ -50,14 +50,19 @@ class RestaurantsController < ApplicationController
       @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], session[:friends])
       # get details on friend
       @friendsFoundIds = []
+      @profilePicUrls = []
+      @graph = Koala::Facebook::GraphAPI.new
+
       @recommendations.each do |recommendation|
 
         fb_id = User.find(recommendation.user_id).fb_id
         @friendsFoundIds << fb_id
+        # also get the picture
+        @profilePicUrls << @graph.get_picture(fb_id)
       end
       # get their details
       # @graph = Koala::Facebook::API.new(identity.token)
-      @graph = Koala::Facebook::GraphAPI.new
+      
       @friendsFound = @graph.get_objects(@friendsFoundIds)  
     end
 
