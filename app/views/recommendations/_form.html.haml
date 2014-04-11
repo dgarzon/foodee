@@ -23,7 +23,8 @@
               %b Description:
               = recommendation.description
 
-        %hr
+        - if !@existingRecs.empty?
+          %hr
         %h4 New Review
         = form_for @recommendation do |f|
           - if @recommendation.errors.any?
