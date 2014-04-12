@@ -1,0 +1,77 @@
+%div{:class => "modal fade", :id => "firstRestaurantModal", :tabindex => "-1", :role => "dialog"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button{ :type => "button", :class => "close",  :"data-dismiss"=> "modal" } &times;
+          
+        %h4.modal-title#myModalLabel Make your first recommendations....
+      -i = 0
+      .modal-body
+      
+        - @firstFewRestaurants.each do |restaurant|
+          .well.recs
+            = form_for @formRecommendations[i] do |f|
+              - if @formRecommendations[i].errors.any?
+                #error_explanation
+                  %h2= "#{pluralize(@formRecommendations.errors.count, "error")} prohibited this recommendation from being saved:"
+                  %ul
+                    - @formRecommendations[i].errors.full_messages.each do |msg|
+                      %li= msg
+
+              %img{:src => restaurant['image_url']}
+
+              %p
+                %b Restaurant:
+                = link_to restaurant['name'], restaurant['url'], :target => "_blank"
+
+              .field
+                = f.label :like
+                = f.check_box :like, :disabled => true
+              .field
+                = f.label :description, "Comments(optional)"
+                = f.text_field :description
+              .field
+                = f.label :pics
+                = f.file_field :pics
+
+              = f.hidden_field :user_id, value: @formRecommendations[i].user_id
+
+              / = f.hidden_field :restaurant_id, value: @recommendation.restaurant_id
+              = f.hidden_field :restaurant_id, value: @temp_restaurants[i].yelp_restaurant_id
+
+              = f.hidden_field :restaurant_name, value: @temp_restaurants[i].name
+
+              %hr
+              %button{ :type => "submit", :class => "btn btn-primary" } Save changes
+
+          -i = i + 1
+
+        %hr
+          %button{ :type => "button", :class => "btn btn-default", :"data-dismiss" => "modal" } Close
+          %button{ :type => "submit", :class => "btn btn-primary" } Save changes
+
+
+:coffee
+  $('#firstRestaurantModal').modal "show"
+
+  $('form').submit () ->
+    debugger
+    presentSubmitted = this
+    ### valuesToSubmit = $(this).serialize() ###
+    valuesToSubmit = new FormData $(this)[0]
+    url = $(this).attr "action"
+    $.ajax url,
+          type: 'POST'
+          data: valuesToSubmit
+          cache: false,
+          contentType: false
+          processData: false
+          success: (data, textStatus, jqXHR) ->
+            if(textStatus == "success")
+              parentWell = $(presentSubmitted).closest ".well"
+              $(parentWell).html "Recommendation saved !!!"
+            else
+              parentWell = $(presentSubmitted).closest ".well"
+              $(parentWell).append "oops there was an error :( please try again !!!"
+            console.log "done"
+    return false

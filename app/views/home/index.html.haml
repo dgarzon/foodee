@@ -20,39 +20,44 @@
       .actions
         = f.submit 'Search', :class => 'btn btn-primary btn-lg'
 
-.well.news-feed{"align" => "center"}
-  %h1 News Feed
-  %hr
-  - i = 0
-  - @recommendations.each do |recommendation|
-    .well.recs
-      %p
-        / %b Like:
-        / %input{:type => "checkbox", :checked}
-        / %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
-        / :selected => recommendation.like,
-        / = recommendation.like ? "Liked" : "Didn't like"
-      %p
-        = image_tag @profilePicUrls[i]
-      %p
-        %b Restaurant:
-        = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
-
-      - if recommendation.pics.file?
+- if ! @recommendations.empty?
+  .well.news-feed{"align" => "center"}
+    %h1 News Feed
+    %hr
+    - i = 0
+    - @recommendations.each do |recommendation|
+      .well.recs
         %p
-          = image_tag recommendation.pics.url
+          / %b Like:
+          / %input{:type => "checkbox", :checked}
+          / %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
+          / :selected => recommendation.like,
+          / = recommendation.like ? "Liked" : "Didn't like"
+        %p
+          = image_tag @profilePicUrls[i]
+        %p
+          %b Restaurant:
+          = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
 
-      %p
-        %b Rated by:
-        / = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
-        = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
-      %p
-        %b Description:
-        = recommendation.description
+        - if recommendation.pics.file?
+          %p
+            = image_tag recommendation.pics.url
 
-      %p
-        =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary" 
-        -i = i + 1
+        %p
+          %b Rated by:
+          / = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+          = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+        %p
+          %b Description:
+          = recommendation.description
+
+        %p
+          =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary" 
+          -i = i + 1
+
+- if @firstRestaurants != nil
+  %modalFooter
+    = render 'firstRestaurant'
 
 :coffee
   $("#search-input").geocomplete

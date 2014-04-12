@@ -17,6 +17,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       if user.sign_in_count < 1
         flash[:success] = "Welcome to Foodee, #{user.first_name}!"
         sign_in user
+        # to identify first visit of home page
+        session[:firstLogin] = true
         redirect_to new_user_address_path(user)
       else
         flash[:success] = "Welcome back, #{user.first_name}!"
