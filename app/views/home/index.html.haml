@@ -55,7 +55,7 @@
                   = recommendation.description
 
                 %p
-                  =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary"
+                  =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.yelp_restaurant_id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary"
 
     - if @first_login_restaurants != nil
       %modalFooter
