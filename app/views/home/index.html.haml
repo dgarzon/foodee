@@ -2,13 +2,12 @@
 - title "Home"
 .row
   .col-md-3.column
-    .well
-      %ul#sidebar.nav.nav-stacked{"data-offset-top" => "130", "data-spy" => "affix"}
-        %li
-          %b Cuisines
-        %ul
-          - @cuisines.each do |cuisine|
-            %li= link_to cuisine, restaurants_path(:cuisine => cuisine)
+    %ul#sidebar.nav.nav-stacked.affix
+      %li
+        %b Cuisines
+      %ul
+        - @cuisines.each do |cuisine|
+          %li= link_to cuisine, restaurants_path(:cuisine => cuisine)
   .col-md-9
     .well.well-registration{"align" => "center"}
       .alert.alert-info.alert-dismissable
