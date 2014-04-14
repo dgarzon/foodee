@@ -6,7 +6,7 @@ class HomeController < ApplicationController
 
   def index
   	# show friends recommendation
-    @recommendations = Recommendation.get_friend_recommedation(@friends_ids)
+    @recommendations = Recommendation.get_friend_recommedation(@registered_friends)
 
     @friend_recommendations = []
     @yelp_names = []
@@ -66,9 +66,12 @@ class HomeController < ApplicationController
       identity = Identity.where(:user_id => current_user.id, :provider => 'facebook').first
       @graph = Koala::Facebook::API.new(identity.token)
       @friends = @graph.get_connections("me", "friends")
-      @friends_ids = []
+      friends_ids = []
       @friends.each do |friend|
-        @friends_ids << friend["id"]
+        friends_ids << friend["id"]
       end
+
+      @registered_friends = Identity.where(:provider => 'facebook') \
+                                          .where('uid IN (?)', friends_ids).collect(&:uid)
     end
 end

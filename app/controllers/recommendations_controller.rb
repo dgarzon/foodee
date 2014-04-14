@@ -12,7 +12,7 @@ class RecommendationsController < ApplicationController
   # GET /recommendations/1
   # GET /recommendations/1.json
   def show
-    @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], @friends_ids)
+    @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], @registered_friends)
     @friend_recommendations = []
     @recommendations.each do |recommendation|
       friend = User.find(recommendation.user_id)
@@ -110,10 +110,13 @@ class RecommendationsController < ApplicationController
       identity = Identity.where(:user_id => current_user.id, :provider => 'facebook').first
       @graph = Koala::Facebook::API.new(identity.token)
       @friends = @graph.get_connections("me", "friends")
-      @friends_ids = []
+      friends_ids = []
       @friends.each do |friend|
-        @friends_ids << friend["id"]
+        friends_ids << friend["id"]
       end
+
+      @registered_friends = Identity.where(:provider => 'facebook') \
+                                          .where('uid IN (?)', friends_ids).collect(&:uid)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -18,7 +18,7 @@ class RestaurantsController < ApplicationController
     # so that we render the links only when we have recommendations from friends
     @found_recommendations = []
     @restaurants.each do |restaurant|
-      recommendations = Recommendation.get_friend_recommedation_by_restaurant(restaurant["id"], @friends_ids)
+      recommendations = Recommendation.get_friend_recommedation_by_restaurant(restaurant["id"], @registered_friends)
       if recommendations.empty?
         @found_recommendations << false
       else
@@ -54,7 +54,7 @@ class RestaurantsController < ApplicationController
       @tips = Restaurant.get_venue_tips_from_foursquare @venue.venues[0].id
     else
       # show friends recommendation
-      @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], @friends_ids)
+      @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], @registered_friends)
       @friend_recommendations = []
       @recommendations.each do |recommendation|
         friend = User.find(recommendation.user_id)
@@ -118,10 +118,13 @@ class RestaurantsController < ApplicationController
       identity = Identity.where(:user_id => current_user.id, :provider => 'facebook').first
       @graph = Koala::Facebook::API.new(identity.token)
       @friends = @graph.get_connections("me", "friends")
-      @friends_ids = []
+      friends_ids = []
       @friends.each do |friend|
-        @friends_ids << friend["id"]
+        friends_ids << friend["id"]
       end
+
+      @registered_friends = Identity.where(:provider => 'facebook') \
+                                          .where('uid IN (?)', friends_ids).collect(&:uid)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
