@@ -15,16 +15,20 @@
   display:none;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 992px) {
   .affix {
     width: 263px;
+    position: fixed;
+    top: 70px;
   }
 }
 
-@media (min-width: 992px) {
+@media (max-width: 991px) {
   .affix {
-    position: fixed;
-    top: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    top: 10px;
   }
 }
 
