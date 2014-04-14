@@ -19,7 +19,6 @@
   .affix {
     width: 263px;
     position: fixed;
-    top: 70px;
   }
 }
 
@@ -28,11 +27,11 @@
     max-width: 600px;
     margin: 0 auto;
     position: relative;
-    top: 10px;
   }
 }
 
 #sidebar {
+  margin-top: 0px;
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
