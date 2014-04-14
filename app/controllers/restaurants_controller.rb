@@ -50,7 +50,7 @@ class RestaurantsController < ApplicationController
       @reviews = @restaurant["reviews"]
 
       # adding foursquare tips
-      @venue = Restaurant.get_venue_by_foursquare_id @restaurant.foursquare_id
+      @venue = Restaurant.get_venue_from_foursquare params[:restaurant_name], params[:restaurant_address], params[:restaurant_city]
       @tips = Restaurant.get_venue_tips_from_foursquare @venue.venues[0].id
     else
       # show friends recommendation
