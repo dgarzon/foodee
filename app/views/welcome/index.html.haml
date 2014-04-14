@@ -10,29 +10,29 @@
     / Carousel Slide 1
     #slide-1.item.active
       .container
-        .col-md-6.carousel-banner.pull-left
+        .col-md-6.carousel-banner
           / %h2= Forgery(:lorem_ipsum).words(10)
           %h2 Welcome to Foodee... We help you find good eats and rate em online
           %p Sign Up with us, start searching restaruants, and make recommendations that your friends could use !!
-        .col-md-6.welcome-image.pull-left
+        .col-md-6.welcome-image
           = image_tag("burgers.jpeg")
 
     / Carousel Slide 2
     #slide-2.item
       .container
-        .col-md-7.carousel-banner.pull-left
+        .col-md-7.carousel-banner
           %h2 Too many useless reviews ??
           %p  No need to sift through hundreds of random reviews, you'll get only what your friends have recommended. And you can be even more specific by starring the "foodees" in your circle.
-        .col-md-5.welcome-image.pull-left
+        .col-md-5.welcome-image
           = image_tag("merengue.jpg")
 
     / Carousel Slide 3
     #slide-3.item
       .container
-        .col-md-7.carousel-banner.pull-left
+        .col-md-7.carousel-banner
           %h2 Build your rep as true Foodee
           %p The more you review the higher your status on the site, and the more the weight that is given to your suggestions.
-        .col-md-5.welcome-image.pull-left
+        .col-md-5.welcome-image
           = image_tag("ramen.jpg")
   / /.carousel-inner
   %a.left.carousel-control.visible-md.visible-lg{"data-slide" => "prev", href: "#welcome-carousel"}

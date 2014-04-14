@@ -5,7 +5,7 @@
 
 #welcome-carousel {
   background: #3A3C42;
-  height: 585px;
+  min-height: 585px;
   color: $clouds;
   overflow: hidden;
   margin-top: -1.6em;
@@ -220,10 +220,19 @@
   padding-top: 45px;
 }
 
-.welcome-image {
-  img {
-    max-width: 610px;
-  }
+.carousel-inner > .item > .container > .welcome-image > img {
+  min-width: 100%;
+  width: 100%;
   margin-top: 3em;
+}
 
+.welcome-image {
+  text-align: center;
+}
+
+
+@media screen and (max-width: 991px) {
+  .carousel {
+    padding-bottom: 5em;
+  }
 }
