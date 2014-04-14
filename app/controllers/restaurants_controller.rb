@@ -43,8 +43,13 @@ class RestaurantsController < ApplicationController
     if params[:external]
       # adding yelp reviews
       @restaurant = Restaurant.get_restaurant_by_yelp_id params[:restaurant_id]
-      @yelpReviews = @restaurant["reviews"]
-      logger.debug "client : #{@yelpReviews.inspect}"
+      @reviews = @restaurant["reviews"]
+
+      # adding foursquare tips
+      @venue = Restaurant.get_venue_from_foursquare params[:restaurant_name], params[:restaurant_address], params[:restaurant_city]
+      @tips = Restaurant.get_venue_tips_from_foursquare @venue.venues[0].id
+
+      logger.debug @tips
     else
       # show friends recommendation
       @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], session[:friends])
@@ -62,8 +67,8 @@ class RestaurantsController < ApplicationController
       end
       # get their details
       # @graph = Koala::Facebook::API.new(identity.token)
-      
-      @friendsFound = @graph.get_objects(@friendsFoundIds)  
+
+      @friendsFound = @graph.get_objects(@friendsFoundIds)
     end
 
     respond_to do |format|

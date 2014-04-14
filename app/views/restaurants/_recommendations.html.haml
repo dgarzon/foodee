@@ -5,8 +5,8 @@
     .modal-content
       .modal-header
         %button{ :type => "button", :class => "close",  :"data-dismiss"=> "modal" } &times;
-          
-        %h4.modal-title#myModalLabel 
+
+        %h4.modal-title#myModalLabel
           - if @recommendations
             Friends Recommendation
           - else
@@ -47,19 +47,37 @@
 
 
         / adding yelp reviews
-        - if @yelpReviews
-          - @yelpReviews.each do |review|
+        - if @reviews
+          - @reviews.each do |review|
             .well.recs
               %p
                 = link_to '<img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/3049d7633b6e/developers/reviewsFromYelpRED.gif"/>'.html_safe, @restaurant["url"]
               %p
                 %b Description:
-                =review["excerpt"]
+                = review["excerpt"]
               %p
                 %img{:src => review["rating_image_small_url"]}
               %p
                 %b Rated by:
-                =link_to review["user"]["name"], "http://www.yelp.com/user_details?userid=#{review["user"]["id"]}"
+                = link_to review["user"]["name"], "http://www.yelp.com/user_details?userid=#{review["user"]["id"]}"
+
+        - if @tips
+          - @tips.items.each do |tip|
+            .well.recs
+              %p
+                = link_to '<img src="https://playfoursquare.s3.amazonaws.com/press/logo/poweredByFoursquare_gray.png" width=115/>'.html_safe, 'http://www.foursquare.com/venue/' + "#{@venue.venues[0].id}"
+              %p
+                %b Description:
+                = tip.text
+              %p
+                %b Likes:
+                = tip.likes.count
+              %p
+                %b Rated by:
+                - name = "#{tip.user.firstName}"
+                - if tip.user.lastName
+                  - name = name + " " + "#{tip.user.lastName}"
+                = link_to name, "http://www.foursquare.com/user/" + "#{tip.user.id}"
 
 
         %hr

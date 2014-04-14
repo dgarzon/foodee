@@ -13,10 +13,10 @@ class Restaurant < ActiveRecord::Base
 			term = "restaurants"
 			address = ""
 		else
-			term = query[0]	
+			term = query[0]
 			address = query[1..-1].join(", ")
 		end
-		
+
 		geo = Geocoder.search(address)
 		client = Yelp::Client.new(:debug => false)
 
@@ -48,5 +48,18 @@ class Restaurant < ActiveRecord::Base
 		request = Id.new(:yelp_business_id => yelp_restaurant_id)
 		response = client.search(request)
  		response
+	end
+
+	def self.get_venue_from_foursquare (query, address, city)
+		geo = Geocoder.search(address + ", " + city)
+		client = Foursquare2::Client.new(:api_version => '20131016', :client_id => 'GEFFG1OE4CDNJMT5LH4AU54SH2NL31HIY5EXU0AVHDLUJZY3', :client_secret => 'EBXY34DUC0DEBOBBEP4KCUH5QSGBP1TCQPRH24N3KAWV3L0E')
+		venue = client.search_venues(:ll => "#{geo.first.data['geometry']['location']['lat']}" + ", " + "#{geo.first.data['geometry']['location']['lng']}", :query => query, :limit => 1)
+		venue
+	end
+
+	def self.get_venue_tips_from_foursquare (foursquare_id)
+		client = Foursquare2::Client.new(:api_version => '20131016', :client_id => 'GEFFG1OE4CDNJMT5LH4AU54SH2NL31HIY5EXU0AVHDLUJZY3', :client_secret => 'EBXY34DUC0DEBOBBEP4KCUH5QSGBP1TCQPRH24N3KAWV3L0E')
+		tips = client.venue_tips(foursquare_id)
+		tips
 	end
 end
