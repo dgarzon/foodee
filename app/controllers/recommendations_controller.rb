@@ -50,6 +50,8 @@ class RecommendationsController < ApplicationController
   def create
     @recommendation = current_user.recommendations.new
 
+    logger.debug params
+
     restaurant = Restaurant.where(:yelp_restaurant_id => params[:recommendation][:restaurant_id], :name => params[:recommendation][:restaurant_name]).first
 
     if restaurant.nil?
