@@ -15,8 +15,20 @@
   display:none;
 }
 
+@media (min-width: 1200px) {
+  .affix {
+    width: 263px;
+  }
+}
+
+@media (min-width: 992px) {
+  .affix {
+    position: fixed;
+    top: 20px;
+  }
+}
+
 #sidebar {
-  width: 300px;
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
