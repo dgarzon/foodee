@@ -10,27 +10,30 @@
     / Carousel Slide 1
     #slide-1.item.active
       .container
-        .col-md-6.carousel-banner
+        .col-md-6.carousel-banner.pull-left
           / %h2= Forgery(:lorem_ipsum).words(10)
           %h2 Welcome to Foodee... We help you find good eats and order em online
           %p Sign Up with us, start searching restaruants, and make recommendations that your friends could use !!
-        .col-md-6
+        .col-md-6.welcome-image.pull-left
+          = image_tag("burgers.jpeg")
 
     / Carousel Slide 2
     #slide-2.item
       .container
-        .col-md-7.carousel-banner
+        .col-md-7.carousel-banner.pull-left
           %h2 Too many useless reviews ??
           %p  No need to sift through hundreds of random reviews, you'll get only what your friends have recommended. And you can be even more specific by starring the "foodees" in your circle.
-        .col-md-5
+        .col-md-5.welcome-image.pull-left
+          = image_tag("merengue.jpg")
 
     / Carousel Slide 3
     #slide-3.item
       .container
-        .col-md-7.carousel-banner
+        .col-md-7.carousel-banner.pull-left
           %h2 Build your rep as true Foodee
           %p The more you review the higher your status on the site, and the more the weight that is given to your suggestions.
-        .col-md-5
+        .col-md-5.welcome-image.pull-left
+          = image_tag("ramen.jpg")
   / /.carousel-inner
   %a.left.carousel-control.visible-md.visible-lg{"data-slide" => "prev", href: "#welcome-carousel"}
     %span.glyphicon.glyphicon-chevron-left
@@ -83,7 +86,7 @@
     %br/
     .row
       .person.col-md-4
-        = image_tag("nyc.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Pranav Bhalla" )
+        = image_tag("pranav.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Pranav Bhalla" )
         %h4.person-name Pranav Bhala
         %span.person-skills Developer / UI & UX Design
         %p.person-description= Forgery(:lorem_ipsum).words(15)
@@ -103,7 +106,7 @@
         / /#list-links-social
       / /#person_1
       .person.col-md-4
-        = image_tag("nyc.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Daniel Garzon" )
+        = image_tag("dan.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Daniel Garzon" )
         %h4.person-name Daniel Garzon
         %span.person-skills Developer / UI & UX Design
         %p.person-description= Forgery(:lorem_ipsum).words(15)
@@ -124,7 +127,7 @@
         / /#list-links-social
       / /#person_2
       .person.col-md-4
-        = image_tag("nyc.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Shehzad Khan" )
+        = image_tag("shehzad.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Shehzad Khan" )
         %h4.person-name Shehzad Khan
         %span.person-skills CEO
         %p.person-description= Forgery(:lorem_ipsum).words(15)
