@@ -1,13 +1,4 @@
 GIT
-  remote: git://github.com/rails/activerecord-session_store.git
-  revision: 8e780d62b2e915dcc708902492bc3999b38143be
-  specs:
-    activerecord-session_store (0.1.0)
-      actionpack (>= 4.0.0, < 5)
-      activerecord (>= 4.0.0, < 5)
-      railties (>= 4.0.0, < 5)
-
-GIT
   remote: https://github.com/mattmueller/foursquare2.git
   revision: c8263f778ee97a6de9ec4f4ba10d4cdf2918c053
   specs:
@@ -271,7 +262,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord-session_store!
   annotate (>= 2.6.0)
   awesome_print
   aws-sdk

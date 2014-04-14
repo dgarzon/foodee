@@ -14,9 +14,9 @@
       .alert.alert-info.alert-dismissable
         %button.close{"data-dismiss" => "alert"}
           &times;
-        ="Current address: "
+        = "Current address: "
         %strong
-          =@defaultAddress.street + " " + @defaultAddress.city + " " + @defaultAddress.state
+          = @default_address.street + " " + @default_address.city + " " + @default_address.state
 
       %h1 Discover
       %hr
@@ -29,16 +29,15 @@
           .actions
             = f.submit 'Search', :class => 'btn btn-primary btn-lg'
 
-    - if ! @recommendations.empty?
+    - if !@recommendations.empty?
       .well.news-feed{"align" => "center"}
         %h1 News Feed
         %hr
-        - i = 0
-        - @recommendations.each do |recommendation|
+        - @recommendations.each_with_index do |recommendation, index|
           .well.recs
             .row
               .image.pull-left
-                = image_tag @profilePicUrls[i], :class => "circular"
+                = image_tag @friend_recommendations[index][:image], :class => "circular"
               .bubble.pull-left
                 %p
                   %b Restaurant:
@@ -50,19 +49,17 @@
 
                 %p
                   %b Rated by:
-                  / = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
-                  = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+                  = link_to "#{@friend_recommendations[index][:name]} <i class=\"fa fa-facebook\"></i>".html_safe, "http://facebook.com/profile.php?id=" + "#{@friend_recommendations[index][:fb_id]}"
                 %p
                   %b Description:
                   = recommendation.description
 
                 %p
                   =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary"
-              -i = i + 1
 
-    - if @firstRestaurants != nil
+    - if @first_login_restaurants != nil
       %modalFooter
-        = render 'firstRestaurant'
+        = render 'first'
 
 :coffee
   $("#search-input").geocomplete

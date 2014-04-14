@@ -1,66 +1,47 @@
 class HomeController < ApplicationController
   before_filter :authenticate_user!
+  before_action :set_friends, only: [:index]
 
-  FIRST_RECS_COUNT = 5
+  FIRST_RECOMMENDATION_COUNT = 5
 
   def index
   	# show friends recommendation
-    @recommendations = Recommendation.get_friend_recommedation(session[:friends])
-    if @recommendations.empty?
-      logger.debug "recommendations is empty"
-    end
+    @recommendations = Recommendation.get_friend_recommedation(@friends_ids)
 
-    # get ids of friend, restaurant
-    @friendsFoundIds = []
-    @yelpRestaurantNames = []
-    @profilePicUrls = []
-    @graph = Koala::Facebook::GraphAPI.new
+    @friend_recommendations = []
+    @yelp_names = []
 
     @recommendations.each do |recommendation|
-      fb_id = User.find(recommendation.user_id).fb_id
-      @friendsFoundIds << fb_id
-      # also get the picture
-      @profilePicUrls << @graph.get_picture(fb_id)
+      friend = User.find(recommendation.user_id)
+      hash = {:name => friend.full_name, :fb_id => friend.fb_id, :image => @graph.get_picture(friend.fb_id)}
+      @friend_recommendations.push(hash)
 
-      @yelpRestaurantNames << Restaurant.find(recommendation.restaurant_id).name
+      yelp = Restaurant.find(recommendation.restaurant_id).name
+      @yelp_names.push(yelp)
     end
-    @friendsFound = @graph.get_objects(@friendsFoundIds)
 
     # address to show on top
-    @defaultAddress = current_user.primary_address()
-    # used for restaurant search
-    @address = Address.new
+    @default_address = current_user.primary_address
 
     # in case the user has come to the site for the first time
-    logger.debug "client : #{current_user.sign_in_count.inspect}"
-    if session[:firstLogin] && session[:firstLogin] == true
-      session[:firstLogin] = false
-      @formRecommendations = []
-      @temp_restaurants = []
-      @firstFewRestaurants = []
-      @firstRestaurants = Restaurant.get_restaurant_by_query("", current_user)
-      @firstRestaurants = @firstRestaurants['businesses']
-      # logger.debug "client : #{@firstRestaurants.inspect}"
+    if session[:first_login] && session[:first_login] == true
+      session[:first_login] = false
+      @restaurants = []
+      @first_recommendations = []
 
-      # create these many forms
-      i = 0
-      @firstRestaurants.each do |restaurant|
-        temp_restaurant = Restaurant.new
-        temp_restaurant[:name] = restaurant["name"]
-        temp_restaurant[:yelp_restaurant_id] = restaurant['id']
-        @temp_restaurants << temp_restaurant
+      recommended = Restaurant.get_restaurant_by_query("", current_user)
+      @first_login_restaurants = recommended['businesses']
 
-        recommendation = Recommendation.new
-        recommendation[:user_id] = current_user[:id]
-        # like by default
-        recommendation[:like] = true
-        @formRecommendations << recommendation
-        @firstFewRestaurants << restaurant
-        # top 5 restaurants
-        if i > FIRST_RECS_COUNT
+      @first_login_restaurants.each_with_index do |restaurant, index|
+        rest = {:name => restaurant["name"], :yelp_restaurant_id => restaurant['id'], :url => restaurant['url'], :image_url => restaurant['image_url']}
+        @restaurants.push(rest)
+
+        rec = {:user_id => current_user.id, :like => true}
+        @first_recommendations.push(rec)
+
+        if index > FIRST_RECOMMENDATION_COUNT
           break
         end
-        i = i + 1
       end
     end
 
@@ -80,9 +61,14 @@ class HomeController < ApplicationController
     end
   end
 
-  def searchAtAddress
-    # send along the address received as parameter
-    @geoCodedAddress = Address.new(@address)
-    redirect_to restaurants_path(:address => @geoCodedAddress)
-  end
+  private
+    def set_friends
+      identity = Identity.where(:user_id => current_user.id, :provider => 'facebook').first
+      @graph = Koala::Facebook::API.new(identity.token)
+      @friends = @graph.get_connections("me", "friends")
+      @friends_ids = []
+      @friends.each do |friend|
+        @friends_ids << friend["id"]
+      end
+    end
 end

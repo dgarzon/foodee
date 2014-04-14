@@ -12,13 +12,12 @@
           - else
             External Reviews
 
-      -i = 0
       .modal-body
         - if @recommendations
-          - @recommendations.each do |recommendation|
+          - @recommendations.each_with_index do |recommendation, index|
             .well.recs
               %p
-                = image_tag @profilePicUrls[i]
+                = image_tag @friend_recommendations[index][:image]
 
               %p
                 %b Restaurant:
@@ -30,20 +29,11 @@
 
               %p
                 %b Rated by:
-                / = recommendation.user
-                = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+                = link_to "#{@friend_recommendations[index][:name]} <i class=\"fa fa-facebook\"></i>".html_safe, "http://facebook.com/profile.php?id=" + "#{@friend_recommendations[index][:fb_id]}"
 
               %p
                 %b Description:
                 = recommendation.description
-
-              / %p
-              /   %b Like:
-              /   %input{:type => "checkbox", :checked}
-              /   %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
-              /   :selected => recommendation.like,
-              /   = recommendation.like ? "Liked" : "Didn't like"
-            -i = i + 1
 
 
         / adding yelp reviews

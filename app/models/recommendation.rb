@@ -4,7 +4,7 @@ class Recommendation < ActiveRecord::Base
 
   # for paperclip
   # This method associates the attribute ":pics" with a file attachment
-  has_attached_file :pics, 
+  has_attached_file :pics,
   styles: {
     thumb: '100x100>',
     square: '200x200#',
@@ -20,28 +20,25 @@ class Recommendation < ActiveRecord::Base
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :pics, :content_type => /\Aimage\/.*\Z/
 
-  def Recommendation.get_friend_recommedation_by_restaurant(yelp_restaurant_id, friendIds)
-
-  	# Recommendation.where(["restaurant_id = :id and email = :email", { id: restaurant_id, email: friendIds }])
-  	# Recommendation.joins(:users).on(users[:fb_id].eq(recommendations[:user_id]))
-  	# Recommendation.joins(:users).where(orders: {created_at: time_range})
-  	Recommendation.where(user_id: User.select("id").where(fb_id: friendIds), 
+  def self.get_friend_recommedation_by_restaurant(yelp_restaurant_id, friend_id)
+  	recommendation = Recommendation.where(user_id: User.select("id").where(fb_id: friend_id),
   		restaurant_id: Restaurant.select("id").where(yelp_restaurant_id: yelp_restaurant_id))
-	# select("recommendations.id, recommendations.like, recommendations.description, users.fb_id, restaurants.name")
-	
-  	# Recommendation.includes(:restaurants, :users).where("recommendations.user_id = ?", User.select("id").where(fb_id: friendIds)
-  	# 	"recommendations.restaurant_id = ?", Restaurant.select("id").where(yelp_restaurant_id: yelp_restaurant_id))
+    recommendation
+
   end
 
-  def Recommendation.get_friend_recommedation(friendIds)
-    Recommendation.where(user_id: User.select("id").where(fb_id: friendIds))
+  def self.get_friend_recommedation(friendIds)
+    recommendation = Recommendation.where(user_id: User.select("id").where(fb_id: friendIds))
+    recommendation
   end
 
-  def Recommendation.get_my_recommedation(id)
-    Recommendation.where(user_id: id)
+  def self.get_my_recommedation(id)
+    recommendation = Recommendation.where(user_id: id)
+    recommendation
   end
 
-  def Recommendation.get_my_recommedation_by_restaurant(id, yelp_restaurant_id)
-    Recommendation.where(user_id: id, restaurant_id: Restaurant.select("id").where(yelp_restaurant_id: yelp_restaurant_id))
+  def self.get_my_recommedation_by_restaurant(id, yelp_restaurant_id)
+    recommendation = Recommendation.where(user_id: id, restaurant_id: Restaurant.select("id").where(yelp_restaurant_id: yelp_restaurant_id))
+    recommendation
   end
 end

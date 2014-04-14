@@ -3,26 +3,18 @@
     .modal-content
       .modal-header
         %button{ :type => "button", :class => "close",  :"data-dismiss"=> "modal" } &times;
-          
-        %h4.modal-title#myModalLabel Make your first recommendations....
-      -i = 0
-      .modal-body
-      
-        - @firstFewRestaurants.each do |restaurant|
-          .well.recs
-            = form_for @formRecommendations[i] do |f|
-              - if @formRecommendations[i].errors.any?
-                #error_explanation
-                  %h2= "#{pluralize(@formRecommendations.errors.count, "error")} prohibited this recommendation from being saved:"
-                  %ul
-                    - @formRecommendations[i].errors.full_messages.each do |msg|
-                      %li= msg
 
-              %img{:src => restaurant['image_url']}
+        %h4.modal-title#myModalLabel Make your first recommendations....
+      .modal-body
+        - @restaurants.each_with_index do |restaurant, index|
+          .well.recs
+            - @rec = Recommendation.new
+            = simple_form_for @rec do |f|
+              %img{:src => restaurant[:image_url]}
 
               %p
                 %b Restaurant:
-                = link_to restaurant['name'], restaurant['url'], :target => "_blank"
+                = link_to restaurant[:name], restaurant[:url], :target => "_blank"
 
               .field
                 = f.label :like
@@ -34,17 +26,14 @@
                 = f.label :pics
                 = f.file_field :pics
 
-              = f.hidden_field :user_id, value: @formRecommendations[i].user_id
+              = f.hidden_field :user_id, value: @first_recommendations[index][:user_id]
 
-              / = f.hidden_field :restaurant_id, value: @recommendation.restaurant_id
-              = f.hidden_field :restaurant_id, value: @temp_restaurants[i].yelp_restaurant_id
+              = f.hidden_field :restaurant_id, value: restaurant[:yelp_restaurant_id]
 
-              = f.hidden_field :restaurant_name, value: @temp_restaurants[i].name
+              = f.hidden_field :restaurant_name, value: restaurant[:name]
 
               %hr
               %button{ :type => "submit", :class => "btn btn-primary" } Save changes
-
-          -i = i + 1
 
         %hr
           %button{ :type => "button", :class => "btn btn-default", :"data-dismiss" => "modal" } Close

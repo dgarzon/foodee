@@ -1,5 +1,6 @@
 class RestaurantsController < ApplicationController
   # before_action :set_restaurant, only: [:edit, :update, :destroy]
+  before_action :set_friends, only: [:index, :recommendations]
 
   # GET /restaurants
   # GET /restaurants.json
@@ -15,23 +16,22 @@ class RestaurantsController < ApplicationController
     end
 
     # so that we render the links only when we have recommendations from friends
-    @recsFoundIds = []
+    @found_recommendations = []
     @restaurants.each do |restaurant|
-      # logger.debug "rest : #{restaurant["location"]["address"].inspect}"
-        recommendations = Recommendation.get_friend_recommedation_by_restaurant(restaurant["id"], session[:friends])
-        if recommendations.empty?
-          @recsFoundIds << false
-        else
-          @recsFoundIds << true
-        end
+      recommendations = Recommendation.get_friend_recommedation_by_restaurant(restaurant["id"], @friends_ids)
+      if recommendations.empty?
+        @found_recommendations << false
+      else
+        @found_recommendations << true
+      end
     end
   end
 
   # GET /restaurants/1
   # GET /restaurants/1.json
   def show
-    dbRestaurant = Restaurant.find(params[:id])
-    @restaurant = Restaurant.get_restaurant_by_yelp_id dbRestaurant.yelp_restaurant_id
+    restaurant = Restaurant.find(params[:id])
+    @restaurant = Restaurant.get_restaurant_by_yelp_id restaurant.yelp_restaurant_id
   end
 
   # GET /restaurants/new
@@ -52,27 +52,15 @@ class RestaurantsController < ApplicationController
       # adding foursquare tips
       @venue = Restaurant.get_venue_from_foursquare params[:restaurant_name], params[:restaurant_address], params[:restaurant_city]
       @tips = Restaurant.get_venue_tips_from_foursquare @venue.venues[0].id
-
-      logger.debug @tips
     else
       # show friends recommendation
-      @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], session[:friends])
-      # get details on friend
-      @friendsFoundIds = []
-      @profilePicUrls = []
-      @graph = Koala::Facebook::GraphAPI.new
-
+      @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], @friends_ids)
+      @friend_recommendations = []
       @recommendations.each do |recommendation|
-
-        fb_id = User.find(recommendation.user_id).fb_id
-        @friendsFoundIds << fb_id
-        # also get the picture
-        @profilePicUrls << @graph.get_picture(fb_id)
+        friend = User.find(recommendation.user_id)
+        hash = {:name => friend.full_name, :fb_id => friend.fb_id, :image => @graph.get_picture(friend.fb_id)}
+        @friend_recommendations.push(hash)
       end
-      # get their details
-      # @graph = Koala::Facebook::API.new(identity.token)
-
-      @friendsFound = @graph.get_objects(@friendsFoundIds)
     end
 
     respond_to do |format|
@@ -124,6 +112,16 @@ class RestaurantsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_restaurant
       @restaurant = Restaurant.find(params[:id])
+    end
+
+    def set_friends
+      identity = Identity.where(:user_id => current_user.id, :provider => 'facebook').first
+      @graph = Koala::Facebook::API.new(identity.token)
+      @friends = @graph.get_connections("me", "friends")
+      @friends_ids = []
+      @friends.each do |friend|
+        @friends_ids << friend["id"]
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -11,8 +11,8 @@
     %th Yelp Rating
     %th Recommend
     %th Ratings
-  - i = 0
-  - @restaurants.each do |restaurant|
+
+  - @restaurants.each_with_index do |restaurant, index|
     %tr
       %td
         %img{:src => restaurant['image_url']}
@@ -23,12 +23,11 @@
         %img{:src => restaurant['rating_img_url_small']}
       %td= link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => restaurant['id'], :restaurant_name => restaurant['name']) , remote: true, "data-toggle" => "modal"
       %td
-        - if @recsFoundIds[i]
+        - if @found_recommendations[index]
           = link_to 'View friend ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id']) , remote: true, "data-toggle" => "modal"
         - else
           0 friends rated so far
 
         %br
 
-        =link_to 'View external ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id'], :restaurant_address => restaurant['location']['address'][0], :restaurant_city => restaurant['location']['city'], :restaurant_name => restaurant['name'], :external => true) , remote: true, "data-toggle" => "modal"
-        -i = i + 1
+        = link_to 'View external ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id'], :restaurant_address => restaurant['location']['address'][0], :restaurant_city => restaurant['location']['city'], :restaurant_name => restaurant['name'], :external => true) , remote: true, "data-toggle" => "modal"
