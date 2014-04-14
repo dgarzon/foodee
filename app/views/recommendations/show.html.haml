@@ -1,14 +1,1 @@
-%p
-  %b Like:
-  / %input{:type => "checkbox", :checked}
-  %input{:type => "checkbox", :checked => @recommendation.like ? true : nil, :disabled => true}
-%p
-  %b Description:
-  = @recommendation.description
-%p
-  %b Restaurant:
-  = link_to @recommendation.restaurant.name, restaurant_path(@recommendation.restaurant)
-
-/ = link_to 'Edit', edit_recommendation_path(@recommendation)
-/ \|
-/ = link_to 'Back', recommendations_path
+= render 'show'

@@ -1,56 +1,51 @@
 %p#notice= notice
 
-%div{:class => "modal fade", :id => "friendRecModal", :tabindex => "-1", :role => "dialog"}
-  .modal-dialog
-    .modal-content
-      .modal-header
-        %button{ :type => "button", :class => "close",  :"data-dismiss"=> "modal" } &times;
-          
-        %h4.modal-title#myModalLabel Friends Recommendation
-      -i = 0
-      .modal-body
-      
-        - @recommendations.each do |recommendation|
-          .well.recs
-            %p
-              %b Like:
-              / %input{:type => "checkbox", :checked}
-              %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
-              / :selected => recommendation.like,
-              / = recommendation.like ? "Liked" : "Didn't like"
-            %p
-              %b Description:
-              = recommendation.description
-            %p
-              %b Rated by:
-              / = recommendation.user
-              = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
-            %p
-              %b Restaurant:
-              = recommendation.restaurant.name
+- @recommendations.each_with_index do |recommendation, index|
+  .well.recs
+    %p
+      %b Like:
+      %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
+    %p
+      %b Description:
+      = recommendation.description
+    %p
+      %b Rated by:
+      = link_to "#{@friend_recommendations[index][:name]} <i class=\"fa fa-facebook\"></i>".html_safe, "http://facebook.com/profile.php?id=" + "#{@friend_recommendations[index][:fb_id]}"
+    %p
+      %b Restaurant:
+      = recommendation.restaurant.name
 
-            - if recommendation.pics.file?
-              %p
-                = image_tag recommendation.pics.url
+    - if recommendation.pics.file?
+      %p
+        = image_tag recommendation.pics.url
 
-          -i = i + 1
+- @reviews.each do |review|
+  .well.recs
+    %p
+      = link_to '<img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/3049d7633b6e/developers/reviewsFromYelpRED.gif"/>'.html_safe, @restaurant["url"]
+    %p
+      %b Description:
+      = review["excerpt"]
+    %p
+      %img{:src => review["rating_image_small_url"]}
+    %p
+      %b Rated by:
+      = link_to review["user"]["name"], "http://www.yelp.com/user_details?userid=#{review["user"]["id"]}"
 
-
-        / adding yelp reviews
-        - @yelpReviews.each do |review|
-          .well.recs
-            %p
-              = link_to '<img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/3049d7633b6e/developers/reviewsFromYelpRED.gif"/>'.html_safe, @restaurant["url"]
-            %p
-              %b Description:
-              =review["excerpt"]
-            %p
-              %img{:src => review["rating_image_small_url"]}
-            %p
-              %b Rated by:
-              =link_to review["user"]["name"], "http://www.yelp.com/user_details?userid=#{review["user"]["id"]}"
-
-
-        %hr
-          %button{ :type => "button", :class => "btn btn-default", :"data-dismiss" => "modal" } Close
-          %button{ :type => "button", :class => "btn btn-primary" } Save changes
+- if @tips
+  - @tips.items.each do |tip|
+    .well.recs
+      %p
+        = link_to '<img src="https://playfoursquare.s3.amazonaws.com/press/logo/poweredByFoursquare_gray.png" width=115/>'.html_safe, @venue['canonicalUrl']
+      %p
+        %b Description:
+        = tip.text
+      %p
+        %b Likes:
+        = tip.likes.count
+      %p
+        %b Rated by:
+        - name = "#{tip.user.firstName}"
+        - if tip.user.lastName
+          - name = name + " " + "#{tip.user.lastName}"
+        = link_to name, "http://www.foursquare.com/user/" + "#{tip.user.id}"

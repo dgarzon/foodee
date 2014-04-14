@@ -3,6 +3,7 @@ class CreateRestaurants < ActiveRecord::Migration
     create_table :restaurants do |t|
       t.string :name
       t.string :location
+      t.string :foursquare_id
 
       t.timestamps
     end

@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20140325230631) do
   create_table "restaurants", force: true do |t|
     t.string   "name"
     t.string   "location"
+    t.string   "foursquare_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "yelp_restaurant_id"

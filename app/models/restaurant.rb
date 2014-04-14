@@ -72,4 +72,18 @@ class Restaurant < ActiveRecord::Base
 		tips = client.venue_tips(foursquare_id)
 		tips
 	end
+
+	def self.get_venue_by_foursquare_id (foursquare_id)
+		client = Foursquare2::Client.new(:api_version => '20131016', :client_id => 'GEFFG1OE4CDNJMT5LH4AU54SH2NL31HIY5EXU0AVHDLUJZY3', :client_secret => 'EBXY34DUC0DEBOBBEP4KCUH5QSGBP1TCQPRH24N3KAWV3L0E')
+		venue = client.venue(foursquare_id)
+		logger.debug venue
+		venue
+	end
+
+	def self.get_venue_foursquare_id(yelp_id)
+		yelp = self.get_restaurant_by_yelp_id(yelp_id)
+		foursquare = self.get_venue_from_foursquare(yelp['name'], yelp['location']['address'][0].to_s,  yelp['location']['city'].to_s)
+		foursquare_id = foursquare.venues[0].id
+		foursquare_id
+	end
 end

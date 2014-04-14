@@ -20,6 +20,9 @@
       %p
         = image_tag recommendation.pics.url(:medium)
 
+    %p
+      = link_to 'Show', user_recommendation_path(current_user, recommendation)
+
 / %td= link_to 'Show', recommendation
 / %td= link_to 'Edit', edit_recommendation_path(recommendation)
 / %td= link_to 'Destroy', recommendation, :method => :delete, :data => { :confirm => 'Are you sure?' }

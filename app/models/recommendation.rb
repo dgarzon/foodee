@@ -41,4 +41,5 @@ class Recommendation < ActiveRecord::Base
     recommendation = Recommendation.where(user_id: id, restaurant_id: Restaurant.select("id").where(yelp_restaurant_id: yelp_restaurant_id))
     recommendation
   end
+
 end
