@@ -4,9 +4,15 @@ class RestaurantsController < ApplicationController
   # GET /restaurants
   # GET /restaurants.json
   def index
-    query = params[:search][:term].split(",")
-    result = Restaurant.get_restaurant_by_query(query, current_user)
-    @restaurants = result['businesses']
+    if !params[:cuisine]
+      query = params[:search][:term].split(",")
+      result = Restaurant.get_restaurant_by_query(query, current_user)
+      @restaurants = result['businesses']
+    else
+      query = params[:cuisine]
+      result = Restaurant.get_restaurant_by_cuisine(query, current_user)
+      @restaurants = result['businesses']
+    end
 
     # so that we render the links only when we have recommendations from friends
     @recsFoundIds = []
@@ -19,8 +25,6 @@ class RestaurantsController < ApplicationController
           @recsFoundIds << true
         end
     end
-    # logger.debug "recsFoundIds : #{@recsFoundIds.inspect}"
-    # @recommendations = recommendations
   end
 
   # GET /restaurants/1

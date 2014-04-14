@@ -42,6 +42,16 @@ class Restaurant < ActiveRecord::Base
 		response
 	end
 
+	def self.get_restaurant_by_cuisine (cuisine, user)
+		client = Yelp::Client.new(:debug => false)
+		request = Location.new(
+		            :city => user.addresses.first.city,
+		            :state => user.addresses.first.state,
+		            :category => ['restaurant'],
+		            :term => cuisine)
+		response = client.search(request)
+	end
+
 	# http://api.yelp.com/v2/business/yelp-san-francisco
 	def self.get_restaurant_by_yelp_id (yelp_restaurant_id)
 		client = Yelp::Client.new(:debug => false)

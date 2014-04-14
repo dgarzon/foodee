@@ -12,3 +12,30 @@
 .user-location {
   display:none;
 }
+
+.affix-top,.affix{
+  position: static;
+}
+
+@media (min-width: 992px) {
+
+  #sidebar.affix-top {
+  position: static;
+  }
+
+  #sidebar.affix {
+  position: fixed;
+  top: 100px;
+  }
+
+}
+
+#sidebar {
+  ul {
+    padding-left: 1em;
+    padding-top: 0.5em;
+  }
+  li {
+    list-style: none;
+  }
+}

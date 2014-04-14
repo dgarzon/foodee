@@ -1,63 +1,72 @@
 %div#recModalPlaceholder
 - title "Home"
+.row
+  .col-md-3.column
+    .well
+      %ul#sidebar.nav.nav-stacked{"data-offset-top" => "130", "data-spy" => "affix"}
+        %li
+          %b Cuisines
+        %ul
+          - @cuisines.each do |cuisine|
+            %li= link_to cuisine, restaurants_path(:cuisine => cuisine)
+  .col-md-9
+    .well.well-registration{"align" => "center"}
+      .alert.alert-info.alert-dismissable
+        %button.close{"data-dismiss" => "alert"}
+          &times;
+        ="Current address: "
+        %strong
+          =@defaultAddress.street + " " + @defaultAddress.city + " " + @defaultAddress.state
 
-.well.well-registration{"align" => "center"}
-  .alert.alert-info.alert-dismissable
-    %button.close{"data-dismiss" => "alert"}
-      &times;
-    ="Current address: "
-    %strong
-      =@defaultAddress.street + " " + @defaultAddress.city + " " + @defaultAddress.state
+      %h1 Discover
+      %hr
+      = simple_form_for :search, :url => restaurants_path, :html => { :method => :get} do |f|
+        .input-group.input-group-lg
+          %span.input-group-addon
+            %i.fa.fa-cutlery
+          = f.input :term, :label => false, :placeholder => "Cuisine, restaurant or leave empty to search around you", :input_html => { :id => 'search-input', :class => 'form-control input-lg' }
+        %hr
+          .actions
+            = f.submit 'Search', :class => 'btn btn-primary btn-lg'
 
-  %h1 Discover
-  %hr
-  = simple_form_for :search, :url => restaurants_path, :html => { :method => :get} do |f|
-    .input-group.input-group-lg
-      %span.input-group-addon
-        %i.fa.fa-cutlery
-      = f.input :term, :label => false, :placeholder => "Cuisine, restaurant or leave empty to search around you", :input_html => { :id => 'search-input', :class => 'form-control input-lg' }
-    %hr
-      .actions
-        = f.submit 'Search', :class => 'btn btn-primary btn-lg'
+    - if ! @recommendations.empty?
+      .well.news-feed{"align" => "center"}
+        %h1 News Feed
+        %hr
+        - i = 0
+        - @recommendations.each do |recommendation|
+          .well.recs
+            %p
+              / %b Like:
+              / %input{:type => "checkbox", :checked}
+              / %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
+              / :selected => recommendation.like,
+              / = recommendation.like ? "Liked" : "Didn't like"
+            %p
+              = image_tag @profilePicUrls[i]
+            %p
+              %b Restaurant:
+              = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
 
-- if ! @recommendations.empty?
-  .well.news-feed{"align" => "center"}
-    %h1 News Feed
-    %hr
-    - i = 0
-    - @recommendations.each do |recommendation|
-      .well.recs
-        %p
-          / %b Like:
-          / %input{:type => "checkbox", :checked}
-          / %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
-          / :selected => recommendation.like,
-          / = recommendation.like ? "Liked" : "Didn't like"
-        %p
-          = image_tag @profilePicUrls[i]
-        %p
-          %b Restaurant:
-          = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
+            - if recommendation.pics.file?
+              %p
+                = image_tag recommendation.pics.url
 
-        - if recommendation.pics.file?
-          %p
-            = image_tag recommendation.pics.url
+            %p
+              %b Rated by:
+              / = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+              = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+            %p
+              %b Description:
+              = recommendation.description
 
-        %p
-          %b Rated by:
-          / = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
-          = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
-        %p
-          %b Description:
-          = recommendation.description
+            %p
+              =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary"
+              -i = i + 1
 
-        %p
-          =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary" 
-          -i = i + 1
-
-- if @firstRestaurants != nil
-  %modalFooter
-    = render 'firstRestaurant'
+    - if @firstRestaurants != nil
+      %modalFooter
+        = render 'firstRestaurant'
 
 :coffee
   $("#search-input").geocomplete

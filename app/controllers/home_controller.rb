@@ -9,13 +9,13 @@ class HomeController < ApplicationController
     if @recommendations.empty?
       logger.debug "recommendations is empty"
     end
-    
+
     # get ids of friend, restaurant
     @friendsFoundIds = []
     @yelpRestaurantNames = []
     @profilePicUrls = []
     @graph = Koala::Facebook::GraphAPI.new
-    
+
     @recommendations.each do |recommendation|
       fb_id = User.find(recommendation.user_id).fb_id
       @friendsFoundIds << fb_id
@@ -63,6 +63,16 @@ class HomeController < ApplicationController
         i = i + 1
       end
     end
+
+    @cuisines = ["African", "American", "Argentinian", "Bagels",
+                 "BBQ", "Belgian", "Brazilian", "Burgers", "Cajun",
+                 "Caribbean", "Chinese", "Cuban", "Deli", "Diner",
+                 "English", "Filipino", "German", "Greek", "Halal",
+                 "Healthy", "Indian", "Italian", "Korean", "Kosher",
+                 "Peruvian", "Pizza", "Russian", "Salads", "Sandwiches",
+                 "Smoothies", "Southern", "Spanish", "Steakhouse",
+                 "Sushi", "Thai", "Turkish", "Vegan", "Vegetarian",
+                 "Venezuelan", "Vietnamese"]
 
     respond_to do |format|
       format.html
