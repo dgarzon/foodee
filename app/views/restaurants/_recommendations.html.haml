@@ -55,7 +55,7 @@
           - @tips.items.each do |tip|
             .well.recs
               %p
-                = link_to '<img src="https://playfoursquare.s3.amazonaws.com/press/logo/poweredByFoursquare_gray.png" width=115/>'.html_safe, 'http://www.foursquare.com/venue/' + "#{@venue.venues[0].id}"
+                = link_to '<img src="https://playfoursquare.s3.amazonaws.com/press/logo/poweredByFoursquare_gray.png" width=115/>'.html_safe, @venue['canonicalUrl']
               %p
                 %b Description:
                 = tip.text
