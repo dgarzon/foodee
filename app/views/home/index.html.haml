@@ -36,32 +36,28 @@
         - i = 0
         - @recommendations.each do |recommendation|
           .well.recs
-            %p
-              / %b Like:
-              / %input{:type => "checkbox", :checked}
-              / %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
-              / :selected => recommendation.like,
-              / = recommendation.like ? "Liked" : "Didn't like"
-            %p
-              = image_tag @profilePicUrls[i]
-            %p
-              %b Restaurant:
-              = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
+            .row
+              .image.pull-left
+                = image_tag @profilePicUrls[i], :class => "circular"
+              .bubble.pull-left
+                %p
+                  %b Restaurant:
+                  = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
 
-            - if recommendation.pics.file?
-              %p
-                = image_tag recommendation.pics.url
+                - if recommendation.pics.file?
+                  %p
+                    = image_tag recommendation.pics.url, :class => "circular"
 
-            %p
-              %b Rated by:
-              / = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
-              = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
-            %p
-              %b Description:
-              = recommendation.description
+                %p
+                  %b Rated by:
+                  / = link_to '<i class="fa fa-facebook"></i>'.html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+                  = link_to "#{@friendsFound[@friendsFoundIds[i]]["name"]} <i class=\"fa fa-facebook\"></i>".html_safe, @friendsFound[@friendsFoundIds[i]]["link"]
+                %p
+                  %b Description:
+                  = recommendation.description
 
-            %p
-              =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary"
+                %p
+                  =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary"
               -i = i + 1
 
     - if @firstRestaurants != nil
