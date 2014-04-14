@@ -12,7 +12,7 @@
       .container
         .col-md-6.carousel-banner.pull-left
           / %h2= Forgery(:lorem_ipsum).words(10)
-          %h2 Welcome to Foodee... We help you find good eats and order em online
+          %h2 Welcome to Foodee... We help you find good eats and rate em online
           %p Sign Up with us, start searching restaruants, and make recommendations that your friends could use !!
         .col-md-6.welcome-image.pull-left
           = image_tag("burgers.jpeg")
@@ -43,8 +43,10 @@
 / Section Tagline
 %section#section-tagline.section-page
   .container
-    %h2= Forgery(:lorem_ipsum).words(10)
-    %p= Forgery(:lorem_ipsum).words(30)
+    / %h2= Forgery(:lorem_ipsum).words(10)
+    /%p= Forgery(:lorem_ipsum).words(30)
+    %h2 We will get you all the reviews you need and more
+    %p We have started with external reviews from Yelp and Foursquare, but the most important resource for your friends is you !!! So login and start rating.....
 / Section Services
 %section#section-services.section-page
   .container
@@ -59,8 +61,8 @@
         .services-icon
           .center-icon
             %i.fa.fa-cutlery.fa-7x
-        %h4 Order Online
-        %p Find a place you like, enter your address, make your order. No more haggling over the phone
+        %h4 Search Online
+        %p Find a place you like, enter your address, read the reviews from all the sources here. No more browsing through google results...
       / /#service_1
       %article.col-md-4.services-box
         .services-icon
@@ -89,7 +91,7 @@
         = image_tag("pranav.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Pranav Bhalla" )
         %h4.person-name Pranav Bhala
         %span.person-skills Developer / UI & UX Design
-        %p.person-description= Forgery(:lorem_ipsum).words(15)
+        / %p.person-description= Forgery(:lorem_ipsum).words(15)
         %ul.list-links-social
           %li
             %a{href: "#"}
@@ -109,7 +111,7 @@
         = image_tag("dan.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Daniel Garzon" )
         %h4.person-name Daniel Garzon
         %span.person-skills Developer / UI & UX Design
-        %p.person-description= Forgery(:lorem_ipsum).words(15)
+        / %p.person-description= Forgery(:lorem_ipsum).words(15)
         %ul.list-links-social
           %li
             %a{href: "#"}
@@ -130,7 +132,7 @@
         = image_tag("shehzad.jpg", class: "person-avatar img-circle", width: "150", height: "150", alt: "Shehzad Khan" )
         %h4.person-name Shehzad Khan
         %span.person-skills CEO
-        %p.person-description= Forgery(:lorem_ipsum).words(15)
+        / %p.person-description= Forgery(:lorem_ipsum).words(15)
         %ul.list-links-social
           %li
             %a{href: "#"}
