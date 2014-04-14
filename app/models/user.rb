@@ -36,6 +36,8 @@ class User < ActiveRecord::Base
 
   has_many :addresses, :dependent => :destroy
 
+  has_many :recommendations, :dependent => :destroy
+
   validates_presence_of :email, :first_name, :last_name
 
   before_create :ensure_username_uniqueness

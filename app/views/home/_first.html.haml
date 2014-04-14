@@ -8,7 +8,7 @@
       .modal-body
         - @restaurants.each_with_index do |restaurant, index|
           .well.recs
-            - @rec = Recommendation.new
+            - @rec = current_user.recommendation.build
             = simple_form_for @rec do |f|
               %img{:src => restaurant[:image_url]}
 

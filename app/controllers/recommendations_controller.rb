@@ -5,10 +5,7 @@ class RecommendationsController < ApplicationController
   # GET /recommendations
   # GET /recommendations.json
   def index
-    # improve to query to join eagerly using include
-    # @recommendations = Recommendation.find :all, :joins => :restaurant
     @recommendations = Recommendation.get_my_recommedation(current_user.id)
-    # logger.debug "client : #{@recommendations.inspect}"
   end
 
   # GET /recommendations/1
@@ -41,31 +38,7 @@ class RecommendationsController < ApplicationController
 
   # GET /recommendations/new
   def new
-
-    logger.debug "params : #{params[:restaurant_id].inspect}"
-    respond_to do |format|
-      # user not signed in
-      if current_user
-        # setup a temp restaurant
-        @temp_restaurant = Restaurant.new
-        @temp_restaurant[:name] = params[:restaurant_name]
-
-        @recommendation = Recommendation.new
-        #@recommendation[:restaurant_id] = params[:restaurant_id]
-        @temp_restaurant[:yelp_restaurant_id] = params[:restaurant_id]
-        @recommendation[:user_id] = current_user[:id]
-        # like by default
-        @recommendation[:like] = true
-
-        @existingRecs = Recommendation.get_my_recommedation_by_restaurant(current_user.id, params[:restaurant_id])
-
-        format.html
-        format.js
-      else
-        format.html
-        format.js
-      end
-    end
+    @recommendation = current_user.recommendations.build
   end
 
   # GET /recommendations/1/edit
@@ -75,45 +48,22 @@ class RecommendationsController < ApplicationController
   # POST /recommendations
   # POST /recommendations.json
   def create
-    logger.debug "client : #{params.inspect}"
-    # logger.debug "client : #{params[:restaurant_name].inspect}"
-    
+    @recommendation = current_user.recommendations.new
 
-    # first add the restaurant, if it doesnt exist
-    @restaurant = Restaurant.find(:first, 
-      :conditions => ["yelp_restaurant_id = ? ", recommendation_params[:restaurant_id]])
+    restaurant = Restaurant.where(:yelp_restaurant_id => params[:recommendation][:restaurant_id], :name => params[:recommendation][:restaurant_name]).first
 
-    if(@restaurant == nil)
-      # new restaurant
-      @restaurant = Restaurant.new
-      @restaurant[:yelp_restaurant_id] = recommendation_params[:restaurant_id]
-      @restaurant[:name] = recommendation_params[:restaurant_name]
-
-      if @restaurant.save
-        @restaurantSaved = true
-      end
-    else
-      # old restaurant, already saved
-      @restaurantSaved = true
+    if restaurant.nil?
+      restaurant = Restaurant.new(:yelp_restaurant_id => params[:recommendation][:restaurant_id], :name => params[:recommendation][:restaurant_name])
+      restaurant.save!
     end
 
-    # @recommendation = Recommendation.new(recommendation_params)
-    @recommendation = Recommendation.new
-    # @recommendation[:like] = recommendation_params[:like]
-    @recommendation[:like] = true
-    @recommendation[:description] = recommendation_params[:description]
-    @recommendation[:user_id] = recommendation_params[:user_id]
-    # added for images
-    @recommendation.pics = recommendation_params[:pics]
+    @recommendation.description = params[:recommendation][:description]
+    @recommendation.like = true
+    @recommendation.pics = params[:recommendation][:pics]
+    @recommendation.restaurant_id = restaurant.id
 
-    @recommendation[:restaurant_id] = @restaurant[:id]
-    # logger.debug "rec : #{@recommendation.inspect}"
-    # logger.debug "res : #{@restaurant.inspect}"
-    logger.debug "res : #{ENV['AWS_ACCESS_KEY_ID'].inspect}"
-    
     respond_to do |format|
-      if @restaurantSaved && @recommendation.save
-        # format.html { redirect_to @recommendation, notice: 'Recommendation was successfully created.' }
+      if @recommendation.save
         format.html { redirect_to action: "index", notice: 'Recommendation was successfully created.' }
         format.json { render action: 'show', status: :created, location: @recommendation }
       else
