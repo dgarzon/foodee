@@ -12,7 +12,7 @@
           %li.divider-vertical
           %li= link_to "Dashboard", home_index_path
           %li.divider-vertical
-          %li= link_to "My Recommendations", recommendations_path, :onClick => "_gaq.push(['_trackEvent', 'Review', 'Review Viewed', 'My Recommendations']);"
+          %li= link_to "My Recommendations", recommendations_path, :onClick => "_gaq.push(['_trackEvent', 'Search', 'Review Viewed', 'My Recommendations']);"
           %li.divider-vertical
           %li.hidden-sm.hidden-md.hidden-lg= link_to "Add Address", new_user_address_path(current_user)
           %li.hidden-sm.hidden-md.hidden-lg= link_to "Logout", destroy_user_session_path, method: :delete

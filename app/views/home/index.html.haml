@@ -12,7 +12,7 @@
   .col-md-9
     .well.well-registration{"align" => "center"}
       .alert.alert-info.alert-dismissable
-        %button.close{"data-dismiss" => "alert", :onClick => "_gaq.push(['_trackEvent', 'Address', 'Address Changed', 'Dismissed on Home Page']);"}
+        %button.close{"data-dismiss" => "alert", :onClick => "_gaq.push(['_trackEvent', 'Search', 'Address Changed', 'Dismissed on Home Page']);"}
           &times;
         = "Current address: "
         %strong
@@ -55,7 +55,7 @@
                   = recommendation.description
 
                 %p
-                  =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.yelp_restaurant_id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary", :onClick => "_gaq.push(['_trackEvent', 'Review', 'Review Added', 'From News Feed']);"
+                  =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.yelp_restaurant_id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary", :onClick => "_gaq.push(['_trackEvent', 'Search', 'Review Added', 'From News Feed']);"
 
     - if @first_login_restaurants != nil
       %modalFooter
