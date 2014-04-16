@@ -8,11 +8,11 @@
           %b Cuisines
         %ul
           - @cuisines.each do |cuisine|
-            %li= link_to cuisine, restaurants_path(:cuisine => cuisine)
+            %li= link_to cuisine, restaurants_path(:cuisine => cuisine), :onClick => "_gaq.push(['_trackEvent', 'Search', 'Search Done', 'From Cuisines']);"
   .col-md-9
     .well.well-registration{"align" => "center"}
       .alert.alert-info.alert-dismissable
-        %button.close{"data-dismiss" => "alert"}
+        %button.close{"data-dismiss" => "alert", :onClick => "_gaq.push(['_trackEvent', 'Address', 'Address Changed', 'Dismissed on Home Page']);"}
           &times;
         = "Current address: "
         %strong
@@ -27,7 +27,7 @@
           = f.input :term, :label => false, :placeholder => "Cuisine, restaurant or leave empty to search around you", :input_html => { :id => 'search-input', :class => 'form-control input-lg' }
         %hr
           .actions
-            = f.submit 'Search', :class => 'btn btn-primary btn-lg'
+            = f.submit 'Search', :class => 'btn btn-primary btn-lg', :onClick => "_gaq.push(['_trackEvent', 'Search', 'Search Done', 'Home Search']);"
 
     - if !@recommendations.empty?
       .well.news-feed{"align" => "center"}
@@ -55,7 +55,7 @@
                   = recommendation.description
 
                 %p
-                  =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.yelp_restaurant_id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary"
+                  =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.yelp_restaurant_id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary", :onClick => "_gaq.push(['_trackEvent', 'Review', 'Review Added', 'From News Feed']);"
 
     - if @first_login_restaurants != nil
       %modalFooter
