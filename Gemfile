@@ -119,3 +119,5 @@ gem 'yelpster'
 gem 'faraday', '~> 0.8.9'
 
 gem 'foursquare2', :git => 'https://github.com/mattmueller/foursquare2.git'
+
+gem 'rails-erd'
