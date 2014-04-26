@@ -94,6 +94,9 @@ gem 'annotate', ">=2.6.0"
 # Geocoder
 gem 'geocoder'
 
+# google places API
+gem 'google_places'
+
 # Fake Data
 gem 'forgery', '0.5.0'
 

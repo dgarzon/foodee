@@ -49,9 +49,13 @@ class RestaurantsController < ApplicationController
       @restaurant = Restaurant.get_restaurant_by_yelp_id params[:restaurant_id]
       @reviews = @restaurant["reviews"]
 
+      # TODO: both foursquare and google+ use geocoder, use single call
       # adding foursquare tips
       @venue = Restaurant.get_venue_from_foursquare params[:restaurant_name], params[:restaurant_address], params[:restaurant_city]
       @tips = Restaurant.get_venue_tips_from_foursquare @venue.venues[0].id
+
+      # adding google plus reviews
+      @googlePlace = Restaurant.get_restaurant_google_places params[:restaurant_name], params[:restaurant_address], params[:restaurant_city]
     else
       # show friends recommendation
       @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], @registered_friends)

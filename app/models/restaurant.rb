@@ -86,4 +86,19 @@ class Restaurant < ActiveRecord::Base
 		foursquare_id = foursquare.venues[0].id
 		foursquare_id
 	end
+
+	def self.get_restaurant_google_places(query, address, city)
+		# :zagatselected => 'true'
+		geo = Geocoder.search(address + ", " + city)
+		lat = geo.first.data['geometry']['location']['lat']
+		lng = geo.first.data['geometry']['location']['lng']
+		@client = GooglePlaces::Client.new("AIzaSyCW-Nfj4s92dzWLb232aPby6Bel7w3JT7g")
+		# get the reference number from the search query
+		spots = @client.spots(lat, lng, :keyword => query, :types => 'restaurant')
+		# get the exact details from the details query
+		spot = @client.spot(spots[0]["reference"])
+		
+		#logger.debug spot
+		spot
+	end
 end

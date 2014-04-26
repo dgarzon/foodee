@@ -69,6 +69,26 @@
                   - name = name + " " + "#{tip.user.lastName}"
                 = link_to name, "http://www.foursquare.com/user/" + "#{tip.user.id}"
 
+        - if @googlePlace
+          %hr
+          %p 
+            Reviews for 
+            = link_to @googlePlace["name"], @googlePlace["url"]
+            = image_tag("powered-by-google-on-white.png")
+
+          Overall Rating: #{@googlePlace["rating"]} / 5.0
+          - @googlePlace["reviews"].each do |review|
+            .well.recs
+              %p
+                %b Description:
+                = review.text
+              %p
+                %b Rating:
+                = review.rating
+              %p
+                %b Rated by:
+                - name = "#{review.author_name}"
+                = link_to name, review.author_url
 
         %hr
           %button{ :type => "button", :class => "btn btn-default", :"data-dismiss" => "modal" } Close
