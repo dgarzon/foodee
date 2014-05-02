@@ -2,32 +2,35 @@
 %div#friendRecModalPlaceholder
 %h1 Listing restaurants
 
-%table{:style=>"border: 1px; width: 100%; margin-bottom: 30px"}
-  %tr
-    %th
-    %th Name
-    %th Location
-    %th Yelp Review Count
-    %th Yelp Rating
-    %th Recommend
-    %th Ratings
-
-  - @restaurants.each_with_index do |restaurant, index|
+.well
+  %table.table.table-striped{:style=>"border: 1px; width: 100%; margin-bottom: 30px"}
     %tr
-      %td
-        %img{:src => restaurant['image_url']}
-      %td= restaurant['name']
-      %td= restaurant['location']['address'][0]
-      %td= restaurant['review_count']
-      %td
-        %img{:src => restaurant['rating_img_url_small']}
-      %td= link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => restaurant['id'], :restaurant_name => restaurant['name']) , remote: true, "data-toggle" => "modal"
-      %td
-        - if @found_recommendations[index]
-          = link_to 'View friend ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id']) , remote: true, "data-toggle" => "modal", :onClick => "_gaq.push(['_trackEvent', 'Search', 'Review Viewed', 'Friends Ratings']);"
-        - else
-          0 friends rated so far
+      %th
+      %th Name & Location
+      /%th Yelp Rating
+      %th
+        %img{:src => 'http://s3-media3.ak.yelpcdn.com/assets/2/www/img/3049d7633b6e/developers/reviewsFromYelpRED.gif', :alt => '# of rating and their average', :width => "115", :height => "25" }
+      %th Recommend
+      %th Ratings
 
-        %br
+    - @restaurants.each_with_index do |restaurant, index|
+      %tr
+        %td
+          %img{:src => restaurant['image_url']}
+        %td
+          =restaurant['name']
+          %br
+          =restaurant['location']['address'][0]
+        %td
+          = restaurant['review_count']
+          %img{:src => restaurant['rating_img_url_small']}
+        %td= link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => restaurant['id'], :restaurant_name => restaurant['name']) , remote: true, "data-toggle" => "modal"
+        %td
+          - if @found_recommendations[index]
+            = link_to 'View friend ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id']) , remote: true, "data-toggle" => "modal", :onClick => "_gaq.push(['_trackEvent', 'Search', 'Review Viewed', 'Friends Ratings']);"
+          - else
+            0 friends rated so far
 
-        = link_to 'View external ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id'], :restaurant_address => restaurant['location']['address'][0], :restaurant_city => restaurant['location']['city'], :restaurant_name => restaurant['name'], :external => true) , remote: true, "data-toggle" => "modal", :onClick => "_gaq.push(['_trackEvent', 'Search', 'Review Viewed', 'External Ratings']);"
+          %br
+
+          = link_to 'View external ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id'], :restaurant_address => restaurant['location']['address'][0], :restaurant_city => restaurant['location']['city'], :restaurant_name => restaurant['name'], :external => true) , remote: true, "data-toggle" => "modal", :onClick => "_gaq.push(['_trackEvent', 'Search', 'Review Viewed', 'External Ratings']);"
