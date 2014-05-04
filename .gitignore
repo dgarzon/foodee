@@ -16,3 +16,4 @@
 /tmp
 
 /config/heroku_env.rb
+.DS_Store
