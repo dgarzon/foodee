@@ -1,11 +1,13 @@
 %p#notice= notice
 
-.well.recs
+.well
   %p
-    %b Name:
-    = @restaurant['name']
+    %b
+      %h2
+        = @restaurant['name']
 
   %p
+    %img{:src => 'http://s3-media3.ak.yelpcdn.com/assets/2/www/img/3049d7633b6e/developers/reviewsFromYelpRED.gif', :alt => '# of rating and their average', :width => "115", :height => "25" }
     %img{:src => @restaurant['rating_img_url_large']}
 
   %p
@@ -13,7 +15,13 @@
 
   %p
     %b Location:
-    = @restaurant['location']
+    = @restaurant['location']['address'][0]
+    ,
+    = @restaurant['location']['city']
+    ,
+    = @restaurant['location']['state_code']
+    ,
+    = @restaurant['location']['postal_code']
 
 / = link_to 'Edit', edit_restaurant_path(@restaurant)
 / \|
