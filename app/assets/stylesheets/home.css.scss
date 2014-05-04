@@ -111,3 +111,13 @@ left: 20px;
   border-color: transparent;
   box-shadow: none;
 }
+
+.search-form {
+  min-width: 500px;
+  .form-group {
+    width: 100%;
+  }
+  .form-control {
+    width: 80%;
+  }
+}

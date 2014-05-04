@@ -6,16 +6,21 @@
         %span.icon-bar
         %span.icon-bar
       = link_to "Foodee", passthrough_index_path, :class => "navbar-brand"
-      -if !@homePage
-        = simple_form_for :search, :url => restaurants_path, :html => { :method => :get} do |f|
-          .input-group.col-lg-12{:style => 'margin-right: 17em;'}
-            = f.input :term, :label => false, :placeholder => "Cuisine, restaurant or leave empty to search around you", :input_html => { :id => 'search-input', :class => 'form-control input-lg' }
-            .actions{:style => 'display: -webkit-box;'}
-              = f.submit 'Search', :class => 'btn btn-warning btn-lg', :style => 'margin-left: 0.5em;', :onClick => "_gaq.push(['_trackEvent', 'Search', 'Search Done', 'Home Search']);"
-             
     #main-navbar.collapse.navbar-collapse
-      %ul.nav.navbar-nav.navbar-right
+      / .navbar-left.col-md-4
+      /   .search-form
+      /     = simple_form_for :search, :url => restaurants_path, :html => { :method => :get, :class => "navbar-form"} do |f|
+      /       .form-group
+      /         = f.input :term, :label => false, :placeholder => "Cuisine, restaurant or leave empty to search around you", :input_html => { :id => 'search-input', :class => 'form-control pull-left' }
+      /         = f.submit 'Search', :class => 'btn btn-warning pull-left', :style => 'margin-left: 0.5em;', :onClick => "_gaq.push(['_trackEvent', 'Search', 'Search Done', 'Home Search']);"
+      %ul.nav.navbar-nav.navbar-right.pull-right
         - if user_signed_in?
+          %li
+            .search-form
+              = simple_form_for :search, :url => restaurants_path, :html => { :method => :get, :class => "navbar-form"} do |f|
+                .form-group
+                  = f.input :term, :label => false, :placeholder => "Cuisine, restaurant or leave empty to search around you", :input_html => { :id => 'search-input', :class => 'form-control pull-left' }
+                  = f.submit 'Search', :class => 'btn btn-warning pull-left', :style => 'margin-left: 0.5em;', :onClick => "_gaq.push(['_trackEvent', 'Search', 'Search Done', 'Home Search']);"
           %li.divider-vertical
           %li= link_to "Dashboard", home_index_path
           %li.divider-vertical
