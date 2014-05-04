@@ -7,12 +7,12 @@ class RestaurantsController < ApplicationController
   def index
     if !params[:cuisine]
       query = params[:search][:term].split(",")
-      result = Restaurant.get_restaurant_by_query(query, current_user)
-      @restaurants = result['businesses']
+      result = Restaurant.get_results_from_google_places(query, current_user)
+      @restaurants = result
     else
       query = params[:cuisine]
-      result = Restaurant.get_restaurant_by_cuisine(query, current_user)
-      @restaurants = result['businesses']
+      result = Restaurant.get_results_from_google_places(query, current_user, true)
+      @restaurants = result
     end
 
     # so that we render the links only when we have recommendations from friends

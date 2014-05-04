@@ -8,17 +8,23 @@
       .modal-body
         - @restaurants.each_with_index do |restaurant, index|
           .well.recs
-            - @rec = current_user.recommendations.build
-            = simple_form_for @rec do |f|
-              %img{:src => restaurant[:image_url]}
-
+            - @recommendation = current_user.recommendations.build
+            = simple_form_for @recommendation do |f|
+              - if @recommendation.errors.any?
+                #error_explanation
+                  %h2= "#{pluralize(@recommendation.errors.count, "error")} prohibited this recommendation from being saved:"
+                  %ul
+                    - @recommendation.errors.full_messages.each do |msg|
+                      %li= msg
+              - if !restaurant.photos[0].nil?
+                %img{:src => restaurant.photos[0].fetch_url(800), :width => "150"}
               %p
                 %b Restaurant:
-                = link_to restaurant[:name], restaurant[:url], :target => "_blank"
+                = restaurant.name
 
               .field
                 = f.label :like
-                = f.check_box :like, :disabled => true
+                = f.check_box :like, :disabled => true, :checked => true
               .field
                 = f.label :description, "Comments(optional)"
                 = f.text_field :description
@@ -26,21 +32,22 @@
                 = f.label :pictures
                 = f.file_field :pictures
 
-              = f.hidden_field :user_id, value: @first_recommendations[index][:user_id]
-
-              = f.hidden_field :restaurant_id, value: restaurant[:yelp_id]
-
-              = f.hidden_field :restaurant_name, value: restaurant[:name]
+              = f.hidden_field :yelp_id, value: "#{restaurant.yelp_id}"
+              = f.hidden_field :foursquare_id, value: "#{restaurant.foursquare_id}"
+              = f.hidden_field :google_id, value: "#{restaurant.reference}"
+              = f.hidden_field :name, value: "#{restaurant.name}"
+              = f.hidden_field :location, value: "#{restaurant.vicinity}"
 
               %hr
               %button{ :type => "submit", :class => "btn btn-primary", :onClick => "_gaq.push(['_trackEvent', 'Search', 'Review Added', 'From first 5']);" } Save changes
-
         %hr
-          %button{ :type => "button", :class => "btn btn-default", :"data-dismiss" => "modal" } Close
+        %button{ :type => "button", :class => "btn btn-default", :"data-dismiss" => "modal" } Close
 
 
 :coffee
-  $('#firstRestaurantModal').modal "show"
+  $(document).ready ->
+    console.log "Document Ready!"
+    $('#firstRestaurantModal').modal "show"
 
   $('form').submit () ->
     debugger

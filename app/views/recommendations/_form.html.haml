@@ -27,11 +27,11 @@
             = f.label :pictures
             = f.file_field :pictures
 
-          = f.hidden_field :user_id, value: current_user.id
-
-          = f.hidden_field :restaurant_id, value: "#{params[:restaurant_id]}"
-
-          = f.hidden_field :restaurant_name, value: "#{params[:restaurant_name]}"
+          = f.hidden_field :yelp_id, value: "#{params[:yelp_id]}"
+          = f.hidden_field :foursquare_id, value: "#{params[:foursquare_id]}"
+          = f.hidden_field :google_id, value: "#{params[:google_id]}"
+          = f.hidden_field :name, value: "#{params[:name]}"
+          = f.hidden_field :location, value: "#{params[:location]}"
 
           %hr
           %button{ :type => "button", :class => "btn btn-default", :"data-dismiss" => "modal" } Close
