@@ -1,7 +1,7 @@
 class RecommendationsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_recommendation, only: [:edit, :update, :destroy]
-  before_action :set_friends, only: [:show]
+  before_action :set_friends, only: [:show, :newsFeed]
 
   # GET /recommendations
   # GET /recommendations.json
@@ -42,6 +42,30 @@ class RecommendationsController < ApplicationController
 
   # GET /recommendations/1/edit
   def edit
+  end
+
+  # GET /recommendations/2/friendProfile
+  def friendProfile
+    #logger.debug params
+    @friend = User.find(params[:recommendation_id])
+    @recommendations = Recommendation.get_my_recommedation(params[:recommendation_id])
+    @fbId = params[:fbId]
+  end
+
+  # GET /recommendations/newsFeed
+  def newsFeed
+    # show friends recommendation
+    @recommendations = Recommendation.get_friend_recommedations(@registered_friends)
+
+    @friend_recommendations = []
+    @recommendations.each do |recommendation|
+      friend = User.find(recommendation.user)
+      hash = {:name => friend.full_name, :fb_id => friend.identity.uid, :image => @graph.get_picture(friend.identity.uid),
+        :friendId => friend.id }
+      @friend_recommendations.push(hash)
+    end
+    
+    logger.debug @recommendations.count
   end
 
   # POST /recommendations
@@ -113,7 +137,7 @@ class RecommendationsController < ApplicationController
       end
 
       @registered_friends = Identity.where(:provider => 'facebook') \
-                                          .where('uid IN (?)', friends_ids).collect(&:uid)
+                                          .where('uid IN (?)', friends_ids).collect(&:user_id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

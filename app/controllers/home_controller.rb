@@ -13,7 +13,8 @@ class HomeController < ApplicationController
 
     @recommendations.each do |recommendation|
       friend = User.find(recommendation.user)
-      hash = {:name => friend.full_name, :fb_id => friend.identity.uid, :image => @graph.get_picture(friend.identity.uid)}
+      hash = {:name => friend.full_name, :fb_id => friend.identity.uid, :image => @graph.get_picture(friend.identity.uid),
+        :friendId => friend.id }
       @friend_recommendations.push(hash)
 
       yelp = Restaurant.find(recommendation.restaurant_id).name

@@ -1,5 +1,8 @@
 Foodee::Application.routes.draw do
-  resources :recommendations
+  resources :recommendations do
+    get "friendProfile"
+    get "newsFeed"
+  end
 
   resources :restaurants do
     get "recommendations"

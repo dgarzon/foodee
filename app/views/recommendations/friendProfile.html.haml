@@ -1,0 +1,27 @@
+%h1
+  = link_to "#{@friend.first_name + @friend.last_name} <i class=\"fa fa-facebook\"></i>".html_safe, "http://facebook.com/profile.php?id=#{@fbId}"
+%div#recModalPlaceholder
+
+.well{"align" => "center"}
+  - @recommendations.each do |recommendation|
+    %table.table.table-striped{:style=>"border: 1px; width: 100%; margin-bottom: 30px"}
+      %tr
+        %td
+          - if recommendation.pictures.file?
+            %p
+              = image_tag recommendation.pictures.url(:medium)
+        %td
+          %p
+            %b Like:
+            %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
+          %p
+            %b Description:
+            = recommendation.description
+          %p
+            %b Restaurant:
+            = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
+          %p
+            = link_to 'More details', user_recommendation_path(current_user, recommendation)
+
+          %p
+            =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.yelp_id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary", :onClick => "_gaq.push(['_trackEvent', 'Search', 'Review Added', 'From News Feed']);"
