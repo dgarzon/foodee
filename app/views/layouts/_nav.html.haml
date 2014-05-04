@@ -1,11 +1,18 @@
 %nav.navbar.navbar-default{role: "navigation"}
   .container-fluid
-    .navbar-header
+    .navbar-header{:style => 'display: flex;'}
       %button.navbar-toggle{"data-target" => "#main-navbar", "data-toggle" => "collapse", type: "button"}
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
       = link_to "Foodee", passthrough_index_path, :class => "navbar-brand"
+      -if !@homePage
+        = simple_form_for :search, :url => restaurants_path, :html => { :method => :get} do |f|
+          .input-group.col-lg-12{:style => 'margin-right: 17em;'}
+            = f.input :term, :label => false, :placeholder => "Cuisine, restaurant or leave empty to search around you", :input_html => { :id => 'search-input', :class => 'form-control input-lg' }
+            .actions{:style => 'display: -webkit-box;'}
+              = f.submit 'Search', :class => 'btn btn-warning btn-lg', :style => 'margin-left: 0.5em;', :onClick => "_gaq.push(['_trackEvent', 'Search', 'Search Done', 'Home Search']);"
+             
     #main-navbar.collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?

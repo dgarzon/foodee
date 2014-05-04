@@ -55,6 +55,9 @@ class HomeController < ApplicationController
                  "Sushi", "Thai", "Turkish", "Vegan", "Vegetarian",
                  "Venezuelan", "Vietnamese"]
 
+    # added to hide search bar on home page
+    @homePage = true
+
     respond_to do |format|
       format.html
       format.js
