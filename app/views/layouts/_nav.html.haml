@@ -14,13 +14,14 @@
       /         = f.input :term, :label => false, :placeholder => "Cuisine, restaurant or leave empty to search around you", :input_html => { :id => 'search-input', :class => 'form-control pull-left' }
       /         = f.submit 'Search', :class => 'btn btn-warning pull-left', :style => 'margin-left: 0.5em;', :onClick => "_gaq.push(['_trackEvent', 'Search', 'Search Done', 'Home Search']);"
       %ul.nav.navbar-nav.navbar-right.pull-right
-        - if user_signed_in?
+        - if !@homePage && user_signed_in?
           %li
             .search-form
               = simple_form_for :search, :url => restaurants_path, :html => { :method => :get, :class => "navbar-form"} do |f|
                 .form-group
                   = f.input :term, :label => false, :placeholder => "Cuisine, restaurant or leave empty to search around you", :input_html => { :id => 'search-input', :class => 'form-control pull-left' }
                   = f.submit 'Search', :class => 'btn btn-warning pull-left', :style => 'margin-left: 0.5em;', :onClick => "_gaq.push(['_trackEvent', 'Search', 'Search Done', 'Home Search']);"
+        - if user_signed_in?
           %li.divider-vertical
           %li= link_to "Dashboard", home_index_path
           %li.divider-vertical
