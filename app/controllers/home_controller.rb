@@ -6,14 +6,14 @@ class HomeController < ApplicationController
 
   def index
   	# show friends recommendation
-    @recommendations = Recommendation.get_friend_recommedation(@registered_friends)
+    @recommendations = Recommendation.get_friend_recommedations(@registered_friends)
 
     @friend_recommendations = []
     @yelp_names = []
 
     @recommendations.each do |recommendation|
-      friend = User.find(recommendation.user_id)
-      hash = {:name => friend.full_name, :fb_id => friend.fb_id, :image => @graph.get_picture(friend.fb_id)}
+      friend = User.find(recommendation.user)
+      hash = {:name => friend.full_name, :fb_id => friend.identity.uid, :image => @graph.get_picture(friend.identity.uid)}
       @friend_recommendations.push(hash)
 
       yelp = Restaurant.find(recommendation.restaurant_id).name
@@ -33,7 +33,7 @@ class HomeController < ApplicationController
       @first_login_restaurants = recommended['businesses']
 
       @first_login_restaurants.each_with_index do |restaurant, index|
-        rest = {:name => restaurant["name"], :yelp_restaurant_id => restaurant['id'], :url => restaurant['url'], :image_url => restaurant['image_url']}
+        rest = {:name => restaurant["name"], :yelp_id => restaurant['id'], :url => restaurant['url'], :image_url => restaurant['image_url']}
         @restaurants.push(rest)
 
         rec = {:user_id => current_user.id, :like => true}
@@ -63,7 +63,7 @@ class HomeController < ApplicationController
 
   private
     def set_friends
-      identity = Identity.where(:user_id => current_user.id, :provider => 'facebook').first
+      identity = current_user.identity
       @graph = Koala::Facebook::API.new(identity.token)
       @friends = @graph.get_connections("me", "friends")
       friends_ids = []
@@ -72,6 +72,6 @@ class HomeController < ApplicationController
       end
 
       @registered_friends = Identity.where(:provider => 'facebook') \
-                                          .where('uid IN (?)', friends_ids).collect(&:uid)
+                                          .where('uid IN (?)', friends_ids).collect(&:user_id)
     end
 end

@@ -31,7 +31,7 @@ class RestaurantsController < ApplicationController
   # GET /restaurants/1.json
   def show
     restaurant = Restaurant.find(params[:id])
-    @restaurant = Restaurant.get_restaurant_by_yelp_id restaurant.yelp_restaurant_id
+    @restaurant = Restaurant.get_restaurant_by_yelp_id restaurant.yelp_id
   end
 
   # GET /restaurants/new
@@ -62,7 +62,7 @@ class RestaurantsController < ApplicationController
       @friend_recommendations = []
       @recommendations.each do |recommendation|
         friend = User.find(recommendation.user_id)
-        hash = {:name => friend.full_name, :fb_id => friend.fb_id, :image => @graph.get_picture(friend.fb_id)}
+        hash = {:name => friend.full_name, :fb_id => friend.identity.uid, :image => @graph.get_picture(friend.identity.uid)}
         @friend_recommendations.push(hash)
       end
     end
@@ -119,7 +119,7 @@ class RestaurantsController < ApplicationController
     end
 
     def set_friends
-      identity = Identity.where(:user_id => current_user.id, :provider => 'facebook').first
+      identity = current_user.identity
       @graph = Koala::Facebook::API.new(identity.token)
       @friends = @graph.get_connections("me", "friends")
       friends_ids = []

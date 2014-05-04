@@ -53,9 +53,9 @@ class Restaurant < ActiveRecord::Base
 	end
 
 	# http://api.yelp.com/v2/business/yelp-san-francisco
-	def self.get_restaurant_by_yelp_id (yelp_restaurant_id)
+	def self.get_restaurant_by_yelp_id (yelp_id)
 		client = Yelp::Client.new(:debug => false)
-		request = Id.new(:yelp_business_id => yelp_restaurant_id)
+		request = Id.new(:yelp_business_id => yelp_id)
 		response = client.search(request)
  		response
 	end
@@ -76,7 +76,6 @@ class Restaurant < ActiveRecord::Base
 	def self.get_venue_by_foursquare_id (foursquare_id)
 		client = Foursquare2::Client.new(:api_version => '20131016', :client_id => 'GEFFG1OE4CDNJMT5LH4AU54SH2NL31HIY5EXU0AVHDLUJZY3', :client_secret => 'EBXY34DUC0DEBOBBEP4KCUH5QSGBP1TCQPRH24N3KAWV3L0E')
 		venue = client.venue(foursquare_id)
-		logger.debug venue
 		venue
 	end
 
@@ -97,7 +96,7 @@ class Restaurant < ActiveRecord::Base
 		spots = @client.spots(lat, lng, :keyword => query, :types => 'restaurant')
 		# get the exact details from the details query
 		spot = @client.spot(spots[0]["reference"])
-		
+
 		#logger.debug spot
 		spot
 	end

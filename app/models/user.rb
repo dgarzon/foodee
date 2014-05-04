@@ -21,18 +21,13 @@
 #
 
 class User < ActiveRecord::Base
-  # added for recommendations
-  has_many :recommendation, dependent: :destroy
-
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
   extend FriendlyId
 
   friendly_id :username, use: [:slugged, :finders]
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  has_one :indentity, :dependent => :destroy
+  has_one :identity, :dependent => :destroy
 
   has_many :addresses, :dependent => :destroy
 
@@ -61,10 +56,6 @@ class User < ActiveRecord::Base
         write_attribute(:username, "#{username}#{count}")
       end
     end
-  end
-
-  def User.getFBId(id)
-    User.where(id: id)
   end
 
 end

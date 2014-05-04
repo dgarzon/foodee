@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140325230631) do
+ActiveRecord::Schema.define(version: 20140429042540) do
 
   create_table "addresses", force: true do |t|
     t.string   "full_address"
@@ -65,10 +65,10 @@ ActiveRecord::Schema.define(version: 20140325230631) do
     t.integer  "restaurant_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "pics_file_name"
-    t.string   "pics_content_type"
-    t.integer  "pics_file_size"
-    t.datetime "pics_updated_at"
+    t.string   "pictures_file_name"
+    t.string   "pictures_content_type"
+    t.integer  "pictures_file_size"
+    t.datetime "pictures_updated_at"
   end
 
   add_index "recommendations", ["restaurant_id"], name: "index_recommendations_on_restaurant_id"
@@ -77,21 +77,12 @@ ActiveRecord::Schema.define(version: 20140325230631) do
   create_table "restaurants", force: true do |t|
     t.string   "name"
     t.string   "location"
+    t.string   "yelp_id"
     t.string   "foursquare_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "yelp_restaurant_id"
-  end
-
-  create_table "sessions", force: true do |t|
-    t.string   "session_id", null: false
-    t.text     "data"
+    t.string   "google_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true
-  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -111,7 +102,6 @@ ActiveRecord::Schema.define(version: 20140325230631) do
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "fb_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

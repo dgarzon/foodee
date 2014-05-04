@@ -23,9 +23,9 @@
                 %b Restaurant:
                 = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
 
-              - if recommendation.pics.file?
+              - if recommendation.pictures.file?
                 %p
-                = image_tag recommendation.pics.url
+                = image_tag recommendation.pictures.url
 
               %p
                 %b Rated by:
@@ -71,8 +71,8 @@
 
         - if @googlePlace
           %hr
-          %p 
-            Reviews for 
+          %p
+            Reviews for
             = link_to @googlePlace["name"], @googlePlace["url"]
             = image_tag("powered-by-google-on-white.png")
 

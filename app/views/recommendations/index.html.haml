@@ -16,9 +16,9 @@
       %b Restaurant:
       = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
 
-    - if recommendation.pics.file?
+    - if recommendation.pictures.file?
       %p
-        = image_tag recommendation.pics.url(:medium)
+        = image_tag recommendation.pictures.url(:medium)
 
     %p
       = link_to 'Show', user_recommendation_path(current_user, recommendation)

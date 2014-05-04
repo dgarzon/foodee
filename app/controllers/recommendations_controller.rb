@@ -15,19 +15,18 @@ class RecommendationsController < ApplicationController
     @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], @registered_friends)
     @friend_recommendations = []
     @recommendations.each do |recommendation|
-      friend = User.find(recommendation.user_id)
-      hash = {:name => friend.full_name, :fb_id => friend.fb_id, :image => @graph.get_picture(friend.fb_id)}
+      friend = User.find(recommendation.user)
+      hash = {:name => friend.full_name, :fb_id => friend.identity.uid, :image => @graph.get_picture(friend.identity.uid)}
       @friend_recommendations.push(hash)
     end
 
     # adding yelp reviews
     recommendation = Recommendation.where(:id => params[:id]).first
 
-    @restaurant = Restaurant.get_restaurant_by_yelp_id recommendation.restaurant.yelp_restaurant_id
+    @restaurant = Restaurant.get_restaurant_by_yelp_id recommendation.restaurant.yelp_id
     @reviews = @restaurant["reviews"]
 
     @venue = Restaurant.get_venue_by_foursquare_id recommendation.restaurant.foursquare_id
-
     @tips = Restaurant.get_venue_tips_from_foursquare recommendation.restaurant.foursquare_id
 
     respond_to do |format|
@@ -50,19 +49,17 @@ class RecommendationsController < ApplicationController
   def create
     @recommendation = current_user.recommendations.new
 
-    logger.debug params
-
-    restaurant = Restaurant.where(:yelp_restaurant_id => params[:recommendation][:restaurant_id], :name => params[:recommendation][:restaurant_name]).first
+    restaurant = Restaurant.where(:yelp_id => params[:recommendation][:restaurant_id], :name => params[:recommendation][:restaurant_name]).first
 
     if restaurant.nil?
-      restaurant = Restaurant.new(:yelp_restaurant_id => params[:recommendation][:restaurant_id], :name => params[:recommendation][:restaurant_name])
+      restaurant = Restaurant.new(:yelp_id => params[:recommendation][:restaurant_id], :name => params[:recommendation][:restaurant_name])
       restaurant.foursquare_id = Restaurant.get_venue_foursquare_id(params[:recommendation][:restaurant_id])
       restaurant.save!
     end
 
     @recommendation.description = params[:recommendation][:description]
     @recommendation.like = true
-    @recommendation.pics = params[:recommendation][:pics]
+    @recommendation.pictures = params[:recommendation][:pictures]
     @recommendation.restaurant_id = restaurant.id
 
     respond_to do |format|
@@ -107,7 +104,7 @@ class RecommendationsController < ApplicationController
     end
 
     def set_friends
-      identity = Identity.where(:user_id => current_user.id, :provider => 'facebook').first
+      identity = current_user.identity
       @graph = Koala::Facebook::API.new(identity.token)
       @friends = @graph.get_connections("me", "friends")
       friends_ids = []
@@ -121,6 +118,6 @@ class RecommendationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def recommendation_params
-      params.require(:recommendation).permit(:like, :description, :user_id, :restaurant_id, :restaurant_name, :pics)
+      params.require(:recommendation).permit(:like, :description, :user_id, :restaurant_id, :restaurant_name, :pictures)
     end
   end

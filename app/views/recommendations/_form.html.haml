@@ -8,23 +8,6 @@
         %h4.modal-title#myModalLabel Make a recommedation
 
       .modal-body
-        / - if !@existingRecs.empty?
-        /   %h4 Previous reviews
-        / - @existingRecs.each do |recommendation|
-        /   .well.recs
-        /     %p
-        /       %b Restaurant:
-        /       = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
-
-        /     - if recommendation.pics.file?
-        /       %p
-        /         = image_tag recommendation.pics.url
-        /     %p
-        /       %b Description:
-        /       = recommendation.description
-
-        / - if !@existingRecs.empty?
-        /   %hr
         %h4 New Review
         = simple_form_for @recommendation do |f|
           - if @recommendation.errors.any?
@@ -41,8 +24,8 @@
             = f.label :description, "Comments(optional)"
             = f.text_field :description
           .field
-            = f.label :pics
-            = f.file_field :pics
+            = f.label :pictures
+            = f.file_field :pictures
 
           = f.hidden_field :user_id, value: current_user.id
 

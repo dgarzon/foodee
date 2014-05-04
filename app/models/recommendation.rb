@@ -3,8 +3,8 @@ class Recommendation < ActiveRecord::Base
   belongs_to :restaurant
 
   # for paperclip
-  # This method associates the attribute ":pics" with a file attachment
-  has_attached_file :pics,
+  # This method associates the attribute ":pictures" with a file attachment
+  has_attached_file :pictures,
   styles: {
     thumb: '100x100>',
     square: '200x200#',
@@ -18,17 +18,17 @@ class Recommendation < ActiveRecord::Base
   }
 
   # Validate the attached image is image/jpg, image/png, etc
-  validates_attachment_content_type :pics, :content_type => /\Aimage\/.*\Z/
+  validates_attachment_content_type :pictures, :content_type => /\Aimage\/.*\Z/
 
-  def self.get_friend_recommedation_by_restaurant(yelp_restaurant_id, friend_id)
-  	recommendation = Recommendation.where(user_id: User.select("id").where(fb_id: friend_id),
-  		restaurant_id: Restaurant.select("id").where(yelp_restaurant_id: yelp_restaurant_id))
+  def self.get_friend_recommedation_by_restaurant(yelp_id, friend_id)
+  	recommendation = Recommendation.where(user_id: User.select("id").where(id: friend_id),
+  		restaurant_id: Restaurant.select("id").where(yelp_id: yelp_id))
     recommendation
 
   end
 
-  def self.get_friend_recommedation(friendIds)
-    recommendation = Recommendation.where(user_id: User.select("id").where(fb_id: friendIds))
+  def self.get_friend_recommedations(friends)
+    recommendation = Recommendation.where(user_id: User.select("id").where(id: friends))
     recommendation
   end
 
@@ -37,8 +37,8 @@ class Recommendation < ActiveRecord::Base
     recommendation
   end
 
-  def self.get_my_recommedation_by_restaurant(id, yelp_restaurant_id)
-    recommendation = Recommendation.where(user_id: id, restaurant_id: Restaurant.select("id").where(yelp_restaurant_id: yelp_restaurant_id))
+  def self.get_my_recommedation_by_restaurant(user_id, yelp_id)
+    recommendation = Recommendation.where(user_id: user_id, restaurant_id: Restaurant.select("id").where(yelp_id: yelp_id))
     recommendation
   end
 

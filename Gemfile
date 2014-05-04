@@ -86,6 +86,7 @@ group :development do
   gem "wirble"
   gem "hirb"
   gem "awesome_print"
+  gem "rails-erd", github: "voormedia/rails-erd"
 end
 
 # Annotate Models
@@ -123,4 +124,4 @@ gem 'faraday', '~> 0.8.9'
 
 gem 'foursquare2', :git => 'https://github.com/mattmueller/foursquare2.git'
 
-gem 'rails-erd'
+gem 'google_places'

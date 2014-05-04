@@ -5,11 +5,11 @@
     .modal-content
       .modal-header
         %button{ :type => "button", :class => "close",  :"data-dismiss"=> "modal" } &times;
-          
+
         %h4.modal-title#myModalLabel Friends Recommendation
       -i = 0
       .modal-body
-      
+
         - @recommendations.each do |recommendation|
           .well.recs
             %p
@@ -29,9 +29,9 @@
               %b Restaurant:
               = recommendation.restaurant.name
 
-            - if recommendation.pics.file?
+            - if recommendation.pictures.file?
               %p
-                = image_tag recommendation.pics.url
+                = image_tag recommendation.pictures.url
 
           -i = i + 1
 

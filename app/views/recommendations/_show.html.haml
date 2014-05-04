@@ -15,9 +15,9 @@
       %b Restaurant:
       = recommendation.restaurant.name
 
-    - if recommendation.pics.file?
+    - if recommendation.pictures.file?
       %p
-        = image_tag recommendation.pics.url
+        = image_tag recommendation.pictures.url
 
 - @reviews.each do |review|
   .well.recs
@@ -33,6 +33,7 @@
       = link_to review["user"]["name"], "http://www.yelp.com/user_details?userid=#{review["user"]["id"]}"
 
 - if @tips
+  %h3= "Foursquare Rating = " + "#{@venue["rating"]}"
   - @tips.items.each do |tip|
     .well.recs
       %p

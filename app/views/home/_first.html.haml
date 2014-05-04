@@ -8,7 +8,7 @@
       .modal-body
         - @restaurants.each_with_index do |restaurant, index|
           .well.recs
-            - @rec = current_user.recommendation.build
+            - @rec = current_user.recommendations.build
             = simple_form_for @rec do |f|
               %img{:src => restaurant[:image_url]}
 
@@ -23,12 +23,12 @@
                 = f.label :description, "Comments(optional)"
                 = f.text_field :description
               .field
-                = f.label :pics
-                = f.file_field :pics
+                = f.label :pictures
+                = f.file_field :pictures
 
               = f.hidden_field :user_id, value: @first_recommendations[index][:user_id]
 
-              = f.hidden_field :restaurant_id, value: restaurant[:yelp_restaurant_id]
+              = f.hidden_field :restaurant_id, value: restaurant[:yelp_id]
 
               = f.hidden_field :restaurant_name, value: restaurant[:name]
 
