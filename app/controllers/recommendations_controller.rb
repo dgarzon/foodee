@@ -73,11 +73,10 @@ class RecommendationsController < ApplicationController
   def create
     @recommendation = current_user.recommendations.new
 
-    restaurant = Restaurant.where(:yelp_id => params[:recommendation][:restaurant_id], :name => params[:recommendation][:restaurant_name]).first
+    restaurant = Restaurant.where(:yelp_id => params[:recommendation][:yelp_id], :foursquare_id => params[:recommendation][:foursquare_id], :google_id => params[:recommendation][:google_id]).first
 
     if restaurant.nil?
-      restaurant = Restaurant.new(:yelp_id => params[:recommendation][:restaurant_id], :name => params[:recommendation][:restaurant_name])
-      restaurant.foursquare_id = Restaurant.get_venue_foursquare_id(params[:recommendation][:restaurant_id])
+      restaurant = Restaurant.new(:yelp_id => params[:recommendation][:yelp_id], :foursquare_id => params[:recommendation][:foursquare_id], :google_id => params[:recommendation][:google_id], :name => params[:recommendation][:name], :location => params[:recommendation][:location])
       restaurant.save!
     end
 

@@ -1,7 +1,45 @@
 // Place all the styles related to the Restaurants controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import "partials/colors";
 
-td {
-    padding: 10px;
+.item {
+  border-radius: 3px;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.18);
+  background: #fff;
+  width: 350px;
+
+  img {
+    width: 100%;
+  }
+
+  a {
+    color: $gray;
+    &:hover {
+      color: $gray-dark;
+      text-decoration: none;
+    }
+  }
+  .restaurant-name {
+    margin-top: 0.3em;
+    margin-bottom: 0em;
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+  }
+  .restaurant-address {
+    padding-left: 1.1em;
+  }
+  .item-subnav {
+    padding-top: 10px;
+    font-size: 1.1em;
+    li {
+      display: inline;
+      list-style-type: none;
+      padding-right: 20px;
+    }
+  }
+}
+
+.packery {
+  padding-bottom: 4em;
 }

@@ -58,7 +58,7 @@
                 %p
                   =link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => recommendation.restaurant.yelp_id, :restaurant_name => recommendation.restaurant.name) , remote: true, "data-toggle" => "modal", "class" => "btn btn-primary", :onClick => "_gaq.push(['_trackEvent', 'Search', 'Review Added', 'From News Feed']);"
 
-    - if @first_login_restaurants != nil
+    - if @restaurants != nil
       %modalFooter
         = render 'first'
 

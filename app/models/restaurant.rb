@@ -8,63 +8,104 @@ require 'json'
 class Restaurant < ActiveRecord::Base
 	has_many :recommendation, dependent: :destroy
 
-	def self.get_restaurant_by_query (query, user)
+	def self.get_results_from_google_places(query, user, flag = false)
 		if query.empty?
 			term = "restaurants"
 			address = ""
-		else
+		elsif !flag
 			term = query[0]
 			address = query[1..-1].join(", ")
-		end
-
-		geo = Geocoder.search(address)
-		client = Yelp::Client.new(:debug => false)
-
-		if geo.empty?
-			  request = Location.new(
-									             :term => term,
-									             :address => user.addresses.first.street,
-		                           :city => user.addresses.first.city,
-		                           :state => user.addresses.first.state,
-		                           :radius => 4)
 		else
-			latitude = geo.first.data['geometry']['location']['lat']
-			longitude = geo.first.data['geometry']['location']['lng']
-		  request = Location.new(
-								             :term => term,
-								             :address => address,
-								             :latitude => latitude,
-								             :longitude => longitude,
-								             :limit => 1)
+			term = query
+			address = ""
+		end
+		geo = Geocoder.search(address)
+		client = GooglePlaces::Client.new("AIzaSyCW-Nfj4s92dzWLb232aPby6Bel7w3JT7g")
+		if geo.empty?
+			search = term + ' near ' + user.addresses.first.city + ', ' + user.addresses.first.state
+			spots = client.spots_by_query(search, :types => ['restaurant', 'food'])
+		else
+			lat = geo.first.data['geometry']['location']['lat']
+			lng = geo.first.data['geometry']['location']['lng']
+			spots = client.spots(lat, lng, :keyword => term, :types => ['restaurant', 'food'])
 		end
 
-		response = client.search(request)
-		response
+		response = []
+		spots.each_with_index do |spot, index|
+			yelp = self.get_spot_yelp_data(spot)
+
+			self.create_spot_attribute(spot, "yelp_id")
+			self.create_spot_attribute(spot, "yelp_rating")
+
+	    spot.yelp_id = yelp[:yelp_id]
+	    spot.yelp_rating = yelp[:yelp_rating]
+
+	    foursquare = self.get_spot_foursquare_data(spot)
+
+  		self.create_spot_attribute(spot, "foursquare_id")
+  		self.create_spot_attribute(spot, "foursquare_rating")
+
+      spot.foursquare_id = foursquare[:foursquare_id]
+      spot.foursquare_rating = (foursquare[:foursquare_rating]/2).round(1)
+
+      self.create_spot_attribute(spot, "weighted_rating")
+      spot.weighted_rating = ((spot.foursquare_rating + spot.yelp_rating + spot.rating) / 3).round(1)
+		end
+
+		spots
 	end
 
-	def self.get_restaurant_by_cuisine (cuisine, user)
+	def self.create_spot_method( spot, name, &block )
+	    spot.class.send( :define_method, name, &block )
+	end
+
+	def self.create_spot_attribute( spot, name )
+	    create_spot_method( spot, "#{name}=".to_sym ) { |val|
+	        instance_variable_set( "@" + name, val)
+	    }
+
+	    create_spot_method( spot, name.to_sym ) {
+	        instance_variable_get( "@" + name )
+	    }
+	end
+
+	def self.get_spot_yelp_data (spot)
 		client = Yelp::Client.new(:debug => false)
-		request = Location.new(
-		            :city => user.addresses.first.city,
-		            :state => user.addresses.first.state,
-		            :category => ['restaurant'],
-		            :term => cuisine)
-		response = client.search(request)
+		logger.debug spot.inspect
+
+		if spot.vicinity.nil? && !spot.formatted_address.nil?
+			params = { :term => spot.name,
+		             :address => spot.formatted_address,
+		             :latitude => spot.lat,
+		             :longitude => spot.lng,
+		             :limit => 1}
+		else
+			params = { :term => spot.name,
+		             :address => spot.vicinity,
+		             :latitude => spot.lat,
+		             :longitude => spot.lng,
+		             :limit => 1}
+    end
+	  request = Location.new(params)
+	  response = client.search(request)
+
+	  data = {:yelp_id => response["businesses"][0]["id"], :yelp_rating => response["businesses"][0]["rating"]}
+	end
+
+	def self.get_spot_foursquare_data (spot)
+		client = Foursquare2::Client.new(:api_version => '20131016', :client_id => 'GEFFG1OE4CDNJMT5LH4AU54SH2NL31HIY5EXU0AVHDLUJZY3', :client_secret => 'EBXY34DUC0DEBOBBEP4KCUH5QSGBP1TCQPRH24N3KAWV3L0E')
+		search = client.search_venues(:ll => "#{spot.lat}" + ", " + "#{spot.lng}", :query => spot.name, :limit => 1)
+		venue = client.venue(search.venues[0][:id])
+
+		data = {:foursquare_id => venue[:id], :foursquare_rating => venue[:rating]}
 	end
 
 	# http://api.yelp.com/v2/business/yelp-san-francisco
-	def self.get_restaurant_by_yelp_id (yelp_id)
+	def self.get_restaurant_reviews_from_yelp (yelp_id)
 		client = Yelp::Client.new(:debug => false)
 		request = Id.new(:yelp_business_id => yelp_id)
 		response = client.search(request)
  		response
-	end
-
-	def self.get_venue_from_foursquare (query, address, city)
-		geo = Geocoder.search(address + ", " + city)
-		client = Foursquare2::Client.new(:api_version => '20131016', :client_id => 'GEFFG1OE4CDNJMT5LH4AU54SH2NL31HIY5EXU0AVHDLUJZY3', :client_secret => 'EBXY34DUC0DEBOBBEP4KCUH5QSGBP1TCQPRH24N3KAWV3L0E')
-		venue = client.search_venues(:ll => "#{geo.first.data['geometry']['location']['lat']}" + ", " + "#{geo.first.data['geometry']['location']['lng']}", :query => query, :limit => 1)
-		venue
 	end
 
 	def self.get_venue_tips_from_foursquare (foursquare_id)
@@ -73,29 +114,10 @@ class Restaurant < ActiveRecord::Base
 		tips
 	end
 
-	def self.get_venue_by_foursquare_id (foursquare_id)
-		client = Foursquare2::Client.new(:api_version => '20131016', :client_id => 'GEFFG1OE4CDNJMT5LH4AU54SH2NL31HIY5EXU0AVHDLUJZY3', :client_secret => 'EBXY34DUC0DEBOBBEP4KCUH5QSGBP1TCQPRH24N3KAWV3L0E')
-		venue = client.venue(foursquare_id)
-		venue
-	end
 
-	def self.get_venue_foursquare_id(yelp_id)
-		yelp = self.get_restaurant_by_yelp_id(yelp_id)
-		foursquare = self.get_venue_from_foursquare(yelp['name'], yelp['location']['address'][0].to_s,  yelp['location']['city'].to_s)
-		foursquare_id = foursquare.venues[0].id
-		foursquare_id
-	end
-
-	def self.get_restaurant_google_places(query, address, city)
-		# :zagatselected => 'true'
-		geo = Geocoder.search(address + ", " + city)
-		lat = geo.first.data['geometry']['location']['lat']
-		lng = geo.first.data['geometry']['location']['lng']
+	def self.get_place_reviews_from_google(google_id)
 		@client = GooglePlaces::Client.new("AIzaSyCW-Nfj4s92dzWLb232aPby6Bel7w3JT7g")
-		# get the reference number from the search query
-		spots = @client.spots(lat, lng, :keyword => query, :types => 'restaurant')
-		# get the exact details from the details query
-		spot = @client.spot(spots[0]["reference"])
+		spot = @client.spot(google_id)
 
 		#logger.debug spot
 		spot

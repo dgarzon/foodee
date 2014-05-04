@@ -124,4 +124,6 @@ gem 'faraday', '~> 0.8.9'
 
 gem 'foursquare2', :git => 'https://github.com/mattmueller/foursquare2.git'
 
-gem 'google_places'
+gem 'bower-rails'
+
+gem 'tinymce-rails'

@@ -1,36 +1,92 @@
+- title "Results"
+
 %div#recModalPlaceholder
 %div#friendRecModalPlaceholder
-%h1 Listing restaurants
 
-.well
-  %table.table.table-striped{:style=>"border: 1px; width: 100%; margin-bottom: 30px"}
-    %tr
-      %th
-      %th Name & Location
-      /%th Yelp Rating
-      %th
-        %img{:src => 'http://s3-media3.ak.yelpcdn.com/assets/2/www/img/3049d7633b6e/developers/reviewsFromYelpRED.gif', :alt => '# of rating and their average', :width => "115", :height => "25" }
-      %th Recommend
-      %th Ratings
-
-    - @restaurants.each_with_index do |restaurant, index|
-      %tr
-        %td
-          %img{:src => restaurant['image_url']}
-        %td
-          =restaurant['name']
-          %br
-          =restaurant['location']['address'][0]
-        %td
-          = restaurant['review_count']
-          %img{:src => restaurant['rating_img_url_small']}
-        %td= link_to 'Like Restaurant', new_recommendation_path(:restaurant_id => restaurant['id'], :restaurant_name => restaurant['name']) , remote: true, "data-toggle" => "modal"
-        %td
-          - if @found_recommendations[index]
-            = link_to 'View friend ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id']) , remote: true, "data-toggle" => "modal", :onClick => "_gaq.push(['_trackEvent', 'Search', 'Review Viewed', 'Friends Ratings']);"
+.packery
+  - @restaurants.each do |restaurant|
+    .item
+      = link_to home_index_path do
+        %h2.restaurant-name= restaurant.name
+        - if restaurant.vicinity.nil? && !restaurant.formatted_address.nil?
+          %h5.restaurant-address= restaurant.formatted_address
+        - elsif restaurant.formatted_address.nil? && !restaurant.vicinity.nil?
+          %h5.restaurant-address= restaurant.vicinity
+        - elsif !restaurant.formatted_address.nil? && !restaurant.vicinity.nil?
+          %h5.restaurant-address= restaurant.formatted_address
+        .item-image
+          - if restaurant.photos[0]
+            %img{:src => restaurant.photos[0].fetch_url(800)}
           - else
-            0 friends rated so far
+            = image_tag("image_not_found.jpg", alt: "Not Found" )
+        %ul.item-subnav.pull-right
+          %li.item-google
+            %i.fa.fa-google-plus
+            %span.item-google-rating= restaurant.rating
+          %li.item-yelp
+            %i.icon-yelp
+            %span.item-yelp-rating= restaurant.yelp_rating
+          %li.item-foursquare
+            %i.fa.fa-foursquare
+            %pan.item-foursquare-rating= restaurant.foursquare_rating
+          %li.item-weighted
+            %i.fa.fa-star
+            %span.item-weighted-rating= restaurant.weighted_rating
+          %li.item-recommend
+            - if restaurant.vicinity.nil? && !restaurant.formatted_address.nil?
+              = link_to new_recommendation_path(:google_id => restaurant.reference, :yelp_id => restaurant.yelp_id, :foursquare_id => restaurant.foursquare_id, :name => restaurant.name, :location => restaurant.formatted_address) , remote: true, "data-toggle" => "modal" do
+                %i.fa.fa-thumbs-up Like
+            - elsif restaurant.formatted_address.nil? && !restaurant.vicinity.nil?
+              = link_to new_recommendation_path(:google_id => restaurant.reference, :yelp_id => restaurant.yelp_id, :foursquare_id => restaurant.foursquare_id, :name => restaurant.name, :location => restaurant.vicinity) , remote: true, "data-toggle" => "modal" do
+                %i.fa.fa-thumbs-up Like
+            - elsif !restaurant.formatted_address.nil? && !restaurant.vicinity.nil?
+              = link_to new_recommendation_path(:google_id => restaurant.reference, :yelp_id => restaurant.yelp_id, :foursquare_id => restaurant.foursquare_id, :name => restaurant.name, :location => restaurant.formatted_address) , remote: true, "data-toggle" => "modal" do
+                %i.fa.fa-thumbs-up Like
 
-          %br
+:coffee
+  doPackery = ->
+    onResize = ->
+      outsideSize = getSize($container.parent()[0]).innerWidth
+      cols = Math.floor(outsideSize / (columnWidth))
 
-          = link_to 'View external ratings', restaurant_recommendations_path(:restaurant_id => restaurant['id'], :restaurant_address => restaurant['location']['address'][0], :restaurant_city => restaurant['location']['city'], :restaurant_name => restaurant['name'], :external => true) , remote: true, "data-toggle" => "modal", :onClick => "_gaq.push(['_trackEvent', 'Search', 'Review Viewed', 'External Ratings']);"
+      # set container width to columns
+      if cols != 1
+        $container.width cols * columnWidth - gutter
+      else
+        $container.width cols * columnWidth - 20
+
+      # manually trigger layout
+      $container.packery()
+      return
+
+    $container = $(".packery")
+    # initialize Packery after all images have loaded
+    $container.imagesLoaded ->
+      $container.packery
+        itemSelector: ".item"
+        transitionDuration: "0.8s"
+        columnWidth: 350
+        gutter: 20
+        isResizeBound: false
+
+      return
+
+    pckry = $container
+    gutter = 20 or 0
+    columnWidth = 370
+
+    # debounce resize event
+    resizeTimeout = undefined
+    $(window).on "resize", ->
+      clearTimeout resizeTimeout  if resizeTimeout
+      resizeTimeout = setTimeout(onResize, 100)
+      return
+
+
+    # initial trigger
+    onResize()
+    return
+
+  $(document).ready ->
+    doPackery()
+    return

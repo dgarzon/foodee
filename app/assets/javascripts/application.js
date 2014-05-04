@@ -15,6 +15,9 @@
 //= require turbolinks
 //= require bootstrap
 //= require bootstrap-switch
+//= require tinymce-jquery
+//= require eventEmitter/EventEmitter.js
+//= require eventie/eventie.js
+//= require imagesloaded/imagesloaded.js
 //= require jquery.geocomplete.js
 //= require_tree .
-    

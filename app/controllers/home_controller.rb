@@ -27,23 +27,7 @@ class HomeController < ApplicationController
     # in case the user has come to the site for the first time
     if session[:first_login] && session[:first_login] == true
       session[:first_login] = false
-      @restaurants = []
-      @first_recommendations = []
-
-      recommended = Restaurant.get_restaurant_by_query("", current_user)
-      @first_login_restaurants = recommended['businesses']
-
-      @first_login_restaurants.each_with_index do |restaurant, index|
-        rest = {:name => restaurant["name"], :yelp_id => restaurant['id'], :url => restaurant['url'], :image_url => restaurant['image_url']}
-        @restaurants.push(rest)
-
-        rec = {:user_id => current_user.id, :like => true}
-        @first_recommendations.push(rec)
-
-        if index > FIRST_RECOMMENDATION_COUNT
-          break
-        end
-      end
+      @restaurants = Restaurant.get_results_from_google_places("", current_user)
     end
 
     @cuisines = ["African", "American", "Argentinian", "Bagels",
@@ -55,9 +39,6 @@ class HomeController < ApplicationController
                  "Smoothies", "Southern", "Spanish", "Steakhouse",
                  "Sushi", "Thai", "Turkish", "Vegan", "Vegetarian",
                  "Venezuelan", "Vietnamese"]
-
-    # added to hide search bar on home page
-    @homePage = true
 
     respond_to do |format|
       format.html
