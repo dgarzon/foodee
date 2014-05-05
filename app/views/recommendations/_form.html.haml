@@ -17,12 +17,12 @@
                 - @recommendation.errors.full_messages.each do |msg|
                   %li= msg
 
-          .field
+          .field{:style => "display:none;"}
             = f.label :like
             = f.check_box :like, :disabled => true, :checked => true
           .field
-            = f.label :description, "Comments(optional)"
-            = f.text_field :description
+            = f.label :description, "Comments"
+            = f.text_area :description, :rows => 4, :cols => 60
           .field
             = f.label :pictures
             = f.file_field :pictures
