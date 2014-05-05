@@ -10,7 +10,7 @@
       %hr
   .row
     .col-md-4
-      .item
+      .packery-item
         .detail-image
           #detail-carousel.carousel.slide{"data-ride" => "carousel"}
             / Wrapper for slides
@@ -24,7 +24,7 @@
             %a.right.carousel-control{"data-slide" => "next", href: "#detail-carousel"}
               %span.glyphicon.glyphicon-chevron-right
         - if !@ratings.nil?
-          %ul.item-subnav.pull-right
+          %ul.detail-subnav.pull-right
             %li.item-google
               %i.fa.fa-google-plus
               %span.item-google-rating= @ratings[:google_rating]

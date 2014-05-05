@@ -5,7 +5,7 @@
 
 .packery
   - @restaurants.each do |restaurant|
-    .item
+    .packery-item
       = link_to restaurants_recommendations_path(:yelp_id => restaurant.yelp_id, :yelp_rating => restaurant.yelp_rating, :google_id => restaurant.reference, :google_rating => restaurant.rating, :foursquare_id => restaurant.foursquare_id, :foursquare_rating => restaurant.foursquare_rating, :weighted_rating => restaurant.weighted_rating) do
         %h2.restaurant-name= restaurant.name
         - if restaurant.vicinity.nil? && !restaurant.formatted_address.nil?
@@ -63,7 +63,7 @@
     # initialize Packery after all images have loaded
     $container.imagesLoaded ->
       $container.packery
-        itemSelector: ".item"
+        itemSelector: ".packery-item"
         transitionDuration: "0.8s"
         columnWidth: 350
         gutter: 20
