@@ -31,14 +31,15 @@
 
     - if !@recommendations.empty?
       .well.news-feed{"align" => "center"}
-        %h1 
+        %h1
           =link_to "News Feed", recommendation_newsFeed_path(:recommendation_id => "1")
         %hr
         - @recommendations.each_with_index do |recommendation, index|
           .well.recs
             .row
               .image.pull-left
-                = image_tag @friend_recommendations[index][:image], :class => "circular"
+                .pull-left= image_tag @friend_recommendations[index][:image], :class => "circular"
+                %h4.pull-left.user-newsfeed= link_to "#{@friend_recommendations[index][:name]}".html_safe, recommendation_friendProfile_path(:recommendation_id => @friend_recommendations[index][:friendId], :fbId => @friend_recommendations[index][:fb_id])
               .bubble.pull-left
                 %p
                   %b Restaurant:
@@ -47,9 +48,6 @@
                 - if recommendation.pictures.file?
                   %p
                     = image_tag recommendation.pictures.url, :class => "circular"
-                %p
-                  %b Foodee Profile:
-                  = link_to "#{@friend_recommendations[index][:name]}".html_safe, recommendation_friendProfile_path(:recommendation_id => @friend_recommendations[index][:friendId], :fbId => @friend_recommendations[index][:fb_id])
 
                 %p
                   %b Description:

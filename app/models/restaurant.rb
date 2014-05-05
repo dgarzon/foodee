@@ -38,7 +38,12 @@ class Restaurant < ActiveRecord::Base
 			self.create_spot_attribute(spot, "yelp_rating")
 
 	    spot.yelp_id = yelp[:yelp_id]
-	    spot.yelp_rating = yelp[:yelp_rating]
+
+	    if !yelp[:yelp_rating].nil?
+	    	spot.yelp_rating = yelp[:yelp_rating]
+	    else
+	    	spot.yelp_rating = 0.0
+	    end
 
 	    foursquare = self.get_spot_foursquare_data(spot)
 
@@ -47,14 +52,20 @@ class Restaurant < ActiveRecord::Base
 
       spot.foursquare_id = foursquare[:foursquare_id]
 
-      if foursquare[:foursquare_rating]
+      if !foursquare[:foursquare_rating].nil?
       	spot.foursquare_rating = (foursquare[:foursquare_rating]/2).round(1)
       else
       	spot.foursquare_rating = 0.0
       end
 
       self.create_spot_attribute(spot, "weighted_rating")
-      spot.weighted_rating = ((spot.foursquare_rating + spot.yelp_rating + spot.rating) / 3).round(1)
+
+      if !spot.rating.nil?
+      	spot.weighted_rating = ((spot.foursquare_rating + spot.yelp_rating + spot.rating) / 3).round(1)
+      else
+      	spot.rating = 0.0
+      	spot.weighted_rating = ((spot.foursquare_rating + spot.yelp_rating + spot.rating) / 3).round(1)
+      end
 		end
 
 		spots
