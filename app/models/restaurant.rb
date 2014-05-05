@@ -20,7 +20,7 @@ class Restaurant < ActiveRecord::Base
 			address = ""
 		end
 		geo = Geocoder.search(address)
-		client = GooglePlaces::Client.new("AIzaSyCW-Nfj4s92dzWLb232aPby6Bel7w3JT7g")
+		client = GooglePlaces::Client.new("AIzaSyB8fUZUPNYIWKwz6Nss-Hu7J_2VUjFSOWA")
 		if geo.empty?
 			search = term + ' near ' + user.addresses.first.city + ', ' + user.addresses.first.state
 			spots = client.spots_by_query(search, :types => ['restaurant', 'food'])
@@ -132,7 +132,7 @@ class Restaurant < ActiveRecord::Base
 
 
 	def self.get_place_from_google (google_id)
-		@client = GooglePlaces::Client.new("AIzaSyCW-Nfj4s92dzWLb232aPby6Bel7w3JT7g")
+		@client = GooglePlaces::Client.new("AIzaSyB8fUZUPNYIWKwz6Nss-Hu7J_2VUjFSOWA")
 		spot = @client.spot(google_id)
 		spot
 	end

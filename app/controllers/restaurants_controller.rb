@@ -30,6 +30,8 @@ class RestaurantsController < ApplicationController
   # GET /restaurants/1
   # GET /restaurants/1.json
   def show
+    @ratings = {:yelp_rating => params[:yelp_rating], :foursquare_rating => params[:foursquare_rating], :google_rating => params[:google_rating], :weighted_rating => params[:weighted_rating]}
+    @social = {:yelp_id => params[:yelp_id], :foursquare_id => params[:foursquare_id], :google_id => params[:google_id]}
     @google_place = Restaurant.get_place_from_google params[:google_id]
     @yelp_reviews = Restaurant.get_restaurant_reviews_from_yelp params[:yelp_id]
     @foursquare_tips = Restaurant.get_venue_tips_from_foursquare params[:foursquare_id]
@@ -38,7 +40,7 @@ class RestaurantsController < ApplicationController
     @google_reviews.each do |review|
       str = review.author_url.to_s
       google_plus_id =  str[24..-1]
-      request = "https://www.googleapis.com/plus/v1/people/" + "#{google_plus_id}" + "?fields=image&key=AIzaSyCW-Nfj4s92dzWLb232aPby6Bel7w3JT7g"
+      request = "https://www.googleapis.com/plus/v1/people/" + "#{google_plus_id}" + "?fields=image&key=AIzaSyB8fUZUPNYIWKwz6Nss-Hu7J_2VUjFSOWA"
       response = HTTParty.get(request)
       result = JSON.parse(response.body)
 

@@ -1,56 +1,107 @@
 .well
-  - if @yelp_reviews
-    - @yelp_reviews.each do |review|
-      .well.recs
-        %p
-          %img{:src => "http://s3-media3.ak.yelpcdn.com/assets/2/www/img/3049d7633b6e/developers/reviewsFromYelpRED.gif"}
-        %p
-          %b Description:
-          = review["excerpt"]
-        %p
-          %b Rating:
-          = review["rating"]
-        %p
-          %b Rated by:
-          %img{:src => "#{review["user"]["image_url"]}", :class => "circular"}
-          = link_to review["user"]["name"], "http://www.yelp.com/user_details?userid=#{review["user"]["id"]}"
+  .row
+    .col-md-12
+      %span.pull-right#back-link
+        = link_to :back do
+          %i.fa.fa-arrow-left
+          Go Back
+      %h2.detail-name= @google_place.name
+      %h4.detail-address= @google_place.formatted_address
+      %hr
+  .row
+    .col-md-4
+      .item
+        .detail-image
+          #detail-carousel.carousel.slide{"data-ride" => "carousel"}
+            / Wrapper for slides
+            .carousel-inner
+              - @google_place.photos.each_with_index do |photo, index|
+                .item{ class: "#{ "active" if index == 0 }"}
+                  %img{:src => photo.fetch_url(800), :class => "carousel-photo"}
+            / Controls
+            %a.left.carousel-control{"data-slide" => "prev", href: "#detail-carousel"}
+              %span.glyphicon.glyphicon-chevron-left
+            %a.right.carousel-control{"data-slide" => "next", href: "#detail-carousel"}
+              %span.glyphicon.glyphicon-chevron-right
+        %ul.item-subnav.pull-right
+          %li.item-google
+            %i.fa.fa-google-plus
+            %span.item-google-rating= @ratings[:google_rating]
+          %li.item-yelp
+            %i.icon-yelp
+            %span.item-yelp-rating= @ratings[:yelp_rating]
+          %li.item-foursquare
+            %i.fa.fa-foursquare
+            %pan.item-foursquare-rating= @ratings[:foursquare_rating]
+          %li.item-weighted
+            %i.fa.fa-star
+            %span.item-weighted-rating= @ratings[:foursquare_rating]
+          %li.item-recommend
+            - if @google_place.vicinity.nil? && !@google_place.formatted_address.nil?
+              = link_to new_recommendation_path(:google_id => @social[:google_id], :yelp_id => @social[:yelp_id], :foursquare_id => @social[:foursquare_id], :name => @google_place.name, :location => @google_place.formatted_address) , remote: true, "data-toggle" => "modal" do
+                %i.fa.fa-thumbs-up Like
+            - elsif @google_place.formatted_address.nil? && !@google_place.vicinity.nil?
+              = link_to new_recommendation_path(:google_id => @social[:google_id], :yelp_id => @social[:yelp_id], :foursquare_id => @social[:foursquare_id], :name => @google_place.name, :location => @google_place.vicinity) , remote: true, "data-toggle" => "modal" do
+                %i.fa.fa-thumbs-up Like
+            - elsif !@google_place.formatted_address.nil? && !@google_place.vicinity.nil?
+              = link_to new_recommendation_path(:google_id => @social[:google_id], :yelp_id => @social[:yelp_id], :foursquare_id => @social[:foursquare_id], :name => @google_place.name, :location => @google_place.formatted_address) , remote: true, "data-toggle" => "modal" do
+                %i.fa.fa-thumbs-up Like
+      %hr
+    .col-md-8.reviews
+      - if @yelp_reviews
+        .yelp-reviews
+          %h3 Yelp Reviews:
+          %hr
+            - @yelp_reviews.each_with_index do |review, index|
+              .review-item
+                .image.pull-left
+                  %img{:src => "#{review["user"]["image_url"]}", :class => "circular pull-left"}
+                  %h4.pull-left.user-newsfeed= link_to review["user"]["name"], "http://www.yelp.com/user_details?userid=#{review["user"]["id"]}"
+                .bubble.pull-left
+                  %p
+                    %b Description:
+                    = review["excerpt"]
+                  %p
+                    %b Rating:
+                    = review["rating"]
+              - if index >= 5
+                - break
 
-  - if @foursquare_tips
-    - @foursquare_tips.items.each do |tip|
-      .well.recs
-        %p
-          %img{:src => "https://playfoursquare.s3.amazonaws.com/press/logo/poweredByFoursquare_gray.png", :width => "150"}
-        %p
-          %b Description:
-          = tip.text
-        %p
-          %b Likes:
-          = tip.likes.count
-        %p
-          %b Rated by:
-          - name = "#{tip.user.firstName}"
-          - if tip.user.lastName
-            - name = name + " " + "#{tip.user.lastName}"
-          %img{:src => "#{tip.user.photo.prefix}" + "110x110" +"#{tip.user.photo.suffix}", :class => "circular"}
-          = link_to name, "http://www.foursquare.com/user/" + "#{tip.user.id}"
+      - if @foursquare_tips
+        .foursquare-reviews
+          %h3.foursquare-tips-header Foursquare Tips:
+          %hr
+            - @foursquare_tips.items.each_with_index do |tip, index|
+              .review-item
+                .image.pull-left
+                  %img{:src => "#{tip.user.photo.prefix}" + "110x110" +"#{tip.user.photo.suffix}", :class => "circular pull-left"}
+                  - name = "#{tip.user.firstName}"
+                  - if tip.user.lastName
+                    - name = name + " " + "#{tip.user.lastName}"
+                  %h4.pull-left.user-newsfeed= link_to name, "http://www.foursquare.com/user/" + "#{tip.user.id}"
+                .bubble.pull-left
+                  %p
+                    %b Description:
+                    = tip.text
+              - if index >= 5
+                - break
 
-  - if @google_reviews
-    %hr
-    - @google_reviews.each_with_index do |review, index|
-      .well.recs
-        %p
-          = image_tag("powered-by-google-on-white.png")
-        %p
-          %b Description:
-          = review.text
-        %p
-          %b Rating:
-          = review.rating
-        %p
-          %b Rated by:
-          - name = "#{review.author_name}"
-          - if !@google_images[index].nil?
-            %img{:src => "#{@google_images[index]}", :class => "circular"}
-          - else
-            = image_tag("image_not_found.jpg", class: "circular")
-          = link_to name, review.author_url
+      - if @google_reviews
+        .google-reviews
+          %h3 Google Place Reviews:
+          %hr
+            - @google_reviews.each_with_index do |review, index|
+              .review-item
+                .image.pull-left
+                  - name = "#{review.author_name}"
+                  - if !@google_images[index].nil?
+                    %img{:src => "#{@google_images[index]}", :class => "circular pull-left"}
+                  - else
+                    = image_tag("image_not_found.jpg", class: "circular")
+                  %h4.pull-left.user-newsfeed= link_to name, review.author_url
+                .bubble.pull-left
+                  %p
+                    %b Description:
+                    = review.text
+              - if index >= 5
+                - break

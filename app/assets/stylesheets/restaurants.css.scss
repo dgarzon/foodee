@@ -43,3 +43,25 @@
 .packery {
   padding-bottom: 4em;
 }
+
+.reviews {
+  max-height: 600px;
+  overflow-y: scroll;
+}
+
+.foursquare-tips-header {
+  padding-top: 1em;
+}
+
+.google-reviews, .foursquare-reviews, .yelp-reviews {
+    display : inline-block;
+    float:left;
+    clear:both;
+}
+
+.review-item {
+    display : inline-block;
+    float:left;
+    clear:both;
+    margin-bottom: 3em;
+}
