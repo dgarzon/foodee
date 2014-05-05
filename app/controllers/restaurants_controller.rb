@@ -1,5 +1,5 @@
 class RestaurantsController < ApplicationController
-  # before_action :set_restaurant, only: [:edit, :update, :destroy]
+  before_action :set_restaurant, only: [:edit, :update, :destroy]
   before_action :set_friends, only: [:index, :recommendations]
 
   # GET /restaurants
@@ -30,8 +30,25 @@ class RestaurantsController < ApplicationController
   # GET /restaurants/1
   # GET /restaurants/1.json
   def show
-    restaurant = Restaurant.find(params[:id])
-    @restaurant = Restaurant.get_restaurant_by_yelp_id restaurant.yelp_id
+    @google_place = Restaurant.get_place_from_google params[:google_id]
+    @yelp_reviews = Restaurant.get_restaurant_reviews_from_yelp params[:yelp_id]
+    @foursquare_tips = Restaurant.get_venue_tips_from_foursquare params[:foursquare_id]
+    @google_reviews = @google_place.reviews
+    @google_images = []
+    @google_reviews.each do |review|
+      str = review.author_url.to_s
+      google_plus_id =  str[24..-1]
+      request = "https://www.googleapis.com/plus/v1/people/" + "#{google_plus_id}" + "?fields=image&key=AIzaSyCW-Nfj4s92dzWLb232aPby6Bel7w3JT7g"
+      response = HTTParty.get(request)
+      result = JSON.parse(response.body)
+
+      if result["image"]
+        @google_images << result["image"]["url"]
+      else
+        @google_images << nil
+      end
+    end
+    @friend_recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:google_id], @registered_friends)
   end
 
   # GET /restaurants/new
@@ -44,30 +61,20 @@ class RestaurantsController < ApplicationController
   end
 
   def recommendations
-    if params[:external]
+    # if params[:external]
       # adding yelp reviews
-      @restaurant = Restaurant.get_restaurant_by_yelp_id params[:restaurant_id]
-      @reviews = @restaurant["reviews"]
-
-      # TODO: both foursquare and google+ use geocoder, use single call
-      # adding foursquare tips
-      @venue = Restaurant.get_venue_from_foursquare params[:restaurant_name], params[:restaurant_address], params[:restaurant_city]
-      @tips = Restaurant.get_venue_tips_from_foursquare @venue.venues[0].id
-
-      # adding google plus reviews
-      @googlePlace = Restaurant.get_restaurant_google_places params[:restaurant_name], params[:restaurant_address], params[:restaurant_city]
-    else
       # show friends recommendation
-      @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], @registered_friends)
-      @friend_recommendations = []
-      @recommendations.each do |recommendation|
-        friend = User.find(recommendation.user_id)
-        hash = {:name => friend.full_name, :fb_id => friend.identity.uid, :image => @graph.get_picture(friend.identity.uid)}
-        @friend_recommendations.push(hash)
-      end
-    end
+      # @recommendations = Recommendation.get_friend_recommedation_by_restaurant(params[:restaurant_id], @registered_friends)
+      # @friend_recommendations = []
+      # @recommendations.each do |recommendation|
+      #   friend = User.find(recommendation.user_id)
+      #   hash = {:name => friend.full_name, :fb_id => friend.identity.uid, :image => @graph.get_picture(friend.identity.uid)}
+      #   @friend_recommendations.push(hash)
+      # end
+    # end
 
     respond_to do |format|
+      format.html
       format.js
     end
   end

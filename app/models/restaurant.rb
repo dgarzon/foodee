@@ -46,7 +46,12 @@ class Restaurant < ActiveRecord::Base
   		self.create_spot_attribute(spot, "foursquare_rating")
 
       spot.foursquare_id = foursquare[:foursquare_id]
-      spot.foursquare_rating = (foursquare[:foursquare_rating]/2).round(1)
+
+      if foursquare[:foursquare_rating]
+      	spot.foursquare_rating = (foursquare[:foursquare_rating]/2).round(1)
+      else
+      	spot.foursquare_rating = 0.0
+      end
 
       self.create_spot_attribute(spot, "weighted_rating")
       spot.weighted_rating = ((spot.foursquare_rating + spot.yelp_rating + spot.rating) / 3).round(1)
@@ -105,7 +110,7 @@ class Restaurant < ActiveRecord::Base
 		client = Yelp::Client.new(:debug => false)
 		request = Id.new(:yelp_business_id => yelp_id)
 		response = client.search(request)
- 		response
+ 		response["reviews"]
 	end
 
 	def self.get_venue_tips_from_foursquare (foursquare_id)
@@ -115,11 +120,9 @@ class Restaurant < ActiveRecord::Base
 	end
 
 
-	def self.get_place_reviews_from_google(google_id)
+	def self.get_place_from_google (google_id)
 		@client = GooglePlaces::Client.new("AIzaSyCW-Nfj4s92dzWLb232aPby6Bel7w3JT7g")
 		spot = @client.spot(google_id)
-
-		#logger.debug spot
 		spot
 	end
 end

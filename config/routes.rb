@@ -5,7 +5,7 @@ Foodee::Application.routes.draw do
   end
 
   resources :restaurants do
-    get "recommendations"
+
   end
 
   devise_for :users, :controllers => {
@@ -21,6 +21,7 @@ Foodee::Application.routes.draw do
 
   resources :home
 
+  get "restaurants/recommendations"
   get "passthrough/index"
   get "welcome/index"
   get "home/index"

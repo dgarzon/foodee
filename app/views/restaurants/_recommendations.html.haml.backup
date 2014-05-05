@@ -69,7 +69,7 @@
                   - name = name + " " + "#{tip.user.lastName}"
                 = link_to name, "http://www.foursquare.com/user/" + "#{tip.user.id}"
 
-        - if @googlePlace
+        - if @google
           %hr
           %p
             Reviews for

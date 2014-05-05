@@ -1,28 +1,56 @@
-%p#notice= notice
-
 .well
-  %p
-    %b
-      %h2
-        = @restaurant['name']
+  - if @yelp_reviews
+    - @yelp_reviews.each do |review|
+      .well.recs
+        %p
+          %img{:src => "http://s3-media3.ak.yelpcdn.com/assets/2/www/img/3049d7633b6e/developers/reviewsFromYelpRED.gif"}
+        %p
+          %b Description:
+          = review["excerpt"]
+        %p
+          %b Rating:
+          = review["rating"]
+        %p
+          %b Rated by:
+          %img{:src => "#{review["user"]["image_url"]}", :class => "circular"}
+          = link_to review["user"]["name"], "http://www.yelp.com/user_details?userid=#{review["user"]["id"]}"
 
-  %p
-    %img{:src => 'http://s3-media3.ak.yelpcdn.com/assets/2/www/img/3049d7633b6e/developers/reviewsFromYelpRED.gif', :alt => '# of rating and their average', :width => "115", :height => "25" }
-    %img{:src => @restaurant['rating_img_url_large']}
+  - if @foursquare_tips
+    - @foursquare_tips.items.each do |tip|
+      .well.recs
+        %p
+          %img{:src => "https://playfoursquare.s3.amazonaws.com/press/logo/poweredByFoursquare_gray.png", :width => "150"}
+        %p
+          %b Description:
+          = tip.text
+        %p
+          %b Likes:
+          = tip.likes.count
+        %p
+          %b Rated by:
+          - name = "#{tip.user.firstName}"
+          - if tip.user.lastName
+            - name = name + " " + "#{tip.user.lastName}"
+          %img{:src => "#{tip.user.photo.prefix}" + "110x110" +"#{tip.user.photo.suffix}", :class => "circular"}
+          = link_to name, "http://www.foursquare.com/user/" + "#{tip.user.id}"
 
-  %p
-    %img{:src => @restaurant['image_url']}
-
-  %p
-    %b Location:
-    = @restaurant['location']['address'][0]
-    ,
-    = @restaurant['location']['city']
-    ,
-    = @restaurant['location']['state_code']
-    ,
-    = @restaurant['location']['postal_code']
-
-/ = link_to 'Edit', edit_restaurant_path(@restaurant)
-/ \|
-/ = link_to 'Back', restaurants_path
+  - if @google_reviews
+    %hr
+    - @google_reviews.each_with_index do |review, index|
+      .well.recs
+        %p
+          = image_tag("powered-by-google-on-white.png")
+        %p
+          %b Description:
+          = review.text
+        %p
+          %b Rating:
+          = review.rating
+        %p
+          %b Rated by:
+          - name = "#{review.author_name}"
+          - if !@google_images[index].nil?
+            %img{:src => "#{@google_images[index]}", :class => "circular"}
+          - else
+            = image_tag("image_not_found.jpg", class: "circular")
+          = link_to name, review.author_url

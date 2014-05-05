@@ -303,8 +303,10 @@ DEPENDENCIES
   google_places
   haml-rails
   hirb
+  httparty
   jbuilder (~> 1.2)
   jquery-rails
+  json
   koala
   omniauth
   omniauth-facebook

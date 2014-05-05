@@ -6,7 +6,7 @@
 .packery
   - @restaurants.each do |restaurant|
     .item
-      = link_to home_index_path do
+      = link_to restaurants_recommendations_path(:yelp_id => restaurant.yelp_id, :yelp_rating => restaurant.yelp_rating, :google_id => restaurant.reference, :google_rating => restaurant.rating, :foursquare_id => restaurant.foursquare_id, :foursquare_rating => restaurant.foursquare_rating, :weighted_rating => restaurant.weighted_rating) do
         %h2.restaurant-name= restaurant.name
         - if restaurant.vicinity.nil? && !restaurant.formatted_address.nil?
           %h5.restaurant-address= restaurant.formatted_address

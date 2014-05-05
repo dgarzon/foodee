@@ -1,6 +1,0 @@
-<% if current_user %>
-	$("#friendRecModalPlaceholder").html("<%= escape_javascript(render 'recommendations') %>")
-	$("#friendRecModal").modal("show")
-<% else %>
-	window.location.href = "<%= new_user_session_path %>"
-<% end %>

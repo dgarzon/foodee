@@ -105,18 +105,6 @@ gem 'forgery', '0.5.0'
 gem 'paperclip'
 gem 'aws-sdk'
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
-
 # yelpster
 gem 'yelpster'
 
@@ -127,3 +115,6 @@ gem 'foursquare2', :git => 'https://github.com/mattmueller/foursquare2.git'
 gem 'bower-rails'
 
 gem 'tinymce-rails'
+
+gem 'httparty'
+gem 'json'
