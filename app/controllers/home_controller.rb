@@ -40,6 +40,7 @@ class HomeController < ApplicationController
                  "Sushi", "Thai", "Turkish", "Vegan", "Vegetarian",
                  "Venezuelan", "Vietnamese"]
 
+    @homePage = true
     respond_to do |format|
       format.html
       format.js
