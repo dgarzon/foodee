@@ -1,28 +1,30 @@
 .well
-  .row
-    .col-md-12
-      %span.pull-right#back-link
-        = link_to :back do
-          %i.fa.fa-arrow-left
-          Go Back
-      %h2.detail-name= @google_place.name
-      %h4.detail-address= @google_place.formatted_address
-      %hr
+  -if @google_place
+    .row
+      .col-md-12
+        %span.pull-right#back-link
+          = link_to :back do
+            %i.fa.fa-arrow-left
+            Go Back
+        %h2.detail-name= @google_place.name
+        %h4.detail-address= @google_place.formatted_address
+        %hr
   .row
     .col-md-4
       .packery-item
-        .detail-image
-          #detail-carousel.carousel.slide{"data-ride" => "carousel"}
-            / Wrapper for slides
-            .carousel-inner
-              - @google_place.photos.each_with_index do |photo, index|
-                .item{ class: "#{ "active" if index == 0 }"}
-                  %img{:src => photo.fetch_url(800), :class => "carousel-photo"}
-            / Controls
-            %a.left.carousel-control{"data-slide" => "prev", href: "#detail-carousel"}
-              %span.glyphicon.glyphicon-chevron-left
-            %a.right.carousel-control{"data-slide" => "next", href: "#detail-carousel"}
-              %span.glyphicon.glyphicon-chevron-right
+        -if @google_place
+          .detail-image
+            #detail-carousel.carousel.slide{"data-ride" => "carousel"}
+              / Wrapper for slides
+              .carousel-inner
+                - @google_place.photos.each_with_index do |photo, index|
+                  .item{ class: "#{ "active" if index == 0 }"}
+                    %img{:src => photo.fetch_url(800), :class => "carousel-photo"}
+              / Controls
+              %a.left.carousel-control{"data-slide" => "prev", href: "#detail-carousel"}
+                %span.glyphicon.glyphicon-chevron-left
+              %a.right.carousel-control{"data-slide" => "next", href: "#detail-carousel"}
+                %span.glyphicon.glyphicon-chevron-right
         - if !@ratings.nil?
           %ul.detail-subnav.pull-right
             %li.item-google

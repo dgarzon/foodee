@@ -19,7 +19,8 @@
             = recommendation.description
           %p
             %b Restaurant:
-            = link_to recommendation.restaurant.name, restaurant_path(recommendation.restaurant)
+            = link_to recommendation.restaurant.name, restaurants_recommendations_path(:yelp_id => recommendation.restaurant.yelp_id, :google_id => recommendation.restaurant.google_id, :foursquare_id => recommendation.restaurant.foursquare_id)
+
           %p
             = link_to 'More details', user_recommendation_path(current_user, recommendation)
 

@@ -1,7 +1,7 @@
 %p#notice= notice
 
 - @recommendations.each_with_index do |recommendation, index|
-  .well.recs
+  .well
     %p
       %b Like:
       %input{:type => "checkbox", :checked => recommendation.like ? true : nil, :disabled => true}
@@ -19,10 +19,11 @@
       %p
         = image_tag recommendation.pictures.url
 
+= image_tag "http://s3-media3.ak.yelpcdn.com/assets/2/www/img/3049d7633b6e/developers/reviewsFromYelpRED.gif"
 - @reviews.each do |review|
-  .well.recs
-    %p
-      = link_to '<img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/3049d7633b6e/developers/reviewsFromYelpRED.gif"/>'.html_safe, @restaurant["url"]
+  .well
+    / %p
+    /   = link_to '<img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/3049d7633b6e/developers/reviewsFromYelpRED.gif"/>'.html_safe, @restaurant["url"]
     %p
       %b Description:
       = review["excerpt"]
@@ -33,11 +34,12 @@
       = link_to review["user"]["name"], "http://www.yelp.com/user_details?userid=#{review["user"]["id"]}"
 
 - if @tips
-  %h3= "Foursquare Rating = " + "#{@venue["rating"]}"
+  %h3= "Foursquare Rating"
+  / %h3= "Foursquare Rating = " + "#{@venue["rating"]}"
   - @tips.items.each do |tip|
-    .well.recs
-      %p
-        = link_to '<img src="https://playfoursquare.s3.amazonaws.com/press/logo/poweredByFoursquare_gray.png" width=115/>'.html_safe, @venue['canonicalUrl']
+    .well
+      / %p
+      /   = link_to '<img src="https://playfoursquare.s3.amazonaws.com/press/logo/poweredByFoursquare_gray.png" width=115/>'.html_safe, @venue['canonicalUrl']
       %p
         %b Description:
         = tip.text

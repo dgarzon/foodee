@@ -23,10 +23,12 @@ class RecommendationsController < ApplicationController
     # adding yelp reviews
     recommendation = Recommendation.where(:id => params[:id]).first
 
-    @restaurant = Restaurant.get_restaurant_by_yelp_id recommendation.restaurant.yelp_id
-    @reviews = @restaurant["reviews"]
-
-    @venue = Restaurant.get_venue_by_foursquare_id recommendation.restaurant.foursquare_id
+    # @restaurant = Restaurant.get_restaurant_by_yelp_id recommendation.restaurant.yelp_id
+    # @reviews = @restaurant["reviews"]
+    @reviews = Restaurant.get_restaurant_reviews_from_yelp recommendation.restaurant.yelp_id
+    
+    #@venue = Restaurant.get_venue_by_foursquare_id recommendation.restaurant.foursquare_id
+    #@tips = Restaurant.get_venue_tips_from_foursquare recommendation.restaurant.foursquare_id
     @tips = Restaurant.get_venue_tips_from_foursquare recommendation.restaurant.foursquare_id
 
     respond_to do |format|
