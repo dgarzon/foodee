@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import "partials/colors";
 
-.item {
+.packery-item {
   border-radius: 3px;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.18);
   background: #fff;
@@ -31,6 +31,15 @@
   }
   .item-subnav {
     padding-top: 10px;
+    font-size: 1.1em;
+    li {
+      display: inline;
+      list-style-type: none;
+      padding-right: 20px;
+    }
+  }
+  .detail-subnav {
+    padding-top: 24px;
     font-size: 1.1em;
     li {
       display: inline;
