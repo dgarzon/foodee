@@ -8,7 +8,6 @@
         %h4.modal-title#myModalLabel Make a recommedation
 
       .modal-body
-        %h4 New Review
         = simple_form_for @recommendation do |f|
           - if @recommendation.errors.any?
             #error_explanation

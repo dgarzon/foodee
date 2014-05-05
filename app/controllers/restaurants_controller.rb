@@ -30,7 +30,9 @@ class RestaurantsController < ApplicationController
   # GET /restaurants/1
   # GET /restaurants/1.json
   def show
-    @ratings = {:yelp_rating => params[:yelp_rating], :foursquare_rating => params[:foursquare_rating], :google_rating => params[:google_rating], :weighted_rating => params[:weighted_rating]}
+    if params[:yelp_rating] && params[:google_rating] && params[:foursquare_rating]
+      @ratings = {:yelp_rating => params[:yelp_rating], :foursquare_rating => params[:foursquare_rating], :google_rating => params[:google_rating], :weighted_rating => params[:weighted_rating]}
+    end
     @social = {:yelp_id => params[:yelp_id], :foursquare_id => params[:foursquare_id], :google_id => params[:google_id]}
     @google_place = Restaurant.get_place_from_google params[:google_id]
     @yelp_reviews = Restaurant.get_restaurant_reviews_from_yelp params[:yelp_id]

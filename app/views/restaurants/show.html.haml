@@ -23,30 +23,31 @@
               %span.glyphicon.glyphicon-chevron-left
             %a.right.carousel-control{"data-slide" => "next", href: "#detail-carousel"}
               %span.glyphicon.glyphicon-chevron-right
-        %ul.item-subnav.pull-right
-          %li.item-google
-            %i.fa.fa-google-plus
-            %span.item-google-rating= @ratings[:google_rating]
-          %li.item-yelp
-            %i.icon-yelp
-            %span.item-yelp-rating= @ratings[:yelp_rating]
-          %li.item-foursquare
-            %i.fa.fa-foursquare
-            %pan.item-foursquare-rating= @ratings[:foursquare_rating]
-          %li.item-weighted
-            %i.fa.fa-star
-            %span.item-weighted-rating= @ratings[:foursquare_rating]
-          %li.item-recommend
-            - if @google_place.vicinity.nil? && !@google_place.formatted_address.nil?
-              = link_to new_recommendation_path(:google_id => @social[:google_id], :yelp_id => @social[:yelp_id], :foursquare_id => @social[:foursquare_id], :name => @google_place.name, :location => @google_place.formatted_address) , remote: true, "data-toggle" => "modal" do
-                %i.fa.fa-thumbs-up Like
-            - elsif @google_place.formatted_address.nil? && !@google_place.vicinity.nil?
-              = link_to new_recommendation_path(:google_id => @social[:google_id], :yelp_id => @social[:yelp_id], :foursquare_id => @social[:foursquare_id], :name => @google_place.name, :location => @google_place.vicinity) , remote: true, "data-toggle" => "modal" do
-                %i.fa.fa-thumbs-up Like
-            - elsif !@google_place.formatted_address.nil? && !@google_place.vicinity.nil?
-              = link_to new_recommendation_path(:google_id => @social[:google_id], :yelp_id => @social[:yelp_id], :foursquare_id => @social[:foursquare_id], :name => @google_place.name, :location => @google_place.formatted_address) , remote: true, "data-toggle" => "modal" do
-                %i.fa.fa-thumbs-up Like
-      %hr
+        - if !@ratings.nil?
+          %ul.item-subnav.pull-right
+            %li.item-google
+              %i.fa.fa-google-plus
+              %span.item-google-rating= @ratings[:google_rating]
+            %li.item-yelp
+              %i.icon-yelp
+              %span.item-yelp-rating= @ratings[:yelp_rating]
+            %li.item-foursquare
+              %i.fa.fa-foursquare
+              %pan.item-foursquare-rating= @ratings[:foursquare_rating]
+            %li.item-weighted
+              %i.fa.fa-star
+              %span.item-weighted-rating= @ratings[:foursquare_rating]
+            %li.item-recommend
+              - if @google_place.vicinity.nil? && !@google_place.formatted_address.nil?
+                = link_to new_recommendation_path(:google_id => @social[:google_id], :yelp_id => @social[:yelp_id], :foursquare_id => @social[:foursquare_id], :name => @google_place.name, :location => @google_place.formatted_address) , remote: true, "data-toggle" => "modal" do
+                  %i.fa.fa-thumbs-up Like
+              - elsif @google_place.formatted_address.nil? && !@google_place.vicinity.nil?
+                = link_to new_recommendation_path(:google_id => @social[:google_id], :yelp_id => @social[:yelp_id], :foursquare_id => @social[:foursquare_id], :name => @google_place.name, :location => @google_place.vicinity) , remote: true, "data-toggle" => "modal" do
+                  %i.fa.fa-thumbs-up Like
+              - elsif !@google_place.formatted_address.nil? && !@google_place.vicinity.nil?
+                = link_to new_recommendation_path(:google_id => @social[:google_id], :yelp_id => @social[:yelp_id], :foursquare_id => @social[:foursquare_id], :name => @google_place.name, :location => @google_place.formatted_address) , remote: true, "data-toggle" => "modal" do
+                  %i.fa.fa-thumbs-up Like
+        %hr
     .col-md-8.reviews
       - if @yelp_reviews
         .yelp-reviews
